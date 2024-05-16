@@ -1,4 +1,7 @@
+# following two methods use adjacency list as input
+
 # Method 1 : using deque
+
 from collections import deque
 
 class Solution:

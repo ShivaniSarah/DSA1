@@ -1,0 +1,78 @@
+# Method 1 : using deque
+from collections import deque
+
+class Solution:
+    def bfsOfGraph(self, V, adj):
+        bfs = []
+        vis = [False] * V
+        q = deque()
+
+        q.append(0)
+        vis[0] = True
+
+        while q:
+            node = q.popleft()
+            bfs.append(node)
+
+            for it in adj[node]:
+                if not vis[it]:
+                    vis[it] = True
+                    q.append(it)
+
+        return bfs
+
+if __name__ == "__main__":
+    adj = [[] for _ in range(5)]
+    adj[0].append(1)
+    adj[1].append(0)
+    adj[0].append(4)
+    adj[4].append(0)
+    adj[1].append(2)
+    adj[2].append(1)
+    adj[1].append(3)
+    adj[3].append(1)
+
+    sl = Solution()
+    ans = sl.bfsOfGraph(5, adj)
+    for node in ans:
+        print(node, end=" ")
+
+# MEthod 2 : Using lists:::
+
+class Solution:
+    def bfsOfGraph(self, V, adj):
+        bfs = []
+        vis = [False] * V
+        q = []
+
+        q.append(0)
+        vis[0] = True
+
+        while q:
+            node = q.pop(0)
+            bfs.append(node)
+
+            for it in adj[node]:
+                if not vis[it]:
+                    vis[it] = True
+                    q.append(it)
+
+        return bfs
+
+if __name__ == "__main__":
+    adj = [[] for _ in range(5)]
+    adj[0].append(1)
+    adj[1].append(0)
+    adj[0].append(4)
+    adj[4].append(0)
+    adj[1].append(2)
+    adj[2].append(1)
+    adj[1].append(3)
+    adj[3].append(1)
+
+    sl = Solution()
+    ans = sl.bfsOfGraph(5, adj)
+    for node in ans:
+        print(node, end=" ")
+
+

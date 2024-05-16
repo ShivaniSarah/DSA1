@@ -1,0 +1,43 @@
+# Following uses adjacency list
+# Time Complexity: For an undirected graph, O(N) + O(2E), For a directed graph, O(N) + O(E), Because for every node we are calling the recursive function once, the time taken is O(N) and 2E is for total degrees as we traverse for all adjacent nodes.
+
+# Space Complexity: O(3N) ~ O(N), Space for dfs stack space, visited array and an adjacency list.
+
+class Solution:
+    def dfs(self, node, adj, vis, ls):
+        vis[node] = 1
+        ls.append(node)
+        # traverse all its neighbours
+        for it in adj[node]:
+            # if the neighbour is not visited
+            if not vis[it]:
+                self.dfs(it, adj, vis, ls)
+
+    def dfsOfGraph(self, V, adj):
+        vis = [0] * V
+        start = 0
+        # create a list to store dfs
+        ls = []
+        # call dfs for starting node
+        self.dfs(start, adj, vis, ls)
+        return ls
+
+def addEdge(adj, u, v):
+    adj[u].append(v)
+    adj[v].append(u)
+
+def printAns(ans):
+    for node in ans:
+        print(node, end=" ")
+
+if __name__ == "__main__":
+    adj = [[] for _ in range(5)]
+
+    addEdge(adj, 0, 2)
+    addEdge(adj, 2, 4)
+    addEdge(adj, 0, 1)
+    addEdge(adj, 0, 3)
+
+    obj = Solution()
+    ans = obj.dfsOfGraph(5, adj)
+    printAns(ans)

@@ -1,0 +1,37 @@
+# Adjacency Matrix
+
+def main():
+    n, m = map(int, input().split())
+    # adjacency matrix for undirected graph
+    # time complexity: O(n^2)
+    adj = [[0] * (n + 1) for _ in range(n + 1)]
+    for i in range(m):
+        u, v = map(int, input().split())
+        adj[u][v] = 1
+        adj[v][u] = 1  # this statement will be removed in case of directed graph
+
+if __name__ == "__main__":
+    main()
+
+
+# Adjacency List for undirected graph
+
+def main():
+    n, m = map(int, input().split())
+    # adjacency list for undirected graph
+    # time complexity: O(2E)
+    adj = [[] for _ in range(n + 1)]
+    for i in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u) # this statement will be removed in case of directed graph
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+

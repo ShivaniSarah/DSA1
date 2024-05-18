@@ -3,3 +3,32 @@ At a time we can climb either one or two steps. We need to return the total numb
 
 Solution: Follow fibonacci with base case 1 and 1 instead of 0 and 1.
 
+class Solution:
+
+    def climbStairs(self, n: int) -> int:
+        
+        
+        dp = [-1] * (n + 1)
+        dp[0] = 1
+        dp[1] = 1
+
+        for i in range(2, n+1):
+          dp[i] = dp[i-1] + dp[i-2]
+        return(dp[n])
+
+Method II:
+
+class Solution:
+
+    def climbStairs(self, n: int) -> int:
+    prev2 = 1
+    prev = 1
+
+    for i in range(2, n+1):
+        cur_i = prev2 + prev
+        prev2 = prev
+        prev = cur_i
+
+    return(prev)
+
+

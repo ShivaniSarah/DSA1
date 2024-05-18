@@ -7,10 +7,10 @@ class Solution:
         def f(n):
             if n==0 or n==1 :  # base case
                 return n
-            l= f(n-1)      # get left value from recursion
-            r= f(n-2)      # get right value from recursion
-            return l+r     # return sum of l And r
-        return f(n)        # return final recursion value
+            l= f(n-1)          # get left value from recursion
+            r= f(n-2)          # get right value from recursion
+            return l+r         # return sum of l And r
+        return f(n)            # return final recursion value
 
 
 # DP-I (Memoization - Top Down - recursion+storage)

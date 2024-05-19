@@ -1,0 +1,46 @@
+# Recursion
+
+class Solution:
+    
+    def minimumEnergy(self, height, n):
+        
+        def f(n,height):
+            if(n==0 ):
+                return 0
+            if (n==1):
+                return abs(height[n]-height[n-1])
+                
+            l= f(n-1,height)+abs(height[n]-height[n-1])
+            r= f(n-2,height)+abs(height[n]-height[n-2])
+            
+            return min(l,r)
+            
+        return f( n-1,height) 
+
+
+# DP -I
+
+class Solution:
+    
+    def minimumEnergy(self, height, n):
+        dp=[-1 for i in range(n)]
+        def f(n,height,dp):
+            if(n==0 ):
+                dp[0]=0
+                return dp[0]
+            if (n==1):
+                dp[1]=abs(height[n]-height[n-1])
+                return dp[1]
+            if dp[n]!=-1:
+                return dp[n]
+            
+            l= f(n-1,height,dp)+abs(height[n]-height[n-1])
+            r= f(n-2,height,dp)+abs(height[n]-height[n-2])
+            dp[n]= min(l,r)
+            return dp[n]
+            
+        return f( n-1,height,dp) 
+
+
+# DP II
+

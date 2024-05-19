@@ -1,0 +1,53 @@
+# link: https://leetcode.com/problems/maximal-rectangle/
+# Problem Statement: Given a row X cols binary matrix filled with 0's and 1's, f
+# find the largest rectangle containing only 1's and return its area.
+
+
+
+class Solution(object):
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        def largestRectangleArea(heights):
+            """
+            :type heights: List[int]
+            :rtype: int
+            """
+            n=len(heights)
+            st=[]
+            max_i=0
+            for i in range(n+1):
+                while( st and (i==n or heights[i]< heights[st[-1]]) ):
+                    h = heights[st[-1]]
+                    st.pop()
+
+                    if not st:
+                        width = i
+                    else:
+                        width =  i - st[-1] -1
+
+                    area_i = h*width
+                    max_i = max(max_i, area_i)
+
+                st.append(i)
+            
+            return max_i
+
+        
+        max_i = 0
+        n= len(matrix)
+        m=len(matrix[0])
+        heights=[0 for i in range(m)]
+        for i in range(n):
+            for j in range(m):
+                if matrix[i][j] == '1':
+                    heights[j]+=1
+                else:
+                    heights[j]=0
+                    
+            area_i = largestRectangleArea(heights)
+            max_i=max(max_i,area_i)
+                
+        return max_i                

@@ -28,3 +28,5 @@ class Solution:
             dp[i] = min_i
         
         return dp[n-1]
+
+# Space optimised DP III is not possible

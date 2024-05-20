@@ -1,3 +1,5 @@
+# Maximal Rectangle
+
 # link: https://leetcode.com/problems/maximal-rectangle/
 # Problem Statement: Given a row X cols binary matrix filled with 0's and 1's, f
 # find the largest rectangle containing only 1's and return its area.

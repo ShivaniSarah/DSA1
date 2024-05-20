@@ -1,3 +1,6 @@
+# Geek Jump geeks for geeks
+# link: https://www.geeksforgeeks.org/problems/geek-jump/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=geek-jump
+
 Given a number of stairs and a frog, the frog wants to climb from the 0th stair to the (N-1)th stair. 
 At a time the frog can climb either one or two steps. 
 A height[N] array is also given. Whenever the frog jumps from a stair i to stair j, 

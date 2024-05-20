@@ -5,6 +5,47 @@ link: https://leetcode.com/problems/climbing-stairs/description/
 
 Solution: Follow fibonacci with base case 1 and 1 instead of 0 and 1.
 
+# Recursion
+
+class Solution:
+
+    def climbStairs(self, n: int) -> int:
+        def f(n):
+            if n==0:
+                return 1
+            if n==1:
+                return 1
+
+            return f(n-1)+f(n-2)
+
+        return f(n)
+
+# DP I:
+
+class Solution:
+
+    def climbStairs(self, n: int) -> int:
+        def f(n,dp):
+            if n==0:
+                dp[0]=1
+                return dp[0]
+            if n==1:
+                dp[1]=1
+                return dp[1]
+
+            if dp[n]!=-1:
+                return dp[n]
+
+            dp[n]=f(n-2,dp)+f(n-1,dp)
+            
+            return dp[n]
+
+        dp = [-1 for i in range(n+1)]
+        return f(n,dp)
+
+
+# DP II:
+
 class Solution:
 
     def climbStairs(self, n: int) -> int:
@@ -18,7 +59,7 @@ class Solution:
           dp[i] = dp[i-1] + dp[i-2]
         return(dp[n])
 
-Method II:
+DP III:
 
 class Solution:
 

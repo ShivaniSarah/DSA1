@@ -4,6 +4,8 @@ A falling path starts at any element in the first row and chooses the element in
 either directly below or diagonally left/right. 
 Specifically, the next element from position (row, col) will be (row + 1, col - 1), (row + 1, col), or (row + 1, col + 1).
 
+# link: https://leetcode.com/problems/minimum-falling-path-sum/
+
 # Variable Starting Point and Variable Ending Point
 
 # DP II:

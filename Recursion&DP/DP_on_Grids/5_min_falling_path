@@ -1,0 +1,29 @@
+Given an n x n array of integers matrix, return the minimum sum of any falling path through matrix.
+
+A falling path starts at any element in the first row and chooses the element in the next row that is 
+either directly below or diagonally left/right. 
+Specifically, the next element from position (row, col) will be (row + 1, col - 1), (row + 1, col), or (row + 1, col + 1).
+
+# DP II:
+
+import sys
+class Solution:
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        n= len(matrix)        
+        dp =[[0 for i in range(n)] for i in range(n)]
+        for i in range(n):
+            dp[0][i]=matrix[0][i]
+        for i in range(1,n):
+            for j in range(n):
+                l=r=sys.maxsize
+                if  j-1>=0 :
+                    l=dp[i-1][j-1]
+                if j+1<n:
+                    r=dp[i-1][j+1]
+                dp[i][j] = min( l , dp[i-1][j], r ) + matrix[i][j]
+
+        min_i = sys.maxsize
+        for i in range(n):
+            min_i = min(dp[n-1][i],min_i)
+        
+        return min_i

@@ -37,3 +37,36 @@ class Solution:
         # print(dp)
         
         return max(dp[n-1][0],dp[n-1][1],dp[n-1][2])
+
+
+# generic solution
+
+import sys
+class Solution:
+    def maximumPoints(self, points, n):
+        # Code here
+        dp=[[0 for i in range(3)] for i in range(n)]
+        m=3 # no of activities
+        for i in range(m):
+            dp[0][i] = points[0][i]
+            
+        for i in range(1,n):
+            for j in range(m):
+                max_i = -sys.maxsize
+                for k in range(m):
+                    if k!=j:
+                        max_i= max(max_i,dp[i-1][k])
+                dp[i][j]= max_i+points[i][j]
+                    
+        max_i = -sys.maxsize
+        for i in range(m):
+            max_i=max(max_i,dp[n-1][i])
+            
+        return max_i
+
+
+
+
+
+
+

@@ -20,21 +20,21 @@ They cannot go out of the boundary of the given matrix, we need to return the ma
 # hence recursion/dp can be started from both start or end point of a journey.
 
 
+
 import sys
 
 # Function to find the maximum chocolates collected
 def maximumChocolates(n, m, grid):
-    # Initialize two matrices: front (for the current row) and cur (for the next row)
-    front = [[0] * m for _ in range(m)]
-    cur = [[0] * m for _ in range(m)]
+    # Initialize a 3D memoization table dp with zeros
+    dp = [[[0 for _ in range(m)] for _ in range(m)] for _ in range(n)]
 
-    # Initialize the values for the last row of front based on grid values
+    # Initialize the values for the last row of dp based on grid values
     for j1 in range(m):
         for j2 in range(m):
             if j1 == j2:
-                front[j1][j2] = grid[n - 1][j1]
+                dp[n - 1][j1][j2] = grid[n - 1][j1]
             else:
-                front[j1][j2] = grid[n - 1][j1] + grid[n - 1][j2]
+                dp[n - 1][j1][j2] = grid[n - 1][j1] + grid[n - 1][j2]
 
     # Iterate through rows from the second-to-last row to the first row
     for i in range(n - 2, -1, -1):
@@ -54,16 +54,15 @@ def maximumChocolates(n, m, grid):
                         if ((j1 + di < 0 or j1 + di >= m) or (j2 + dj < 0 or j2 + dj >= m)):
                             ans += int(-1e9)  # A large negative value if out of bounds
                         else:
-                            ans += front[j1 + di][j2 + dj]  # Add the value from the current front row
+                            ans += dp[i + 1][j1 + di][j2 + dj]  # Add the value from the next row
 
                         maxi = max(ans, maxi)
-                cur[j1][j2] = maxi
 
-        # Update front with the values of cur for the next iteration
-        front = [row[:] for row in cur]
+                # Store the maximum chocolates collected in the memoization table
+                dp[i][j1][j2] = maxi
 
-    # Return the maximum chocolates collected in the top-left corner of front
-    return front[0][m - 1]
+    # Return the maximum chocolates collected in the top row and the last column
+    return dp[0][0][m - 1]
 
 def main():
     # Define the input matrix and its dimensions
@@ -76,6 +75,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
 

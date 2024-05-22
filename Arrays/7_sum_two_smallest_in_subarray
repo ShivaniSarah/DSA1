@@ -1,5 +1,7 @@
 # Return the sum of two smallest elements in any subarray
 
+# link: https://www.geeksforgeeks.org/problems/max-sum-in-sub-arrays0824/0?category&utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=max-sum-in-sub-arrays
+
 Given an array Arr, with indexes running from 0 to N, select any two indexes, i and j such that i<=j-1. 
 From subarray Arr[i...j], find the two smallest numbers and add them, you will get score for that subarray. 
 Your task is to return maximum score possible in the given array Arr.

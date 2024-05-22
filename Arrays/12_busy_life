@@ -13,6 +13,7 @@ class Solution:
         def count_activities(activities):
             # Sort the activities based on their finish time
             activities.sort(key=lambda x: x[1])
+            # activities.sort( key=lambda x: (x[1], x[0])) # to sort based on second value if it is same, then on first value
             
             count = 1
             finish = activities[0][1]

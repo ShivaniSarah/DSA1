@@ -3,6 +3,8 @@
 # few test cases will not will need priority queue
 # link: https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/submissions/
 
+# Approach I: Greedy
+
 from typing import List
 
 class Solution:
@@ -30,5 +32,48 @@ events = [[1, 2], [3, 4], [2, 3], [3, 5]]
 print(solution.maxEvents(events))  # Output depends on the input events list
 
 
-# Approach II:
+# Approach II: Using Priority Queue
+
+import heapq
+
+class Solution:
+    def maxEvents(self, events: List[List[int]]) -> int:
+
+        # Sort the events in increasing order of their start times
+        events.sort(key=lambda x: x[0])
+
+        count = 0   # Keeps track of how many events we have attended until today
+        today = 1   # Current day of the Event Fest [1 .. 100000]
+
+        # Keeps track of currently live events.
+        # These contained events may have started earlier, but are still "live" and unattended: all event_end_time >= today
+        pq = []
+
+        index = 0        # We'd look at the sorted events one by one
+        while pq or index < len(events):
+            
+            # If there's no event on the current day, skip to the next event's start day
+            # Earliest event to start next is events[index] as array is sorted by start time
+            if not pq:
+                today = events[index][0]
+
+            # The Priority Queue already contains events started before today, and still running
+            # We pull in more events from the array which are starting today
+            while index < len(events) and events[index][0] == today:
+                heapq.heappush(pq, events[index][1])
+                index += 1
+
+            # Here we have a simplified version of the problem as we can assume all events in the PriorityQueue have started today
+            # If all events started on the same day, we would first attend the event which ends first
+            heapq.heappop(pq)
+            today += 1
+            count += 1
+
+            # It was a fun event yesterday, if there were multiple events ending yesterday, we could've attended just one
+            while pq and pq[0] < today:
+                heapq.heappop(pq)
+
+        return count
+
+
 

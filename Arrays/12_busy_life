@@ -1,6 +1,7 @@
 # Busy Life
 # return max events that can be attended given the start and end time of each events.
 # few test cases will not will need priority queue
+# link: https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/submissions/
 
 from typing import List
 

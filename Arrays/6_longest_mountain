@@ -1,0 +1,77 @@
+# Return length of the longest/ highest mountain
+
+# link: https://leetcode.com/problems/longest-mountain-in-array/description/
+
+You may recall that an array arr is a mountain array if and only if:
+- arr.length >= 3
+- There exists some index i (0-indexed) with 0 < i < arr.length - 1 such that:
+- arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+- arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+Given an integer array arr, 
+return the length of the longest subarray, which is a mountain. Return 0 if there is no mountain subarray.
+
+Example 1:
+
+Input: arr = [2,1,4,7,3,2,5]
+Output: 5
+Explanation: The largest mountain is [1,4,7,3,2] which has length 5.
+
+Approach I:
+
+class Solution:
+    def longestMountain(self, arr: List[int]) -> int:
+        
+        """Returns the length of the longest mountain in the array."""
+
+        # Find the length of the longest increasing subsequence.
+        increasing = [1] * len(arr)
+        for i in range(1, len(arr)):
+            if arr[i] > arr[i - 1]:
+                increasing[i] = increasing[i - 1] + 1
+
+        # Find the length of the longest decreasing subsequence.
+        decreasing = [1] * len(arr)
+        for i in range(len(arr) - 2, -1, -1):
+            if arr[i] > arr[i + 1]:
+                decreasing[i] = decreasing[i + 1] + 1
+
+        # Find the longest mountain.
+        longest = 0
+        for i in range(1, len(arr) - 1):
+            if increasing[i] > 1 and decreasing[i] > 1:
+                longest = max(longest, increasing[i] + decreasing[i] - 1)
+
+        return longest
+
+
+# Approach II:
+
+
+class Solution:
+    def longestMountain(self, arr: List[int]) -> int:
+        
+        n = len(arr)
+        if n < 3: # base condition for having the mountain
+            return 0
+        ans = 0
+        i = 1
+        while i <= n - 2:
+            if arr[i] > arr[i - 1] and arr[i] > arr[i + 1]:
+                count = 0
+                # now we find the index where a peak is present
+                j = i # making a temporary element to help us traverse the array using two pointer techniques
+                while j > 0 and arr[j] > arr[j - 1]:
+                    count += 1
+                    j -= 1
+                while i <= n - 2 and arr[i] > arr[i + 1]:
+                    count += 1
+                    i += 1
+                ans = max(ans, count)
+            else:
+                i += 1
+        if ans > 0:
+            return ans + 1
+        return ans
+
+
+                    

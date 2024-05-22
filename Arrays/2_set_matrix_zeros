@@ -1,0 +1,65 @@
+# set matrix zeros
+Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+You must do it in place.
+# link: https://leetcode.com/problems/set-matrix-zeroes/description/
+
+class Solution:
+    def setZeroes(self, m: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        a=len(m)
+        b=len(m[0])
+        
+        col0=0
+        if m[0][0]==0:
+            col0=1 # make 0th row and column zero
+
+        else:
+            for i in range(1,a):
+                if m[i][0]==0:
+                    col0=2 # make 0th column zero
+                    break
+        
+            for i in range(1,b):
+                if m[0][i]==0 and col0==2:
+                    col0=1 # make 0th row zero
+                    break
+                elif m[0][i]==0 and col0!=2:
+                    col0=3 # make 0th row zero
+                    break
+
+        # marking row 0 and column 0 corresponding to cell(i,j) 
+        for i in range(1,a):
+            for j in range(1,b):
+                if m[i][j]==0:
+                    m[0][j]=0
+                    m[i][0]=0
+        # Making entire row and column zeo according to the markings
+        for i in range(1,a):
+            if m[i][0]==0:
+                for j in range(1,b):
+                    m[i][j]=0
+
+        for i in range(1,b):
+            if m[0][i]==0:
+                for j in range(1,a):
+                    m[j][i]=0
+        
+        if col0==1:
+            for i in range(a):
+                m[i][0]=0
+            for i in range(b):
+                m[0][i]=0
+        elif col0==2:
+            for i in range(0,a):
+                m[i][0]=0
+        elif col0==3:
+            for i in range(0,b):
+                m[0][i]=0
+        
+        return m
+
+
+                
+

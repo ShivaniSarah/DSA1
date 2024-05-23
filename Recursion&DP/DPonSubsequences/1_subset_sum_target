@@ -1,0 +1,56 @@
+# https://www.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1
+
+# Subset Sum Problem
+
+N = 6
+arr[] = {3, 34, 4, 12, 5, 2}
+sum = 9
+Output: 1 
+Explanation: Here there exists a subset with
+sum = 9, 4+3+2 = 9.
+
+
+# Recursion:
+
+def f(i,s,arr,N):
+            
+            if s-arr[i]==0:
+                return 1
+            if i>=N or s<0:
+                return 0
+            
+            if s-arr[i]>0:
+                p = f(i+1,s-arr[i],arr,N)
+                n = f(i+1,s,arr,N)
+                return max(p,n)
+            return f(i+1,s,arr,N)
+        
+        return f(0,sum,arr,N)
+            
+
+# DP I
+
+    def f(i,s,arr,N,dp):
+            if s==0:
+                return 1
+            if s<0:
+                return 0
+            if i>=N:
+                return 0
+            
+            if dp[i][s]!=-1:
+              return dp[i][s]
+
+            p = f(i+1,s-arr[i],arr,N,dp) 
+            n = f(i+1,s,arr,N,dp)
+            dp[i][s]=max(p,n)
+            
+            return dp[i][s]
+            
+        
+        dp= [[-1 for i in range(sum+1)] for j in range(N+1)]
+        
+        return f(0,sum,arr,N,dp) 
+
+# DP II:
+

@@ -1,1 +1,63 @@
 # Three Sum
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+https://leetcode.com/problems/3sum/description/
+
+# Better Approach:
+
+class Solution:
+    def threeSum(self, arr: List[int]) -> List[List[int]]:
+        st = set()
+        n=len(arr)
+        for i in range(n):
+            hashset = set()
+            for j in range(i + 1, n):
+                # Calculate the 3rd element:
+                third = -(arr[i] + arr[j])
+
+                # Find the element in the set:
+                if third in hashset:
+                    temp = [arr[i], arr[j], third]
+                    temp.sort()
+                    st.add(tuple(temp))
+                hashset.add(arr[j])
+
+        # store the set in the answer:
+        ans = list(st)
+        return ans
+
+# Optimal Approach
+
+class Solution:
+    def threeSum(self, arr: List[int]) -> List[List[int]]:
+        ans = []
+        n=len(arr)
+        arr.sort()
+        for i in range(n):
+            # remove duplicates:
+            if i != 0 and arr[i] == arr[i - 1]:
+                continue
+
+            # moving 2 pointers:
+            j = i + 1
+            k = n - 1
+            while j < k:
+                total_sum = arr[i] + arr[j] + arr[k]
+                if total_sum < 0:
+                    j += 1
+                elif total_sum > 0:
+                    k -= 1
+                else:
+                    temp = [arr[i], arr[j], arr[k]]
+                    ans.append(sorted(temp))
+                    j += 1
+                    k -= 1
+                    # skip the duplicates:
+                    while j < k and arr[j] == arr[j - 1]:
+                        j += 1
+                    while j < k and arr[k] == arr[k + 1]:
+                        k -= 1
+
+        return ans

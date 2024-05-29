@@ -8,11 +8,13 @@ Platforms coded on:
 
 Revisit:
 
-Arrays=> 9, 10, (12 : priority queue)
+Array: 12 : priority queue
 
-minimum diff closest to zero
+
 
 TO DO:
+
+minimum diff closest to zero
 
 subarray sort
 

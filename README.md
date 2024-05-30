@@ -24,3 +24,6 @@ rain water trapping
 
 largest rectangle in histogram 2 approach, monotonic stack & previous smallest element and next largest element
    
+https://www.geeksforgeeks.org/smallest-difference-pair-values-two-unsorted-arrays/
+
+https://www.geeksforgeeks.org/kth-smallest-largest-element-in-unsorted-array/?ref=ml_lbp

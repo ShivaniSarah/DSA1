@@ -1,0 +1,55 @@
+https://leetcode.com/problems/shortest-unsorted-continuous-subarray/description/
+
+Given an integer array nums, you need to find one continuous subarray such that if you only sort this subarray 
+in non-decreasing order, then the whole array will be sorted in non-decreasing order.
+
+Return the shortest such subarray and output its length.
+
+Input: nums = [2,6,4,8,10,9,15]
+Output: 5
+Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.
+
+Input: nums = [1,2,3,4]
+Output: 0
+
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+
+        def outOfOrder(arr, i):
+            x = arr[i]
+            if i == 0:
+                return x > arr[1]
+            if i == len(arr) - 1:
+                return x < arr[i - 1]
+            return x > arr[i + 1] or x < arr[i - 1]
+
+        def subarraySort(arr):
+            smallest = float('inf')
+            largest = float('-inf')
+
+            for i in range(len(arr)):
+                x = arr[i]
+                if outOfOrder(arr, i):
+                    smallest = min(smallest, x)
+                    largest = max(largest, x)
+
+            if smallest == float('inf'):
+                return 0
+
+            # to return the index of smallest and largest
+
+            left = 0
+            while smallest >= arr[left]:
+                left += 1
+
+            right = len(arr) - 1
+            while largest <= arr[right]:
+                right -= 1
+
+            return right-left+1
+
+            
+        if len(nums)<2:
+            return 0  
+        return subarraySort(nums)
+            

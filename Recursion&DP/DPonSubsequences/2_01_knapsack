@@ -1,0 +1,73 @@
+You are given weights and values of N items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack. Note that we have only one quantity of each item.
+In other words, given two integer arrays val[0..N-1] and wt[0..N-1] which represent values and weights associated with N items respectively. Also given an integer W which represents knapsack capacity, find out the maximum value subset of val[] such that sum of the weights of this subset is smaller than or equal to W. You cannot break an item, either pick the complete item or dont pick it (0-1 property).
+
+Example 1:
+
+Input:
+N = 3
+W = 4
+values[] = {1,2,3}
+weight[] = {4,5,1}
+Output: 3
+Explanation: Choose the last item that weighs 1 unit and holds a value of 3. 
+
+
+Input:
+N = 3
+W = 3
+values[] = {1,2,3}
+weight[] = {4,5,6}
+Output: 0
+Explanation: Every item has a weight exceeding the knapsack's capacity (3).
+
+
+def f(i, cur_wt, dp):
+            if i == n:
+                return 0
+            if dp[i][cur_wt] != -1:
+                return dp[i][cur_wt]
+            
+            # Option 1: Do not take the current item
+            not_taken = f(i + 1, cur_wt, dp)
+            
+            # Option 2: Take the current item if it fits
+            taken = 0
+            if cur_wt + wt[i] <= W:
+                taken = val[i] + f(i + 1, cur_wt + wt[i], dp)
+            
+            dp[i][cur_wt] = max(taken, not_taken)
+            return dp[i][cur_wt]
+
+dp = [[-1 for _ in range(W + 1)] for _ in range(n)]
+return f(0, 0, dp)
+
+
+
+def knapsackUtil(wt, val, ind, W, dp):
+           # Base case: If we are at the first item (index 0), check if it can be included in the knapsack.
+            if ind == 0:
+                if wt[0] <= W:
+                    return val[0]
+                else:
+                    return 0
+            
+            # If the result for this combination of 'ind' and 'W' has already been computed, return it.
+            if dp[ind][W] != -1:
+                return dp[ind][W]
+            
+            # Calculate the value when the current item is not taken.
+            notTaken = 0 + knapsackUtil(wt, val, ind - 1, W, dp)
+            
+            # Calculate the value when the current item is taken (if its weight allows).
+            taken = -sys.maxsize
+            if wt[ind] <= W:
+                taken = val[ind] + knapsackUtil(wt, val, ind - 1, W - wt[ind], dp)
+            
+            # Update the DP table with the maximum of the two possibilities.
+            dp[ind][W] = max(notTaken, taken)
+            return dp[ind][W]
+    
+dp = [[-1 for j in range(W + 1)] for i in range(n)]
+# Call the utility function to find the maximum value the thief can steal.
+return knapsackUtil(wt, val, n - 1, W, dp)
+

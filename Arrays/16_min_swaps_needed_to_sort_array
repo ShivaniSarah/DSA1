@@ -1,0 +1,56 @@
+Minimum no of swaps needed to sort an array
+https://www.geeksforgeeks.org/minimum-number-swaps-required-sort-array/
+Input: {4, 3, 2, 1}
+Output: 2
+Explanation: Swap index 0 with 3 and 1 with 2 to form the sorted array {1, 2, 3, 4}
+
+Input: {1, 5, 4, 3, 2}
+Output: 2
+
+def countMinSwaps(arr):
+    # Get the length of the array
+    n = len(arr)
+    
+    # Create a list of tuples where each tuple is (element, index)
+    ap = [(arr[i], i) for i in range(n)]
+    
+    # Sort the array of tuples by the elements
+    ap.sort()
+    
+    # Create a visited list to keep track of visited elements
+    visited = [False] * n
+    
+    # Initialize the number of swaps
+    ans = 0
+    
+    # Loop through each element in the array
+    for i in range(n):
+        # If the element is visited or is already in the right position, skip it
+        old_position = ap[i][1]
+        if visited[i] or old_position == i:
+            continue
+        
+        # If the element is not visited, find the cycle of swaps
+        node = i
+        cycle = 0
+        
+        while not visited[node]:
+            # Mark the node as visited
+            visited[node] = True
+            
+            # Move to the next node
+            next_node = ap[node][1]
+            node = next_node
+            
+            # Increment the cycle count
+            cycle += 1
+        
+        # Add the number of swaps needed for this cycle
+        if cycle > 0:
+            ans += (cycle - 1)
+    
+    return ans
+
+if __name__ == "__main__":
+    arr = [5, 4, 3, 2, 1]
+    print(countMinSwaps(arr))

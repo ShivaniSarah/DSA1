@@ -71,3 +71,28 @@ dp = [[-1 for j in range(W + 1)] for i in range(n)]
 # Call the utility function to find the maximum value the thief can steal.
 return knapsackUtil(wt, val, n - 1, W, dp)
 
+
+# my wrong code needs to be improved
+
+def f(i, W, wt, val, n, cur_wt, cur_price, dp):
+            if cur_wt > W:  # If current weight exceeds the limit, return negative infinity
+                return -float('inf')
+            if i == n:  # If all items are considered, return the current price
+                return cur_price
+            if dp[i][cur_wt] != -1:  # If the value is already computed, return it
+                return dp[i][cur_wt]
+    
+            # Option 1: Do not take the current item
+            not_taken = f(i + 1, W, wt, val, n, cur_wt, cur_price, dp)
+    
+            # Option 2: Take the current item if it fits
+            taken= f(i + 1, W, wt, val, n, cur_wt, cur_price, dp)
+            
+            if cur_wt + wt[i] <= W:
+                taken = f(i + 1, W, wt, val, n, cur_wt + wt[i], cur_price + val[i], dp)
+            
+            dp[i][cur_wt] = max(taken, not_taken)
+            return dp[i][cur_wt]
+
+        dp = [[-1 for _ in range(W+1)] for _ in range(n)]  # Initialize DP table
+        return f(0, W, wt, val, n, 0, 0, dp)

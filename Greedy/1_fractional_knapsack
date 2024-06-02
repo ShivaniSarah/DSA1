@@ -1,0 +1,35 @@
+https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+
+
+import sys
+class Item:
+    def __init__(self,val,w):
+        self.value = val
+        self.weight = w
+        
+class Solution:    
+    #Function to get the maximum total value in the knapsack.
+    def fractionalknapsack(self, w,arr,n):
+        ppu=[]
+        for i in range(len(arr)):
+            a=arr[i].value/arr[i].weight
+            ppu.append([a,i])
+         
+        # arr.sort(key=lambda x: x.value / x.weight, reverse=True)  
+        ppu.sort(key=lambda x: x[0],reverse=True)
+        
+        ans=0
+        for i in range(n):
+            if w>0:
+                a= arr[ppu[i][1]].weight
+                if w>=a:
+                    ans+=arr[ppu[i][1]].value
+                    w=w-a
+                else:
+                    ans+=ppu[i][0]*w
+                    # ans+= (w/a)*arr[ppu[i][1]].value
+                    # w=w-w
+                    break
+                    
+        
+        return ans

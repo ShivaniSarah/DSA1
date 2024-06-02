@@ -1,0 +1,31 @@
+longest-substring-without-repeating-characters
+
+Given a string s, find the length of the longest 
+substring without repeating characters.
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        l=list()
+        maxi=0
+        i=0
+        j=0
+        while(i<len(s) and j<len(s)):
+            if(s[j] not in l):
+              l.append(s[j])
+              j+=1
+            else:
+              maxi=max(maxi,len(l))
+              l.clear()
+              i+=1
+              j=i
+        return max(maxi,len(l))                
+             
+            

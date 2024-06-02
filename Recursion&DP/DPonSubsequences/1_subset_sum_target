@@ -74,24 +74,4 @@ class Solution:
         # The answer is whether we can form the sum with all N elements
         return dp[N][sum]
 
-# DP II:
 
-class Solution:
-    
-    #Function to return max value that can be put in knapsack of capacity W.
-    def knapSack(self,W, wt, val, n):
-        
-        
-        # Create a 2D DP array
-        dp = [[0 for _ in range(W + 1)] for _ in range(n+1)]
-            
-        # Build the DP table in a bottom-up manner
-        for i in range(1,n+1):
-            for w in range(W + 1):
-                if wt[i - 1] <= w:  # If the item can be included
-                    dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w])
-                else:  # If the item cannot be included
-                    dp[i][w] = dp[i - 1][w]
-    
-        # The last cell of the DP table will hold the result
-        return dp[n][W]

@@ -27,3 +27,11 @@ largest rectangle in histogram 2 approach, monotonic stack & previous smallest e
 https://www.geeksforgeeks.org/smallest-difference-pair-values-two-unsorted-arrays/
 
 https://www.geeksforgeeks.org/kth-smallest-largest-element-in-unsorted-array/?ref=ml_lbp
+
+
+Knapsack Problems 3 types:
+
+1. Greedy - Fractional knapsack - price per unit - https://www.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=knapsack-with-duplicate-items
+2. DP - 0 1 knapsack 
+3. DP - Unbounded Knapsack
+   

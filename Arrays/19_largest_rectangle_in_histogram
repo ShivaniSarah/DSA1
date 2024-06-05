@@ -8,6 +8,41 @@ Output: 10
 Explanation: The above is a histogram where width of each bar is 1.
 The largest rectangle is shown in the red area, which has an area = 10 units.
 
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        
+        n = len(heights)
+        
+        # Calculate NSL (Nearest Smaller to Left) indices
+        NSL = [-1] * n
+        stack = []
+        for i in range(n):
+            while stack and heights[stack[-1]] >= heights[i]:
+                stack.pop()
+            if stack:
+                NSL[i] = stack[-1]
+            stack.append(i)
+        
+        # Calculate NSR (Nearest Smaller to Right) indices
+        NSR = [n] * n
+        stack = []
+        for i in range(n-1, -1, -1):
+            while stack and heights[stack[-1]] >= heights[i]:
+                stack.pop()
+            if stack:
+                NSR[i] = stack[-1]
+            stack.append(i)
+        
+        # Calculate the maximum area
+        max_area = 0
+        for i in range(n):
+            width = NSR[i] - NSL[i] - 1
+            area = heights[i] * width
+            max_area = max(max_area, area)
+        
+        return max_area
+
+   
 
 class Solution(object):
     def largestRectangleArea(self, heights):

@@ -1,9 +1,10 @@
 # my-dsa-coding-concept-collection-1
 
-Platforms coded on:
-
+Platforms used:
+0. https://takeuforward.org
 1. leetcode
 2. geeksforgeeks
+3. neetcode
 
 
 Revisit:

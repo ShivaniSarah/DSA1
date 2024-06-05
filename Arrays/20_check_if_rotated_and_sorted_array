@@ -1,3 +1,5 @@
+https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/
+
 class Solution(object):
     def check(self, nums):
         """

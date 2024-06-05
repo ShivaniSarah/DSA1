@@ -4,7 +4,8 @@ Platforms used:
 0. https://takeuforward.org
 1. leetcode
 2. geeksforgeeks
-3. neetcode
+3. udemy pratik narang course
+4. neetcode
 
 
 Revisit:

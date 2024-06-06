@@ -42,7 +42,7 @@ class Solution:
         # The last cell of the DP table will hold the result
         return dp[n][W]
 
-# DP I:
+# Recursion:
 
 def f(i, cur_wt, dp):
             if i == n:
@@ -64,7 +64,7 @@ def f(i, cur_wt, dp):
 dp = [[-1 for _ in range(W + 1)] for _ in range(n)]
 return f(0, 0, dp)
 
-
+# DP I:
 
 def knapsackUtil(wt, val, ind, W, dp):
            # Base case: If we are at the first item (index 0), check if it can be included in the knapsack.

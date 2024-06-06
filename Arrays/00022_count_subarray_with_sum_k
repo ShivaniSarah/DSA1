@@ -8,6 +8,38 @@ Output: 2
 Input: nums = [1,2,3], k = 3
 Output: 2
 
+# optimal :
+
+from collections import defaultdict
+class Solution(object):
+    def subarraySum(self, arr, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        n = len(arr) # size of the given array.
+        mpp = defaultdict(int)
+        preSum = 0
+        cnt = 0
+
+        mpp[0] = 1 # Setting 0 in the map.
+        for i in range(n):
+            # add current element to prefix Sum:
+            preSum += arr[i]
+
+            # Calculate x-k:
+            remove = preSum - k
+
+            # Add the number of subarrays to be removed:
+            cnt += mpp[remove]
+
+            # Update the count of prefix sum
+            # in the map.
+            mpp[preSum] += 1
+
+        return cnt
+
 class Solution(object):
     def subarraySum(self, arr, k):
         """
@@ -54,35 +86,7 @@ class Solution(object):
         return cnt
 
 
-from collections import defaultdict
-class Solution(object):
-    def subarraySum(self, arr, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        n = len(arr) # size of the given array.
-        mpp = defaultdict(int)
-        preSum = 0
-        cnt = 0
 
-        mpp[0] = 1 # Setting 0 in the map.
-        for i in range(n):
-            # add current element to prefix Sum:
-            preSum += arr[i]
-
-            # Calculate x-k:
-            remove = preSum - k
-
-            # Add the number of subarrays to be removed:
-            cnt += mpp[remove]
-
-            # Update the count of prefix sum
-            # in the map.
-            mpp[preSum] += 1
-
-        return cnt
 
 
 

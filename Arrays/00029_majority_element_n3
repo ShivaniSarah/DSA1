@@ -61,4 +61,20 @@ class Solution(object):
                 l.append(num)
         return l
 
-                
+
+class Solution(object):
+    def majorityElement(self, arr):
+        n = len(arr)
+        # declaring a dictionary
+        mpp = {}
+        l=[]
+        # storing the elements with their occurrences
+        for num in arr:
+            mpp[num] = mpp.get(num,0)+1
+
+        # searching for the majority element
+        for key, value in mpp.items():
+            if value > n // 3:
+                l.append(key)
+
+        return l

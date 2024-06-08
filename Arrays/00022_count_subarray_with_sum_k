@@ -19,7 +19,7 @@ class Solution(object):
         :rtype: int
         """
         n = len(arr) # size of the given array.
-        mpp = defaultdict(int)
+        mpp = defaultdict(int)  # store  prefix sum
         preSum = 0
         cnt = 0
 

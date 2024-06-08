@@ -42,6 +42,9 @@ class Solution(object):
             return el
         return -1
 
+TC: O(n)+O(n)
+SC: O(1)
+
 # Brute Force
 
 class Solution(object):

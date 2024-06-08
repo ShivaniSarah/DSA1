@@ -54,7 +54,7 @@ class Solution:
         return length
 
 
-Better:
+Optimal : (for only positives, for positives, negatives and zero )
 
 n = len(a) # size of the array.
 
@@ -84,5 +84,35 @@ n = len(a) # size of the array.
     return maxLen
 
 
-Optimal:
+Optimal: (only for positive numbers)
 
+from typing import List
+
+def getLongestSubarray(a: [int], k: int) -> int:
+    
+    n = len(a) 
+
+    left, right = 0, 0 
+    Sum = 0
+    maxLen = 0
+    
+    while right < n:
+        if right < n: Sum += a[right]
+        while left <= right and Sum > k:
+            Sum -= a[left]
+            left += 1
+            
+        if Sum == k:
+            maxLen = max(maxLen, right - left + 1)
+
+        right += 1
+
+    return maxLen
+
+
+if __name__ == "__main__":
+	a = [2,2,5,1,1,1,9,2]
+	k = 10
+
+	length = getLongestSubarray(a, k)
+	print(f"The length of the longest subarray is: {length}")

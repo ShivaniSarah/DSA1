@@ -1,0 +1,110 @@
+Given an array of integers A and an integer B.
+
+Find the total number of subarrays having bitwise XOR of all elements equals to B.
+
+Problem Constraints
+1 <= length of the array <= 105
+
+1 <= A[i], B <= 109
+
+Input 1:
+
+ A = [4, 2, 2, 6, 4]
+ B = 6
+Output 1:
+ 4
+Explanation 1:
+ The subarrays having XOR of their elements as 6 are:
+ [4, 2], [4, 2, 2, 6, 4], [2, 2, 6], [6]
+
+Input 2:
+
+ A = [5, 6, 7, 8, 9]
+ B = 5
+Output 2:
+ 2
+Explanation 2:
+ The subarrays having XOR of their elements as 5 are [5] and [5, 6, 7, 8, 9]
+
+
+Brute Force Solution:
+
+class Solution:
+    # @param A : list of integers
+    # @param B : integer
+    # @return an integer
+    def solve(self, a, k):
+        n = len(a)  # size of the given array.
+        cnt = 0
+
+        # Step 1: Generating subarrays:
+        for i in range(n):
+            for j in range(i, n):
+
+                # step 2: calculate XOR of all elements:
+                xorr = 0
+                for K in range(i, j + 1):
+                    xorr = xorr ^ a[K]
+
+                # step 3: check XOR and count:
+                if (xorr == k):
+                    cnt += 1
+
+        return cnt
+
+# Better Approach:
+
+class Solution:
+    # @param A : list of integers
+    # @param B : integer
+    # @return an integer
+    def solve(self, a, k):
+        n = len(a)  # size of the given array.
+        cnt = 0
+
+        # Step 1: Generating subarrays:
+        for i in range(n):
+            xorr = 0
+            for j in range(i, n):
+
+                # step 2: calculate XOR of all elements:
+                xorr = xorr ^ a[j]
+
+                # step 3: check XOR and count:
+                if (xorr == k):
+                    cnt += 1
+
+        return cnt
+
+# Optimal Approach:
+
+from collections import defaultdict
+
+class Solution:
+    # @param A : list of integers
+    # @param B : integer
+    # @return an integer
+    def solve(self, a, k):
+        n = len(a) # size of the given array.
+        xr = 0
+        mpp = defaultdict(int) # declaring the dictionary.
+        mpp[xr] = 1 # setting the value of 0.
+        cnt = 0
+
+        for i in range(n):
+            # prefix XOR till index i:
+            xr = xr ^ a[i]
+
+            # By formula: x = xr^k:
+            x = xr ^ k
+
+            # add the occurrence of xr^k
+            # to the count:
+            cnt += mpp[x]
+
+            # Insert the prefix xor till index i
+            # into the dictionary:
+            mpp[xr] += 1
+
+        return cnt
+

@@ -19,6 +19,8 @@ Output: 3 2
 Explanation: Repeating number is 3 and 
 smallest positive missing number is 2.
 
+Brute Approach:
+
 class Solution:
     def findTwoElement( self,a, n):
         repeating, missing = -1, -1

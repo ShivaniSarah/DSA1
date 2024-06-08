@@ -25,10 +25,10 @@ class Solution(object):
         arr.sort()
         ans = []
         for i in range(n):
-            if not ans or arr[i][0] > ans[-1][1]:  # if the current interval does not lie in the last interval:
+            if not ans or arr[i][0] > ans[-1][1]:          # if the current interval does not lie in the last interval:
                 ans.append(arr[i])    
             else:
-                ans[-1][1] = max(ans[-1][1], arr[i][1])# if the current interval lies in the last interval
+                ans[-1][1] = max(ans[-1][1], arr[i][1])    # if the current interval lies in the last interval
             
         return ans
 

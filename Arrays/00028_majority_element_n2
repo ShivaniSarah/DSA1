@@ -16,10 +16,9 @@ Output: 2
 
 class Solution(object):
     def majorityElement(self, arr):
-        # Size of the given array
         n = len(arr)
-        cnt = 0  # Count
-        el = None  # Element
+        cnt = 0           # Count
+        el = None         # Element
 
         # Applying the algorithm
         for i in range(n):

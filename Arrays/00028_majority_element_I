@@ -74,3 +74,21 @@ class Solution(object):
                 return num
 
         return -1
+
+# Better Approach II:
+
+class Solution(object):
+    def majorityElement(self, arr):
+        n = len(arr)
+        # declaring a dictionary
+        mpp = {}
+        # storing the elements with their occurrences
+        for num in arr:
+            mpp[num] = mpp.get(num,0)+1
+
+        # searching for the majority element
+        for key, value in mpp.items():
+            if value > n // 2:
+                return key
+
+        return -1

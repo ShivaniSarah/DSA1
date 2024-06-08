@@ -25,7 +25,7 @@ class Solution:
     def findTwoElement( self,a, n):
         repeating, missing = -1, -1
         # Find the repeating and missing number:
-        for i in range(1, n+1):
+        for i in range(1, n+1):           # len of array = 10 , range of nos anticipated is 1 to 10
             # Count the occurrences:
             cnt = 0
             for j in range(n):
@@ -86,19 +86,20 @@ class Solution:
         for i in range(n):
             S += a[i]
             S2 += a[i] * a[i]
-    
+        # repeating = Y, missing = X 
         # S-Sn = X-Y:
         val1 = S - SN
     
-        # S2-S2n = X^2-Y^2:
+        # S2-S2n = X^2-Y^2 = (X-Y)(X+Y) = (S-Sn)(X+Y) => X+Y = (S2-S2n)/(S-Sn)
         val2 = S2 - S2N
-    
-        # Find X+Y = (X^2-Y^2)/(X-Y):
-        val2 = val2 // val1
-    
-        # Find X and Y: X = ((X+Y)+(X-Y))/2 and Y = X-(X-Y),
-        # Here, X-Y = val1 and X+Y = val2:
-        x = (val1 + val2) // 2
+
+        # X+Y = val2//val1
+
+        # combining X-Y =val1 and X+Y =val2//val1
+        # X= ( val1 + (val2/val1) )/2 
+        # Y=  X - val1
+
+        x = (val1 + (val2//val1)) // 2
         y = x - val1
     
         return [x, y]

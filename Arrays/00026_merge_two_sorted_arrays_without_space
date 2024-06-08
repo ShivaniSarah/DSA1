@@ -25,6 +25,59 @@ Explanation: The arrays we are merging are [] and [1].
 The result of the merge is [1].
 Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
 
+
+# Optimal Approach: Gap method or shell sort
+
+class Solution(object):
+    def merge(self, arr1, n, arr2, m):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: None Do not return anything, modify nums1 in-place instead.
+        """
+
+        def swapIfGreater(arr1, arr2, ind1, ind2):
+            if arr1[ind1] > arr2[ind2]:
+                arr1[ind1], arr2[ind2] = arr2[ind2], arr1[ind1]
+
+        # len of the imaginary single array:
+        len = n + m
+
+        # Initial gap:
+        gap = (len // 2) + (len % 2)
+
+        while gap > 0:
+            # Place 2 pointers:
+            left = 0
+            right = left + gap
+            while right < len:
+                # case 1: left in arr1[]
+                # and right in arr2[]:
+                if left < n and right >= n:
+                    swapIfGreater(arr1, arr2, left, right - n)
+                # case 2: both pointers in arr2[]:
+                elif left >= n:
+                    swapIfGreater(arr2, arr2, left - n, right - n)
+                # case 3: both pointers in arr1[]:
+                else:
+                    swapIfGreater(arr1, arr1, left, right)
+                left += 1
+                right += 1
+            # break if iteration gap=1 is completed:
+            if gap == 1:
+                break
+            # Otherwise, calculate new gap:
+            gap = (gap // 2) + (gap % 2)
+
+        for i in range(n,n+m):
+            arr1[i]=arr2[i-n]
+
+TC: O( (n+m)*log(n+m) )
+SC  O(1)
+
+
 # Brute Force:
 
 class Solution(object):
@@ -112,53 +165,3 @@ class Solution(object):
 TC: O( min(n,m) + nlogn + mlogm )
 SC: O(1)
 
-# Optimal Approach:
-
-class Solution(object):
-    def merge(self, arr1, n, arr2, m):
-        """
-        :type nums1: List[int]
-        :type m: int
-        :type nums2: List[int]
-        :type n: int
-        :rtype: None Do not return anything, modify nums1 in-place instead.
-        """
-
-        def swapIfGreater(arr1, arr2, ind1, ind2):
-            if arr1[ind1] > arr2[ind2]:
-                arr1[ind1], arr2[ind2] = arr2[ind2], arr1[ind1]
-
-        # len of the imaginary single array:
-        len = n + m
-
-        # Initial gap:
-        gap = (len // 2) + (len % 2)
-
-        while gap > 0:
-            # Place 2 pointers:
-            left = 0
-            right = left + gap
-            while right < len:
-                # case 1: left in arr1[]
-                # and right in arr2[]:
-                if left < n and right >= n:
-                    swapIfGreater(arr1, arr2, left, right - n)
-                # case 2: both pointers in arr2[]:
-                elif left >= n:
-                    swapIfGreater(arr2, arr2, left - n, right - n)
-                # case 3: both pointers in arr1[]:
-                else:
-                    swapIfGreater(arr1, arr1, left, right)
-                left += 1
-                right += 1
-            # break if iteration gap=1 is completed:
-            if gap == 1:
-                break
-            # Otherwise, calculate new gap:
-            gap = (gap // 2) + (gap % 2)
-
-        for i in range(n,n+m):
-            arr1[i]=arr2[i-n]
-
-TC: O( (n+m)*log(n+m) )
-SC  O(1)

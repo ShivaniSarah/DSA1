@@ -109,6 +109,8 @@ class Solution(object):
         for i in range(n,n+m):
             arr1[i]=arr2[i-n]
 
+TC: O( min(n,m) + nlogn + mlogm )
+SC: O(1)
 
 # Optimal Approach:
 
@@ -158,4 +160,5 @@ class Solution(object):
         for i in range(n,n+m):
             arr1[i]=arr2[i-n]
 
-
+TC: O( (n+m)*log(n+m) )
+SC  O(1)

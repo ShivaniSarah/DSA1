@@ -55,9 +55,7 @@ class Solution(object):
         :type intervals: List[List[int]]
         :rtype: List[List[int]]
         """
-        n = len(arr) # size of the array
 
-        # sort the given intervals:
         n = len(arr) # size of the array
 
         # sort the given intervals:

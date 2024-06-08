@@ -1,0 +1,74 @@
+https://leetcode.com/problems/majority-element/submissions/1281900345/
+
+Given an array nums of size n, return the majority element.
+The majority element is the element that appears more than ⌊n / 2⌋ times.
+You may assume that the majority element always exists in the array.
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: 3
+Example 2:
+
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+
+# Optimal Approach
+
+class Solution(object):
+    def majorityElement(self, arr):
+        # Size of the given array
+        n = len(arr)
+        cnt = 0  # Count
+        el = None  # Element
+
+        # Applying the algorithm
+        for i in range(n):
+            if cnt == 0:
+                cnt = 1
+                el = arr[i]
+            elif el == arr[i]:
+                cnt += 1
+            else:
+                cnt -= 1
+
+        # Checking if the stored element is the majority element
+        cnt1 = 0
+        for i in range(n):
+            if arr[i] == el:
+                cnt1 += 1
+
+        if cnt1 > (n / 2):
+            return el
+        return -1
+
+# Brute Force
+
+class Solution(object):
+    def majorityElement(self, arr):
+        n = len(arr)
+        for i in range(n):  
+            cnt = 0
+            for j in range(n):          # Selected element is arr[i]  
+                if arr[j] == arr[i]:
+                    cnt += 1            # Counting the frequency of arr[i] 
+            if cnt > (n // 2):          # Check if frequency is greater than n/2
+                return arr[i]
+        return -1
+
+# Better Approach:
+
+from collections import Counter
+
+class Solution(object):
+    def majorityElement(self, arr):
+        n = len(arr)
+        # Count the occurrences of each element using Counter
+        counter = Counter(arr)
+
+        # Searching for the majority element
+        for num, count in counter.items():
+            if count > (n // 2):
+                return num
+
+        return -1

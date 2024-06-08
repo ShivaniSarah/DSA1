@@ -111,15 +111,17 @@ SC: O(1)
 
 class Solution:
     def findTwoElement( self,a, n):
-        n = len(a) # size of the array
 
-        xr = 0
-    
+        n = len(a)
+        xr = 0    
         #Step 1: Find XOR of all elements:
         for i in range(n):
             xr = xr ^ a[i]
             xr = xr ^ (i + 1)
-    
+
+        #  a = [4,3,6,2,1,1]
+        #  xr =  ( 4 ^ 3 ^ 6 ^ 2 ^ 1 ^ 1 ) ^ ( 1 ^ 2 ^ 3 ^ 4 ^ 5 ^ 6 ) = ( 1 ^ 5 ) = ( repeating ^ missing )
+
         #Step 2: Find the differentiating bit number:
         number = (xr & ~(xr - 1))
     

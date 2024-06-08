@@ -40,6 +40,9 @@ class Solution:
     
         return [repeating, missing]
 
+TC: O(N^2)
+SC: O(1)
+
 Better Approach:
 
 class Solution:
@@ -62,6 +65,9 @@ class Solution:
             if repeating != -1 and missing != -1:
                 break
         return [repeating, missing]
+
+TC: O(2N)
+SC: O(N)
 
 # Optimal I Approach
 
@@ -94,6 +100,9 @@ class Solution:
         y = x - val1
     
         return [x, y]
+
+TC: O(n)
+SC: O(1)
 
 # Optimal II Approach:
 
@@ -141,3 +150,5 @@ class Solution:
             
         return [one, zero]
 
+TC: O(n)
+SC: O(1)

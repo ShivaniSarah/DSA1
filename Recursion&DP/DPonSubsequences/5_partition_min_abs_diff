@@ -94,3 +94,79 @@ def minSubsetSumDifference(arr: List[str], n: int) -> int:
             mini = min(mini, diff)
 
     return mini
+
+# my code based on populating subsets:
+
+class Solution(object):
+    def minimumDifference(self, nums):
+        def subsetSumUtil(ind, arr,a):
+            # Base case: If the target sum is 0, we have found a subset that sums to the target.
+            # if target == 0:
+            #     return True
+
+            # Base case: If we have reached the first element of the array, check if it equals the target.
+            if ind ==0:
+                temp=[]
+                for i in range(len(a)-1):
+                    temp.append(a[i]+arr[ind])
+                a.extend(temp)
+                return
+
+            # Check if the result for this combination of 'ind' and 'target' has already been computed.
+            # if dp[ind][target] != -1:
+            #     return dp[ind][target]
+
+            # Recursive cases:
+            # 1. Try not taking the current element.
+            # notTaken = subsetSumUtil(ind - 1, target, arr, dp)
+            temp=[]
+            for i in a:
+                temp.append(i+arr[ind])
+            a.extend(temp)
+            subsetSumUtil(ind - 1, arr,a)
+
+            return
+
+
+            # Update the DP table and return the result.
+            # dp[ind][target] = notTaken or taken
+            # return dp[ind][target]
+
+        def minSubsetSumDifference(arr):
+            n = len(arr)
+            # totSum = 0
+            # for i in range(n):
+            #     totSum+=abs(i)
+
+            # Initialize a DP table to store the subset sum information.
+            # dp = [[-1 for i in range( -totSum, totSum + 1)] for j in range(n)]
+
+            # Calculate dummy values for all possible sums using subsetSumUtil.
+            # for i in range(totSum + 1):
+            # dummy = subsetSumUtil(n - 1, totSum, arr, dp)
+
+            # Initialize a variable to track the minimum absolute difference.
+            mini = int(1e9)
+
+            # Iterate through all possible sums.
+            # for i in range(-totSum ,totSum + 1):
+            #     if subsetSumUtil(n - 1, i, arr, dp) == True:
+            #         # Calculate the difference between the current sum and the complement sum.
+            #         diff = abs(i - (totSum - i))
+            #         mini = min(mini, diff)
+            totSum=sum(arr)
+            a=[0]
+            subsetSumUtil(n-1, arr, a)
+            a.pop(0)
+            print(totSum)
+            print(totSum//2 in a)
+            print(len(a))
+            print(a)
+            
+            for i in a:
+                rem=totSum-i
+                mini=min(mini,abs(i-rem))
+
+            return mini
+        
+        return minSubsetSumDifference(nums)

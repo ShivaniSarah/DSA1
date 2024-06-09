@@ -1,0 +1,83 @@
+Partition Equal Subset Sum
+
+https://leetcode.com/problems/partition-equal-subset-sum/
+
+Given an integer array nums, return true if you can partition the array into two subsets 
+such that the sum of the elements in both subsets is equal or false otherwise.
+
+Example 1:
+Input: nums = [1,5,11,5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+
+Example 2:
+Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
+
+DP II:
+
+class Solution(object):
+    def canPartition(self, arr):
+        n=len(arr)
+        totSum = sum(arr)
+        
+        # If the total sum is odd, it cannot be partitioned into two equal subsets.
+        if totSum % 2 == 1:
+            return False
+        else:
+            k = totSum // 2
+            dp = [[False for j in range(k + 1)] for i in range(n)]
+
+            for i in range(n):
+                dp[i][0] = True
+
+            if arr[0]<=k:
+                dp[0][arr[0]] = True
+
+            for ind in range(1, n):
+                for target in range(1, k + 1):
+
+                    notTaken = dp[ind - 1][target]
+                    taken = False
+                    if arr[ind] <= target:
+                        taken = dp[ind - 1][target - arr[ind]]
+                    dp[ind][target] = notTaken or taken
+
+            return dp[n - 1][k]
+                
+
+DP I:
+
+class Solution(object):
+    def canPartition(self, arr):
+        
+        def f(ind, target, arr, dp):
+            if target == 0:
+                return True
+            if ind == 0:
+                return arr[0] == target
+            
+            if dp[ind][target] != -1:
+                return dp[ind][target]
+                    
+            notTaken = f(ind - 1, target, arr, dp)
+            taken = False
+            if arr[ind] <= target:
+                taken = f(ind - 1, target - arr[ind], arr, dp)
+                
+            dp[ind][target] = notTaken or taken
+            return dp[ind][target]
+
+
+        n= len(arr)   
+        totSum = sum(arr)
+        # if total sum is odd we cant partition into equal subset so return False
+        if totSum % 2 == 1:
+            return False
+        else:
+            k = totSum // 2
+            dp = [[-1 for i in range(k + 1)] for j in range(n)]
+            # just find if subset sum equal to half of target  exists or not
+            return f(n - 1, k, arr, dp)
+            

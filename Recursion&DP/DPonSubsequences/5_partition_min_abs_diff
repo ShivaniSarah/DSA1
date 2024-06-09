@@ -1,6 +1,7 @@
 Partition Array Into Two Arrays to Minimize Sum Difference
+https://www.naukri.com/code360/problems/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum_842494?leftPanelTabValue=SUBMISSION
 
-https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/
+Todo CP:  https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/
 
 You are given an integer array nums of 2 * n integers. 
 You need to partition nums into two arrays of length n to minimize the absolute difference of the sums of the arrays. 
@@ -17,4 +18,79 @@ Output: 0
 Explanation: One optimal partition is: [2,4,-9] and [-1,0,-2].
 The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0.
 
+# DP I : 
 
+from typing import List
+
+def minSubsetSumDifference(arr: List[str], n: int) -> int:
+    def subsetSumUtil(ind, target, arr, dp):
+        if target == 0:
+            return True
+
+        if ind == 0:
+            return arr[0] == target
+
+        if dp[ind][target] != -1:
+            return dp[ind][target]
+
+        notTaken = subsetSumUtil(ind - 1, target, arr, dp)
+
+        taken = False
+        if arr[ind] <= target:
+            taken = subsetSumUtil(ind - 1, target - arr[ind], arr, dp)
+
+        dp[ind][target] = notTaken or taken
+        return dp[ind][target]
+
+    def minSubsetSumDifference(arr):
+        totSum = sum(arr)
+
+        dp = [[-1 for i in range(totSum + 1)] for j in range(n)]
+
+        for i in range(totSum + 1):
+            dummy = subsetSumUtil(n - 1, i, arr, dp)
+
+        mini = int(1e9)
+
+        for i in range(totSum + 1):
+            if dp[n - 1][i] == True:
+                
+                diff = abs(i - (totSum - i))
+                mini = min(mini, diff)
+
+        return mini
+
+    return minSubsetSumDifference(arr)
+
+DP II :
+
+from typing import List
+
+def minSubsetSumDifference(arr: List[str], n: int) -> int:
+    totSum = sum(arr)
+
+    dp = [[False for i in range(totSum + 1)] for j in range(n)]
+
+    for i in range(n):
+        dp[i][0] = True
+
+    if arr[0] <= totSum:
+        dp[0][arr[0]] = True
+
+    for ind in range(1, n):
+        for target in range(1, totSum + 1):
+            notTaken = dp[ind - 1][target]
+            taken = False
+            if arr[ind] <= target:
+                taken = dp[ind - 1][target - arr[ind]]
+
+            dp[ind][target] = notTaken or taken
+
+    mini = int(1e9)
+
+    for i in range(totSum + 1):
+        if dp[n - 1][i] == True:
+            diff = abs(i - (totSum - i))
+            mini = min(mini, diff)
+
+    return mini

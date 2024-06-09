@@ -32,4 +32,33 @@ The optimal choice is to pick the 1st element 8 times.
 Expected Time Complexity: O(N*W)
 Expected Auxiliary Space: O(W)
 
+DP I:
+
+import sys
+class Solution:
+    def knapSack(self, N, W, val, wt):
+        def f(wt, val,ind, W, dp):        
+            if ind == 0:
+                return (W // wt[0]) * val[0]
+        
+            # If the result for this state is already calculated, return it
+            if dp[ind][W] != -1:
+                return dp[ind][W]
+        
+            # Calculate the maximum value when the current item is not taken
+            notTaken = f(wt, val, ind - 1, W, dp)
+        
+            # Initialize a variable to store the maximum value when the current item is taken
+            taken = -sys.maxsize
+            if wt[ind] <= W:
+                taken = val[ind] + f(wt, val, ind, W - wt[ind], dp)
+        
+            # Store the maximum of "notTaken" and "taken" in the DP table
+            dp[ind][W] = max(notTaken, taken)
+            return dp[ind][W]
+        
+        dp = [[-1 for _ in range(W + 1)] for _ in range(N)]
+        return f(wt, val, N - 1, W, dp)
+
+DP II:
 

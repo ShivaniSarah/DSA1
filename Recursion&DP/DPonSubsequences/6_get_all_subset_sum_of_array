@@ -16,7 +16,7 @@ class Solution(object):
         def minSubsetSumDifference(arr):
             n = len(arr)
             
-            mini = int(1e9) or float('inf') instead of float('-inf')
+            mini = int(1e9)  # 10**9 or float('inf') instead of float('-inf') or sys.maxsize instead -sys.maxsize
             totSum=sum(arr)
             a=[0]
             subsetSumUtil(n-1, arr, a)

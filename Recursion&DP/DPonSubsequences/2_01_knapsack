@@ -28,53 +28,42 @@ Explanation: Every item has a weight exceeding the knapsack's capacity (3).
 # DP II: tabulation
 
 class Solution:
-    
-    #Function to return max value that can be put in knapsack of capacity W.
     def knapSack(self,W, wt, val, n):
-        
-        
-        # Create a 2D DP array
+
         dp = [[0 for _ in range(W + 1)] for _ in range(n+1)]
             
-        # Build the DP table in a bottom-up manner
         for i in range(1,n+1):
             for w in range(W + 1):
-                if wt[i - 1] <= w:  # If the item can be included
+                
+                if wt[i - 1] <= w:                               
                     dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w])
-                else:  # If the item cannot be included
+                else:                            
                     dp[i][w] = dp[i - 1][w]
     
-        # The last cell of the DP table will hold the result
         return dp[n][W]
 
 # DP I: Memoization
 
 def knapsackUtil(wt, val, ind, W, dp):
-           # Base case: If we are at the first item (index 0), check if it can be included in the knapsack.
             if ind == 0:
                 if wt[0] <= W:
                     return val[0]
                 else:
                     return 0
             
-            # If the result for this combination of 'ind' and 'W' has already been computed, return it.
             if dp[ind][W] != -1:
                 return dp[ind][W]
             
-            # Calculate the value when the current item is not taken.
             notTaken = 0 + knapsackUtil(wt, val, ind - 1, W, dp)
             
-            # Calculate the value when the current item is taken (if its weight allows).
             taken = -sys.maxsize
             if wt[ind] <= W:
                 taken = val[ind] + knapsackUtil(wt, val, ind - 1, W - wt[ind], dp)
             
-            # Update the DP table with the maximum of the two possibilities.
             dp[ind][W] = max(notTaken, taken)
             return dp[ind][W]
     
 dp = [[-1 for j in range(W + 1)] for i in range(n)]
-# Call the utility function to find the maximum value the thief can steal.
 return knapsackUtil(wt, val, n - 1, W, dp)
 
 

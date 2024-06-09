@@ -1,0 +1,25 @@
+class Solution(object):
+    def minimumDifference(self, nums):
+        def subsetSumUtil(ind, arr,a):  
+            if ind <0:
+                return
+                
+            temp=[]
+            for i in a:
+                temp.append(i+arr[ind])
+            a.extend(temp)
+            
+            subsetSumUtil(ind - 1, arr,a)
+            
+            return
+
+        def minSubsetSumDifference(arr):
+            n = len(arr)
+            
+            mini = int(1e9) or float('inf') instead of float('-inf')
+            totSum=sum(arr)
+            a=[0]
+            subsetSumUtil(n-1, arr, a)
+            return a
+            
+      return minSubsetSumDifference(nums)

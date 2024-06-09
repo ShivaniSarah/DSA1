@@ -25,7 +25,7 @@ weight[] = {4,5,6}
 Output: 0
 Explanation: Every item has a weight exceeding the knapsack's capacity (3).
 
-# DP II:
+# DP II: tabulation
 
 class Solution:
     
@@ -47,29 +47,7 @@ class Solution:
         # The last cell of the DP table will hold the result
         return dp[n][W]
 
-# Recursion:
-
-def f(i, cur_wt, dp):
-            if i == n:
-                return 0
-            if dp[i][cur_wt] != -1:
-                return dp[i][cur_wt]
-            
-            # Option 1: Do not take the current item
-            not_taken = f(i + 1, cur_wt, dp)
-            
-            # Option 2: Take the current item if it fits
-            taken = 0
-            if cur_wt + wt[i] <= W:
-                taken = val[i] + f(i + 1, cur_wt + wt[i], dp)
-            
-            dp[i][cur_wt] = max(taken, not_taken)
-            return dp[i][cur_wt]
-
-dp = [[-1 for _ in range(W + 1)] for _ in range(n)]
-return f(0, 0, dp)
-
-# DP I:
+# DP I: Memoization
 
 def knapsackUtil(wt, val, ind, W, dp):
            # Base case: If we are at the first item (index 0), check if it can be included in the knapsack.
@@ -98,6 +76,29 @@ def knapsackUtil(wt, val, ind, W, dp):
 dp = [[-1 for j in range(W + 1)] for i in range(n)]
 # Call the utility function to find the maximum value the thief can steal.
 return knapsackUtil(wt, val, n - 1, W, dp)
+
+
+# Recursion:
+
+def f(i, cur_wt, dp):
+            if i == n:
+                return 0
+            if dp[i][cur_wt] != -1:
+                return dp[i][cur_wt]
+            
+            # Option 1: Do not take the current item
+            not_taken = f(i + 1, cur_wt, dp)
+            
+            # Option 2: Take the current item if it fits
+            taken = 0
+            if cur_wt + wt[i] <= W:
+                taken = val[i] + f(i + 1, cur_wt + wt[i], dp)
+            
+            dp[i][cur_wt] = max(taken, not_taken)
+            return dp[i][cur_wt]
+
+dp = [[-1 for _ in range(W + 1)] for _ in range(n)]
+return f(0, 0, dp)
 
 
 # my wrong code needs to be improved

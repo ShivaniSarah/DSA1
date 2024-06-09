@@ -37,28 +37,23 @@ DP II:
 import sys
 class Solution:
     def knapSack(self, n, W, val, wt):
-        # Create a DP table to store the maximum value for different capacities
+        
         dp = [[0 for j in range(W + 1)] for i in range(n)]
-    
-        # Initialize the base condition for the first item
+            
         for i in range(wt[0], W + 1):
             dp[0][i] = ((i // wt[0]) * val[0])
-    
-        # Fill in the DP table for the remaining items and capacities
+          
         for i in range(1, n):
             for j in range(W + 1):
-                # Calculate the maximum value when the current item is not taken
+                
                 notTaken = 0 + dp[i - 1][j]
-    
-                # Initialize a variable to store the maximum value when the current item is taken
                 taken = -sys.maxsize
+
                 if wt[i] <= j:
                     taken = val[i] + dp[i][j - wt[i]]
     
-                # Store the maximum of "notTaken" and "taken" in the DP table
                 dp[i][j] = max(notTaken, taken)
     
-        # The maximum value for the entire knapsack is at dp[n-1][W]
         return dp[n - 1][W]
 
 DP I:

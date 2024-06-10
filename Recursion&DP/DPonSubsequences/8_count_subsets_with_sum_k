@@ -24,8 +24,7 @@ Output:
 Explanation: 
 {2, 1, 4, 3}, {5, 1, 4}, {2, 5, 3} are possible subsets.
 
-# DP II
-
+# DP II Approach I:
 class Solution:
 	def perfectSum(self, arr, n, target_sum):
 	    MOD = 10**9 + 7
@@ -41,7 +40,7 @@ class Solution:
                     dp[i][j] = (dp[i][j] + dp[i-1][j-arr[i-1]]) % MOD
 
         return dp[n][target_sum]
-
+# DP II Approach II:
 class Solution:
     def perfectSum(self, num, n, k):
         MOD=10**9 +7
@@ -59,6 +58,7 @@ class Solution:
 
         return dp[n][k]
 
+# DP II Approach III:
 class Solution:
 	def perfectSum(self, num, n, k):
         dp = [[0 for i in range(k + 1)] for j in range(n)]
@@ -84,3 +84,42 @@ class Solution:
                 dp[ind][target] = (notTaken + taken )% (10**9 +7)
                 
         return dp[n-1][k]% (10**9 +7)
+
+DP I:
+
+class Solution:
+     def perfectSum(self, num, n, k):
+	    
+        def f(index, target):
+            nonlocal dp  # Define dp as non-local variable
+            if target < 0:
+                return 0
+            if index == 0:
+                if target == 0 and arr[0] == 0:
+                    return 2
+                if target == 0 or target == arr[0]:
+                    return 1
+                return 0
+            
+    
+            # If the subproblem has already been solved, return the result from the memoization table
+            if dp[index][target] != -1:
+                return dp[index][target]
+    
+            # If the current element is not taken
+            not_taken = f(index - 1, target)
+            # If the current element is taken
+            taken = 0
+            if num[index] <= target:
+                taken = f(index - 1, target - num[index])
+    
+            # Save the result in dp and return
+            dp[index][target] = (not_taken + taken) % MOD
+            return dp[index][target]
+    
+    
+        MOD = 10**9 + 7
+    
+        # Initialize a 2D DP array with -1 to indicate uncomputed subproblems
+        dp = [[-1 for _ in range(k + 1)] for _ in range(n)]
+        return f(n - 1, k)

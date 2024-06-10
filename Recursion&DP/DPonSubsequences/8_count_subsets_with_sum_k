@@ -42,3 +42,19 @@ class Solution:
 
         return dp[n][target_sum]
 
+class Solution:
+    def perfectSum(self, num, n, k):
+        MOD=10**9 +7
+        dp = [[0] * (k + 1) for _ in range(n+1)]
+        for i in range(n+1):
+            dp[i][0] = 1
+        
+        for ind in range(1, n+1):
+            for target in range(0, k + 1):
+                notTaken = dp[ind - 1][target]
+                taken = 0
+                if num[ind-1] <= target:
+                    taken = dp[ind - 1][target - num[ind-1]]
+                dp[ind][target] = ( notTaken + taken ) % MOD
+
+        return dp[n][k]

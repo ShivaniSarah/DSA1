@@ -1,2 +1,44 @@
 https://www.geeksforgeeks.org/problems/perfect-sum-problem5633/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=perfect-sum-problem
 
+Given an array arr of non-negative integers and an integer sum, the task is to count all subsets of the given array
+with a sum equal to a given sum.
+Note: Answer can be very large, so, output answer modulo 109+7.
+
+Example 1:
+Input: 
+N = 6
+arr = [5, 2, 3, 10, 6, 8]
+sum = 10
+Output: 
+3
+Explanation: 
+{5, 2, 3}, {2, 8}, {10} are possible subsets.
+
+Example 2:
+Input: 
+N = 5
+arr = [2, 5, 1, 4, 3]
+sum = 10
+Output: 
+3
+Explanation: 
+{2, 1, 4, 3}, {5, 1, 4}, {2, 5, 3} are possible subsets.
+
+# DP II
+
+class Solution:
+	def perfectSum(self, arr, n, target_sum):
+	    MOD = 10**9 + 7
+        dp = [[0 for _ in range(target_sum + 1)] for _ in range(n + 1)]
+    
+        for i in range(n + 1):
+            dp[i][0] = 1
+
+        for i in range(1, n + 1):
+            for j in range(target_sum + 1):
+                dp[i][j] = dp[i-1][j] % MOD
+                if arr[i-1] <= j:
+                    dp[i][j] = (dp[i][j] + dp[i-1][j-arr[i-1]]) % MOD
+
+        return dp[n][target_sum]
+

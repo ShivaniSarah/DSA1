@@ -26,3 +26,54 @@ Explanation:
 The maximum obtainable value is 
 24 by cutting the rod into 8 pieces 
 of length 1, i.e, 8*price[1]= 8*3 = 24. 
+
+# DP II
+
+
+
+# DP I
+
+class Solution:
+    def cutRod(self, price, N):
+        
+        def f(i,price,T,dp):
+            if T<=0:
+                return 0
+            if i==0:
+                dp[0][T]=price[0]*T
+                return dp[0][T]
+                
+            if dp[i][T]!=-1:
+                return dp[i][T]
+                
+            taken=0
+            if T>=(i+1):
+                taken= price[i]+f(i,price,T-(i+1),dp)
+            notTaken = 0 + f(i-1,price,T,dp)
+            
+            dp[i][T]=max(taken,notTaken)
+            return dp[i][T]
+            
+        n=len(price)
+        dp=[[-1]*(N+1) for _ in range(n)]
+        return f(n-1,price,N,dp)
+
+# Recursion
+
+class Solution:
+    def cutRod(self, price, N):
+        
+        def f(i,price,T):
+            if T<0:
+                return 0
+            if i==0:
+                return price[0]*T
+            taken=0
+            if T>=(i+1):
+                taken= price[i]+f(i,price,T-(i+1))
+            notTaken = 0 + f(i-1,price,T)
+            
+            return max(taken,notTaken)
+            
+        n=len(price)
+        return f(n-1,price,N)

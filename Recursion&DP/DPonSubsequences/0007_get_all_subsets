@@ -1,7 +1,7 @@
 class Solution(object):
-    def minimumDifference(self, nums):
+    def get_all_subsets(self, nums):
         
-        def subsetSumUtil(ind, arr,a):  
+        def f(ind, arr,a):  
             if ind <0:
                 return
                 
@@ -10,14 +10,14 @@ class Solution(object):
                 temp.append(i+[arr[ind]])
             a.extend(temp)
             a.append([arr[ind]])
-            subsetSumUtil(ind - 1, arr,a)
+            f(ind - 1, arr,a)
             
             return
 
-        def minSubsetSumDifference(arr):
+        def fn(arr):
             n = len(arr)
             a=[]
-            subsetSumUtil(n-1, arr, a)
+            f(n-1, arr, a)
             return a
             
-        return minSubsetSumDifference(nums)
+        return fn(nums)

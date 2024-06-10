@@ -58,3 +58,29 @@ class Solution:
                 dp[ind][target] = ( notTaken + taken ) % MOD
 
         return dp[n][k]
+
+class Solution:
+	def perfectSum(self, num, n, k):
+        dp = [[0 for i in range(k + 1)] for j in range(n)]
+
+        for i in range(n):
+            dp[i][0] = 1
+            
+        if num[0] == 0:
+                dp[0][0] = 2 # 2 cases - pick and not pick
+        else:
+                dp[0][0] = 1 # 1 case - not pick
+                
+        if num[0] != 0 and  num[0] <= k:
+            dp[0][num[0]] = 1
+    
+        for ind in range(1, n):
+            for target in range(0, k + 1):
+                notTaken = dp[ind - 1][target]
+                taken = 0
+                if num[ind] <= target:
+                    taken = dp[ind - 1][target - num[ind]]
+    
+                dp[ind][target] = (notTaken + taken )% (10**9 +7)
+                
+        return dp[n-1][k]% (10**9 +7)

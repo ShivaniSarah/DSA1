@@ -26,8 +26,8 @@ Explanation:
 
 # DP II Approach I:
 class Solution:
-	def perfectSum(self, arr, n, target_sum):
-	    MOD = 10**9 + 7
+    def perfectSum(self, arr, n, target_sum):
+	MOD = 10**9 + 7
         dp = [[0 for _ in range(target_sum + 1)] for _ in range(n + 1)]
     
         for i in range(n + 1):

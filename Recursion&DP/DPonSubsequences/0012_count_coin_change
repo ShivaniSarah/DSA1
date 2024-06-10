@@ -1,0 +1,80 @@
+https://leetcode.com/problems/coin-change-ii/description/
+
+You are given an integer array coins representing coins of different denominations and
+an integer amount representing a total amount of money.
+Return the number of combinations that make up that amount.
+If that amount of money cannot be made up by any combination of the coins, return 0.
+You may assume that you have an infinite number of each kind of coin.
+The answer is guaranteed to fit into a signed 32-bit integer.
+
+Example 1:
+Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+
+Example 2:
+Input: amount = 3, coins = [2]
+Output: 0
+Explanation: the amount of 3 cannot be made up just with coins of 2.
+
+Example 3:
+Input: amount = 10, coins = [10]
+Output: 1
+
+# DP II:
+
+class Solution(object):
+    def change(self, amount, coins):
+        T= amount
+        arr=coins
+        n=len(arr)
+        
+        dp = [[0 for j in range(T + 1)] for i in range(n)]
+        for i in range(T + 1):
+            if i % arr[0] == 0:
+                dp[0][i] = 1
+
+        for ind in range(1, n):
+            for target in range(T + 1):
+                notTaken = dp[ind - 1][target]
+                taken = 0
+                if arr[ind] <= target:
+                    taken = dp[ind][target - arr[ind]]
+                dp[ind][target] = notTaken + taken
+
+        return dp[n - 1][T]
+
+# DP I:
+
+class Solution(object):
+    def change(self, amount, coins):
+        def countWaysToMakeChangeUtil(arr, ind, T, dp):
+            if ind == 0:
+                return 1 if T % arr[0] == 0 else 0
+
+            if dp[ind][T] != -1:
+                return dp[ind][T]
+
+            not_taken = countWaysToMakeChangeUtil(arr, ind - 1, T, dp)
+
+            taken = 0
+            if arr[ind] <= T:
+                taken = countWaysToMakeChangeUtil(arr, ind, T - arr[ind], dp)
+
+            dp[ind][T] = not_taken + taken
+            return dp[ind][T]
+
+        def countWaysToMakeChange(arr, n, T):
+            dp = [[-1 for i in range(T + 1)] for j in range(n)]
+            return countWaysToMakeChangeUtil(arr, n - 1, T, dp)
+
+        arr=coins
+        target=amount
+        n=len(arr)
+        return countWaysToMakeChange(arr, n, target)
+
+

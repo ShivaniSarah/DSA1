@@ -14,7 +14,7 @@ Output: 1
 Explanation:
 There is only one possible partition of this array. Partition : {6, 4}, {5, 2}. The subset difference between subset sum is: (6 + 4) - (5 + 2) = 3.
 
-DP II:
+DP II Approach I:
 
 from typing import List
 class Solution:
@@ -51,7 +51,38 @@ class Solution:
         
         return findWays(arr, (totSum - d) // 2)
 
-# DP II:
+DP II Approach II:
+
+from typing import List
+class Solution:
+    def countPartitions(self, n : int, d : int, arr : List[int]) -> int:
+        MOD=10**9+7 # or int(1e9)
+        
+        def findWays(arr, target_sum):
+            
+            dp = [[0 for _ in range(target_sum + 1)] for _ in range(n + 1)]
+        
+            for i in range(n + 1):
+                dp[i][0] = 1
+    
+            for i in range(1, n + 1):
+                for j in range(target_sum + 1):
+                    dp[i][j] = dp[i-1][j] % MOD
+                    if arr[i-1] <= j:
+                        dp[i][j] = (dp[i][j] + dp[i-1][j-arr[i-1]]) % MOD
+    
+            return dp[n][target_sum]
+        
+        
+        totSum = sum(arr)
+    
+        if (totSum - d) < 0 or (totSum - d) % 2==1: # if d>totsum or totsum-d is not divisible by 2
+            return 0
+        
+        return findWays(arr, (totSum - d) // 2)
+        return dp[n][target_sum]
+
+# DP I:
 
 from typing import List
 class Solution:

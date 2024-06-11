@@ -35,3 +35,25 @@ class Solution:
                     dp[i][j] = 0
         
         return ans
+
+# DP I :
+
+class Solution:
+    def longestCommonSubstr(self, s1, s2, n, m):
+        def lcs(i, j, count):
+ 
+            if (i == 0 or j == 0):
+                return count
+         
+            if (s1[i - 1] == s2[j - 1]):
+                count = lcs(i - 1, j - 1, count + 1)
+         
+            count = max(count, max(lcs(i, j - 1, 0),
+                                   lcs(i - 1, j, 0)))
+         
+            return count
+            
+        n = len(s1)
+        m = len(s2)
+     
+        return lcs(n, m, 0)

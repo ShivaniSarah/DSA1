@@ -1,0 +1,37 @@
+https://www.geeksforgeeks.org/problems/longest-common-substring1452/1
+
+Given two strings. The task is to find the length of the longest common substring.
+
+Example 1:
+Input: S1 = "ABCDGH", S2 = "ACDGHR", n = 6, m = 6
+Output: 4
+Explanation: The longest common substring
+is "CDGH" which has length 4.
+
+Example 2:
+Input: S1 = "ABC", S2 "ACB", n = 3, m = 3
+Output: 1
+Explanation: The longest common substrings
+are "A", "B", "C" all having length 1.
+
+DP II:
+
+class Solution:
+    def longestCommonSubstr(self, s1, s2, n, m):
+        n = len(s1)
+        m = len(s2)
+        
+        dp = [[0] * (m + 1) for _ in range(n + 1)]
+    
+        ans = 0
+        
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                if s1[i - 1] == s2[j - 1]:
+                    val = 1 + dp[i - 1][j - 1]
+                    dp[i][j] = val
+                    ans = max(ans, val)
+                else:
+                    dp[i][j] = 0
+        
+        return ans

@@ -1,0 +1,82 @@
+https://leetcode.com/problems/distinct-subsequences/description/
+
+Given two strings s and t, return the number of distinct subsequences of s which equals t.
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+Example 1:
+Input: s = "rabbbit", t = "rabbit"
+Output: 3
+Explanation:
+As shown below, there are 3 ways you can generate "rabbit" from s.
+rabbbit
+rabbbit
+rabbbit
+
+Example 2:
+Input: s = "babgbag", t = "bag"
+Output: 5
+Explanation:
+As shown below, there are 5 ways you can generate "bag" from s.
+babgbag
+babgbag
+babgbag
+babgbag
+babgbag
+
+# DP II:
+
+class Solution(object):
+    def numDistinct(self, s1, s2):
+
+        n=len(s1)
+        m=len(s2)
+
+        dp = [[0 for i in range(m + 1)] for j in range(n + 1)]
+
+        # Base case: There is exactly one subsequence of an empty string s2 in s1
+        for i in range(n + 1):
+            dp[i][0] = 1
+
+        # Initialize dp[0][i] to 0 for i > 0 since an empty s1 cannot have a non-empty subsequence of s2
+        for i in range(1, m + 1):
+            dp[0][i] = 0
+
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                # 1. Include the current character in both s1 and s2 (dp[i-1][j-1])
+                # 2. Skip the current character in s1 (dp[i-1][j])
+                dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j])  if s1[i - 1] == s2[j - 1] else dp[i - 1][j]
+
+        return dp[n][m]
+
+# DP I:
+
+class Solution(object):
+    def numDistinct(self, s, t):
+        def countUtil(s1, s2, ind1, ind2, dp):
+            # If we have exhausted s2, we found a valid subsequence
+            if ind2 < 0:
+                return 1
+            # If we have exhausted s1, but not s2, no valid subsequence found
+            if ind1 < 0:
+                return 0
+        
+            if dp[ind1][ind2] != -1:
+                return dp[ind1][ind2]
+            
+            # If the current characters match, we can either choose to leave one character
+            # or stay with the current character in s1
+            if s1[ind1] == s2[ind2]:
+                leaveOne = countUtil(s1, s2, ind1 - 1, ind2 - 1, dp)
+                stay = countUtil(s1, s2, ind1 - 1, ind2, dp)
+                
+                dp[ind1][ind2] = (leaveOne + stay) 
+                return dp[ind1][ind2]
+            else:
+                # If the characters don't match, we can only skip the character in s1
+                dp[ind1][ind2] = countUtil(s1, s2, ind1 - 1, ind2, dp)
+                return dp[ind1][ind2]
+        ls=len(s)
+        lt=len(t)
+        dp = [[-1 for j in range(lt)] for i in range(ls)]
+        return countUtil(s, t, ls-1, lt-1, dp)

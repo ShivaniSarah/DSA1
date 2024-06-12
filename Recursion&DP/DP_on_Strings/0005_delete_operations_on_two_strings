@@ -1,0 +1,43 @@
+https://leetcode.com/problems/delete-operation-for-two-strings/description/
+
+Given two strings word1 and word2, return the minimum number of steps required to make word1 and word2 the same.
+In one step, you can delete exactly one character in either string.
+
+Example 1:
+Input: word1 = "sea", word2 = "eat"
+Output: 2
+Explanation: You need one step to make "sea" to "ea" and another step to make "eat" to "ea".
+
+Example 2:
+Input: word1 = "leetcode", word2 = "etco"
+Output: 4
+
+class Solution(object):
+    def minDistance(self, word1, word2):
+        def lcs(s1, s2):
+            n = len(s1)
+            m = len(s2)
+
+            # Initialize a 2D array to store the length of the LCS
+            dp = [[-1] * (m + 1) for i in range(n + 1)]
+
+            # Initialize the first row and first column with 0
+            for i in range(n + 1):
+                dp[i][0] = 0
+            for i in range(m + 1):
+                dp[0][i] = 0
+
+            # Fill in the dp array using dynamic programming
+            for ind1 in range(1, n + 1):
+                for ind2 in range(1, m + 1):
+                    if s1[ind1 - 1] == s2[ind2 - 1]:
+                        dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1]
+                    else:
+                        dp[ind1][ind2] = max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1])
+
+            # The final value in dp will be the length of the LCS
+            return dp[n][m]
+
+        com = lcs(word1,word2)
+
+        return len(word1)-com + len(word2)-com

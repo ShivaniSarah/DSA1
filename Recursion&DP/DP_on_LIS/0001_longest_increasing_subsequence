@@ -42,9 +42,11 @@ class Solution(object):
                 take = 1 + f(arr, n, ind + 1, ind, dp)
 
             dp[ind][prev_index + 1] = max(not_take, take)
+
             return dp[ind][prev_index + 1]
 
         n = len(nums)
+
         dp = [[-1 for _ in range(n + 1)] for _ in range(n)]
 
         return f(nums, n, 0, -1, dp)

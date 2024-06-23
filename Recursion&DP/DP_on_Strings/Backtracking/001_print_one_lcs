@@ -64,7 +64,7 @@ def lcs_recursive(s1, s2):
     def lcs_length(x, y, dp):
         if x == 0 or y == 0:
             return 0
-        if dp[x][y] is not None:
+        if dp[x][y] !=-1:
             return dp[x][y]
         if s1[x - 1] == s2[y - 1]:
             dp[x][y] = 1 + lcs_length(x - 1, y - 1, dp)
@@ -84,7 +84,7 @@ def lcs_recursive(s1, s2):
 
     n = len(s1)
     m = len(s2)
-    dp = [[None for _ in range(m + 1)] for _ in range(n + 1)]
+    dp = [[-1 for _ in range(m + 1)] for _ in range(n + 1)]
     lcs_length(n, m, dp)
     lcs_str = backtrack(n, m, dp)
     

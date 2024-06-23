@@ -11,6 +11,8 @@ Example 2:
 Input: s = aaa, t = a
 Output: a
 
+Backtracking I:
+
 def lcs(s1, s2):
     n = len(s1)
     m = len(s2)
@@ -54,3 +56,41 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+Recursive Backtracking:
+
+def lcs_recursive(s1, s2):
+    def lcs_length(x, y, dp):
+        if x == 0 or y == 0:
+            return 0
+        if dp[x][y] is not None:
+            return dp[x][y]
+        if s1[x - 1] == s2[y - 1]:
+            dp[x][y] = 1 + lcs_length(x - 1, y - 1, dp)
+        else:
+            dp[x][y] = max(lcs_length(x - 1, y, dp), lcs_length(x, y - 1, dp))
+        return dp[x][y]
+
+    def backtrack(x, y, dp):
+        if x == 0 or y == 0:
+            return ""
+        if s1[x - 1] == s2[y - 1]:
+            return backtrack(x - 1, y - 1, dp) + s1[x - 1]
+        if dp[x - 1][y] > dp[x][y - 1]:
+            return backtrack(x - 1, y, dp)
+        else:
+            return backtrack(x, y - 1, dp)
+
+    n = len(s1)
+    m = len(s2)
+    dp = [[None for _ in range(m + 1)] for _ in range(n + 1)]
+    lcs_length(n, m, dp)
+    lcs_str = backtrack(n, m, dp)
+    
+    print("The Longest Common Subsequence is", lcs_str)
+
+# Example usage
+s1 = "ABCBDAB"
+s2 = "BDCAB"
+lcs_recursive(s1, s2)

@@ -9,10 +9,6 @@
 
 class Solution(object):
     def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
 
         def f(n,nums):
             if n==0:
@@ -30,10 +26,6 @@ class Solution(object):
 
 class Solution(object):
     def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
 
         def f(n,nums,dp):
             if n==0:
@@ -61,10 +53,6 @@ class Solution(object):
 
   class Solution(object):
     def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
 
         dp = [-1 for i in range(len(nums))]
         n=len(nums)

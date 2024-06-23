@@ -77,7 +77,28 @@ if __name__ == '__main__':
     main()
 
 
+App II: efficient
 
+class Solution:
+    def solve(self, n, m, grid):
+        dp=[[[-1]*m for i in range(m)] for j in range(n)]
+        dp[0][0][m-1]=grid[0][0]+grid[0][-1]
+        for i in range(n-1):
+            for j in range(m):
+                for k in range(j,m):
+                    if dp[i][j][k]==-1:
+                        continue
+                    for x in range(j-1,j+2):
+                        if not 0<=x<m:
+                            continue
+                        for y in range(k-1,k+2):
+                            if not 0<=y<m : 
+                                continue
+                            if x==y:
+                                dp[i+1][x][y]=max(dp[i+1][x][y],grid[i+1][x]+dp[i][j][k])
+                            else:
+                                dp[i+1][x][y]=max(dp[i+1][x][y],grid[i+1][x]+grid[i+1][y]+dp[i][j][k])
+        return max([max(dp[-1][i]) for i in range(m)])
 
 
 

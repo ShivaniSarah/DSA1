@@ -33,8 +33,6 @@ def lcs(s1, s2):
     j = m
       
     str_ = ""
-    for k in range(1,1+len_):
-      str_+="$" #dummy string
     
     while i > 0 and j > 0:
         if s1[i - 1] == s2[j - 1]:

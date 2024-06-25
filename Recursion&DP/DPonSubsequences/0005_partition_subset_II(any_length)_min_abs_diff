@@ -182,3 +182,54 @@ Input: nums = [2,-1,0,4,-2,-9]
 Output: 0
 Explanation: One optimal partition is: [2,4,-9] and [-1,0,-2].
 The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0.
+
+# Using Binary Search
+
+from itertools import combinations
+from bisect import bisect_left
+
+class Solution:
+    def minimumDifference(self, nums):
+        n = len(nums) // 2
+        sum_nums = sum(nums)
+        target = sum_nums // 2
+        
+        def get_subset_sums(arr):
+            n = len(arr)
+            subset_sums = []
+            for i in range(n+1):
+                sums = set()
+                for comb in combinations(arr, i):
+                    sums.add(sum(comb))
+                subset_sums.append(sums)
+            return subset_sums
+        
+        first_half = nums[:n]
+        second_half = nums[n:]
+        
+        first_half_sums = get_subset_sums(first_half)
+        second_half_sums = get_subset_sums(second_half)
+        
+        min_diff = float('inf')
+        
+        for i in range(n+1):
+            first_list = list(first_half_sums[i])
+            second_list = sorted(list(second_half_sums[n-i]))
+            
+            for s1 in first_list:
+                pos = bisect_left(second_list, target - s1)
+                
+                if pos < len(second_list):
+                    s2 = second_list[pos]
+                    total_sum1 = s1 + s2
+                    total_sum2 = sum_nums - total_sum1
+                    min_diff = min(min_diff, abs(total_sum1 - total_sum2))
+                
+                if pos > 0:
+                    s2 = second_list[pos - 1]
+                    total_sum1 = s1 + s2
+                    total_sum2 = sum_nums - total_sum1
+                    min_diff = min(min_diff, abs(total_sum1 - total_sum2))
+        
+        return min_diff
+

@@ -15,7 +15,7 @@ Example 3:
 Input: nums = [7,7,7,7,7,7,7]
 Output: 1
 
-My Approach:
+My Approach I:
 
 class Solution(object):
     def lengthOfLIS(self, arr):
@@ -37,6 +37,32 @@ class Solution(object):
                 dp[ind][prev_index+1] = max(not_take, take)
                 maxi=max(maxi,dp[ind][prev_index+1])
 
+        return maxi
+
+# My Approach II:
+
+class Solution(object):
+    def lengthOfLIS(self, arr):
+        n= len(arr)
+        dp = []
+        
+        maxi=1
+        for ind in range(n):
+            cur=cur = [1]
+            for prev_index in range(ind):
+
+                not_take = cur[-1]
+
+                take = 0
+                
+                if arr[ind] > arr[prev_index]:
+                    take = 1 + dp[prev_index]
+
+                cur.append(max(not_take, take))
+                maxi=max(maxi,cur[prev_index+1])
+
+            dp.append(cur[-1])
+            
         return maxi
 
 # DP III:

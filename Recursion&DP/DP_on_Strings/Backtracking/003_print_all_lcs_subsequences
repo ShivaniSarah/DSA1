@@ -39,3 +39,7 @@ def all_longest_common_subsequences(self, s, t):
         all_lcs = sorted(set(backtrack(m, n)))
         
         return all_lcs
+
+Approach II:
+
+using binary search lower bound

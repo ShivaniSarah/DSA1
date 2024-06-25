@@ -1,0 +1,29 @@
+https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/description/
+
+Given an array nums, return true if the array was originally sorted in non-decreasing order, 
+then rotated some number of positions (including zero). Otherwise, return false.
+There may be duplicates in the original array.
+Note: An array A rotated by x positions results in an array B of the same length such that A[i] == B[(i+x) % A.length],
+where % is the modulo operation.
+
+class Solution(object):
+    def check(self, nums):
+        
+        n=len(nums)
+        count_rotations = 0
+        for i in range(n):
+            if nums[i] > nums[(i + 1) %n ]:
+                count_rotations += 1
+        # Check if the array is rotated sorted
+        return count_rotations <= 1
+
+class Solution(object):
+    def check(self, nums):
+        
+        n=len(nums)
+        count_rotations = 0
+        for i in range(n-1,-1,-1):
+            if nums[i] < nums[(i - 1 + n) %n ]:
+                count_rotations += 1
+        # Check if the array is rotated sorted
+        return count_rotations <= 1

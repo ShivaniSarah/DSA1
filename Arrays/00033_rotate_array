@@ -1,0 +1,54 @@
+https://leetcode.com/problems/rotate-array/submissions/1300153290/
+
+Left Rotate:
+
+class Solution(object):
+    
+    def left_rotate(self, arr, k):
+        def reverse(arr, start, end):
+            while start < end:
+                arr[start], arr[end] = arr[end], arr[start]
+                start += 1
+                end -= 1
+
+        n = len(arr)
+        d = k % n  # To handle case when d >= n
+        
+        # Reverse the first d elements
+        reverse(arr, 0, d - 1)
+        # Reverse the remaining elements
+        reverse(arr, d, n - 1)
+        # Reverse the whole array
+        reverse(arr, 0, n - 1)
+
+Right Rotate:
+
+class Solution(object):  
+    def rotate(self, arr, k):
+        def reverse(arr, start, end):
+            while start < end:
+                arr[start], arr[end] = arr[end], arr[start]
+                start += 1
+                end -= 1
+
+        n = len(arr)
+        d = k % n  # To handle case when d >= n
+        
+        # Reverse the first d elements
+        reverse(arr, n-d, n-1)
+        # Reverse the remaining elements
+        reverse(arr, 0, n - d-1)
+        # Reverse the whole array
+        reverse(arr, 0, n - 1)
+
+import copy
+class Solution(object):
+    def right_rotate(self, nums, k):
+        n=len(nums)
+        k=k%n
+        num = copy.copy(nums)
+        for i in range(0,k):
+            nums[i]=nums[n+i-k]
+        for i in range(k,n):
+            nums[i]=num[i-k]
+        

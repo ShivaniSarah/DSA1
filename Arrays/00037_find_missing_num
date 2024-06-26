@@ -1,0 +1,94 @@
+https://leetcode.com/problems/missing-number/
+
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+Example 1:
+
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+Example 2:
+
+Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+Example 3:
+
+Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8
+Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+# Brute:
+
+class Solution(object):
+    def missingNumber(self, a):
+        N=len(a)
+        # Outer loop that runs from 1 to N:
+        for i in range(N+1):
+            # flag variable to check if an element exists
+            flag = 0
+
+            # Search the element using linear search:
+            for j in range(N):
+                if a[j] == i:
+                    # i is present in the array:
+                    flag = 1
+                    break
+
+            # check if the element is missing (i.e., flag == 0):
+            if flag == 0:
+                return i
+
+        # The following line will never execute.
+        # It is just to avoid warnings.
+        return -1
+
+# Better I
+
+class Solution(object):
+    def missingNumber(self, a):
+        N=len(a)
+        hash = [0] * (N + 1)  # hash array
+        # storing the frequencies:
+        for i in range(N ):
+            hash[a[i]] += 1
+
+        # checking the frequencies for numbers 1 to N:
+        for i in range(N + 1):
+            if hash[i] == 0:
+                return i
+
+        # The following line will never execute.
+        # It is just to avoid warnings.
+        return -1
+
+# Better II:
+
+class Solution(object):
+    def missingNumber(self, a):
+        N=len(a)
+        # Summation of first N numbers:
+        summation = (N * (N + 1)) // 2
+
+        # Summation of all array elements:
+        s2 = sum(a)
+
+        missingNum = summation - s2
+        return missingNum
+
+# Optimal:
+
+class Solution(object):
+    def missingNumber(self, a):
+        N=len(a)
+        xor1 = 0
+        xor2 = 0
+
+        for i in range(N):
+            xor2 = xor2 ^ a[i]  # XOR of array elements
+            xor1 = xor1 ^ (i)  # XOR up to [1...N-1]
+        
+        xor1 = xor1 ^ N  # XOR up to [1...N]
+
+        return xor1 ^ xor2  # the missing number
+

@@ -1,0 +1,65 @@
+https://leetcode.com/problems/move-zeroes/description/
+
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+Example 2:
+Input: nums = [0]
+Output: [0]
+
+Brute:
+
+class Solution(object):
+
+    def moveZeroes(self,a):
+        
+        temp = []
+        n=len(a)
+        # Copy non-zero elements from original to temp array
+        for i in range(n):
+            if a[i] != 0:
+                temp.append(a[i])
+        
+        # Number of non-zero elements
+        nz = len(temp)
+        
+        # Copy elements from temp to fill first nz fields of original array
+        for i in range(nz):
+            a[i] = temp[i]
+        
+        # Fill the rest of the cells with 0
+        for i in range(nz, n):
+            a[i] = 0
+        
+        return a
+
+# Optimal
+
+class Solution(object):
+    def moveZeroes(self,a):
+        
+        j = -1
+        n=len(a)
+        # Place the pointer j
+        for i in range(n):
+            if a[i] == 0:
+                j = i
+                break
+        
+        # No non-zero elements
+        if j == -1:
+            return a
+        
+        # Move the pointers i and j and swap accordingly
+        for i in range(j + 1, n):
+            if a[i] != 0:
+                a[i], a[j] = a[j], a[i]
+                j += 1
+        
+        return a
+            
+        

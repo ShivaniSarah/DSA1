@@ -1,0 +1,190 @@
+https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=union-of-two-sorted-arrays
+
+Given two sorted arrays of size n and m respectively, find their union. The Union of two arrays can be defined as the common and distinct elements in the two arrays. Return the elements in sorted order.
+
+Example 1:
+Input: 
+n = 5, arr1[] = {1, 2, 3, 4, 5}  
+m = 5, arr2 [] = {1, 2, 3, 6, 7}
+Output: 
+1 2 3 4 5 6 7
+Explanation: 
+Distinct elements including both the arrays are: 1 2 3 4 5 6 7.
+
+Example 2:
+Input: 
+n = 5, arr1[] = {2, 2, 3, 4, 5}  
+m = 5, arr2[] = {1, 1, 2, 3, 4}
+Output: 
+1 2 3 4 5
+Explanation: 
+Distinct elements including both the arrays are: 1 2 3 4 5.
+
+Example 3:
+Input:
+n = 5, arr1[] = {1, 1, 1, 1, 1}
+m = 5, arr2[] = {2, 2, 2, 2, 2}
+Output: 
+1 2
+Explanation: 
+Distinct elements including both the arrays are: 1 2.
+
+———————————————————————————————————————————————————————--------------------------------------------------------------------------------
+
+#Python
+
+# Brute:
+
+class Solution:
+    
+    def findUnion(self,arr1,arr2,n,m):
+        freq = {}
+        union = []
+        
+        for num in arr1:
+            freq[num] = freq.get(num, 0) + 1
+        
+        for num in arr2:
+            freq[num] = freq.get(num, 0) + 1
+        
+        for num in freq:
+            union.append(num)
+        
+        return sorted(union)
+
+# Better
+
+class Solution:
+    
+    def findUnion(self,arr1,arr2,n,m):
+        s = set()
+        union = []
+        
+        for num in arr1:
+            s.add(num)
+        
+        for num in arr2:
+            s.add(num)
+        
+        for num in s:
+            union.append(num)
+        
+        return sorted(union)
+
+# Optimal
+
+class Solution:
+    
+    def findUnion(self,arr1,arr2,n,m):
+        i, j = 0, 0  # Pointers
+        union = []  # Union list
+    
+        while i < len(arr1) and j < len(arr2):
+            if arr1[i] <= arr2[j]:  # Case 1 and 2
+                if len(union) == 0 or union[-1] != arr1[i]:
+                    union.append(arr1[i])
+                i += 1
+            else:  # Case 3
+                if len(union) == 0 or union[-1] != arr2[j]:
+                    union.append(arr2[j])
+                j += 1
+    
+        while i < len(arr1):  # If any elements left in arr1
+            if union[-1] != arr1[i]:
+                union.append(arr1[i])
+            i += 1
+    
+        while j < len(arr2):  # If any elements left in arr2
+            if union[-1] != arr2[j]:
+                union.append(arr2[j])
+            j += 1
+    
+        return union
+————————————————————————————————————————————————————————------------------------------------------------------------------------
+# Java
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+# Brute:
+
+class Solution
+{
+    public static ArrayList<Integer> findUnion(int arr1[], int arr2[], int n, int m)
+    {
+      HashMap <Integer,Integer > freq=new HashMap<>();
+      ArrayList<Integer> Union=new ArrayList<>();
+      for (int i = 0; i < n; i++)
+        freq.put(arr1[i],freq.getOrDefault(arr1[i],0)+1);
+        
+      for (int i = 0; i < m; i++)
+        freq.put(arr2[i],freq.getOrDefault(arr2[i],0)+1);
+      for (int it: freq.keySet())
+        Union.add(it);
+      Collections.sort(Union);
+      return Union;
+    
+    }
+}
+
+# Better
+
+class Solution
+{
+    public static ArrayList<Integer> findUnion(int arr1[], int arr2[], int n, int m)
+    {
+      HashSet <Integer> s=new HashSet<>();
+      ArrayList < Integer > Union=new ArrayList<>();
+      for (int i = 0; i < n; i++)
+        s.add(arr1[i]);
+      for (int i = 0; i < m; i++)
+        s.add(arr2[i]);
+      for (int it: s)
+        Union.add(it);
+      Collections.sort(Union);
+      return Union;
+    
+    }
+}
+
+# Optimal
+
+class Solution
+{
+    public static ArrayList<Integer> findUnion(int arr1[], int arr2[], int n, int m)
+    {
+        int i = 0, j = 0; // pointers
+        ArrayList<Integer > Union=new ArrayList<>(); // Uninon vector
+        while (i < n && j < m) {
+        if (arr1[i] <= arr2[j]) // Case 1 and 2
+            {
+                if (Union.size() == 0 || Union.get(Union.size()-1) != arr1[i])
+                    Union.add(arr1[i]);
+                i++;
+            } 
+        else // case 3
+            {
+                if (Union.size() == 0 || Union.get(Union.size()-1) != arr2[j])
+                     Union.add(arr2[j]);
+                j++;
+            }
+        }
+        
+        while (i < n) // IF any element left in arr1
+          {
+            if (Union.get(Union.size()-1) != arr1[i])
+              Union.add(arr1[i]);
+            i++;
+          }
+      while (j < m) // If any elements left in arr2
+      {
+        if (Union.get(Union.size()-1) != arr2[j])
+          Union.add(arr2[j]);
+        j++;
+      }
+    return Union;
+    
+    }
+}
+

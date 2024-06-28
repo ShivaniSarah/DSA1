@@ -28,4 +28,4 @@ Knapsack Problems 3 types:
 2. DP - 0 1 knapsack 
 3. DP - Unbounded Knapsack
    
-From 27 June 2024, coding in java
+From 27 June 2024, coding in java, array 38

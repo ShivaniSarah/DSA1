@@ -34,7 +34,7 @@ Explanation: No common elements.
 class Solution:
     def printIntersection(self,arr1, arr2, n, m):
         freq = {}
-        union = []
+        inters = []
         
         for num in arr1:
             freq[num] = 1
@@ -45,10 +45,26 @@ class Solution:
         
         for k,v in freq.items():
             if v==2:
-                union.append(k)
+                inters.append(k)
         
-        return sorted(union)
+        return sorted(inters)
 
 # Better
+
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        s = set()
+        inters = set()
+        
+        for num in arr1:
+            s.add(num)
+        
+        for num in arr2:
+            if num in s :
+                inters.add(num)
+        
+        return sorted(inters)
+
+# Optimal
 
 

@@ -31,3 +31,24 @@ Explanation: No common elements.
 
 # Brute:
 
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        freq = {}
+        union = []
+        
+        for num in arr1:
+            freq[num] = 1
+        
+        for num in arr2:
+            if freq.get(num, 0)==1 :
+                freq[num] = 2
+        
+        for k,v in freq.items():
+            if v==2:
+                union.append(k)
+        
+        return sorted(union)
+
+# Better
+
+

@@ -27,6 +27,7 @@ M = 2, arr2[] = {3, 4}
 Output: -1
 Explanation: No common elements.
 
+———————————————————————————————————————————————————————--------------------------------------------------------------------------------
 # python
 
 # Brute:
@@ -66,5 +67,34 @@ class Solution:
         return sorted(inters)
 
 # Optimal
+
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        i, j = 0, 0  # Pointers
+        inters = []  # Intersection list
+    
+        while i < len(arr1) and j < len(arr2):
+            if arr1[i] == arr2[j]:  # Case 1
+                if len(inters) == 0 or inters[-1] != arr1[i]:
+                    inters.append(arr1[i])
+                i += 1
+                j += 1
+            else:  # Case 2 and 3
+                if arr1[i]<arr2[j]:
+                    i+=1
+                else:
+                    j += 1
+    
+        return inters
+
+———————————————————————————————————————————————————————--------------------------------------------------------------------------------
+
+# Java
+
+# Brute
+
+# Better
+
+# optimal
 
 

@@ -15,6 +15,91 @@ Example 3:
 Input: nums = [1]
 Output: 1
 
+--------------------------------------------------------------------------------------------------------------
+#Python
+
+# Brute:
+
+class Solution:
+    def singleNumber(self, arr: List[int]) -> int:
+        n = len(arr)
+
+        for i in range(n):
+            num = arr[i]  # selected element
+            cnt = 0
+
+            # Find the occurrence using linear search:
+            for j in range(n):
+                if arr[j] == num:
+                    cnt += 1
+
+            # If the occurrence is 1, return the number:
+            if cnt == 1:
+                return num
+
+        # This line will never execute
+        # if the array contains a single element.
+        return -1
+
+# Better:
+
+class Solution:
+    def singleNumber(self, arr: List[int]) -> int:
+        n = len(arr)
+
+        # Declare the hashmap.
+        # And hash the given array:
+        hashmap = {}
+        for num in arr:
+            hashmap[num] = hashmap.get(num, 0) + 1
+
+        # Find the single element and return the answer:
+        for num, count in hashmap.items():
+            if count == 1:
+                return num
+
+        # This line will never execute
+        # if the array contains a single element.
+        return -1
+
+# Only for positive numbers:
+
+def getSingleElement(arr):
+    # Size of the array:
+    n = len(arr)
+
+    # Find the maximum element:
+    maxi = max(arr)
+
+    # Declare hash array of size maxi+1
+    # And hash the given array:
+    hash = [0] * (maxi + 1)
+    for num in arr:
+        hash[num] += 1
+
+    # Find the single element and return the answer:
+    for num in arr:
+        if hash[num] == 1:
+            return num
+
+    # This line will never execute
+    # if the array contains a single element.
+    return -1
+
+# Optimal
+
+class Solution:
+    def singleNumber(self, arr: List[int]) -> int:
+       # XOR all the elements:
+        xorr = 0
+        for num in arr:
+            xorr ^= num
+        return xorr
+
+
+--------------------------------------------------------------------------------------------------------------
+#Java
+
 # Brute:
 
 class Solution {

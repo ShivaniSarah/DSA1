@@ -93,7 +93,67 @@ class Solution:
 
 # Brute
 
+class Solution
+{
+    static ArrayList<Integer> printIntersection(int arr1[], int arr2[], int n, int m) 
+    {
+        Map<Integer, Integer> freq = new HashMap<>();
+        ArrayList<Integer> inters = new ArrayList<>();
+
+        // Storing frequency of elements from arr1
+        for (int num : arr1) {
+            freq.put(num, 1);
+        }
+
+        // Updating frequency of elements from arr2 if they are already in the map
+        for (int num : arr2) {
+            if (freq.containsKey(num) && freq.get(num) == 1) {
+                freq.put(num, 2);
+            }
+        }
+
+        // Collecting elements that are present in both arrays
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            if (entry.getValue() == 2) {
+                inters.add(entry.getKey());
+            }
+        }
+
+        // Sorting the intersection list
+        Collections.sort(inters);
+        return inters;
+    }
+
+}
+
 # Better
+
+class Solution
+{
+    static ArrayList<Integer> printIntersection(int arr1[], int arr2[], int n, int m) 
+    {
+         Set<Integer> s = new HashSet<>();
+        Set<Integer> inters = new HashSet<>();
+        
+        // Adding elements of arr1 to the set
+        for (int num : arr1) {
+            s.add(num);
+        }
+        
+        // Checking elements of arr2 in the set
+        for (int num : arr2) {
+            if (s.contains(num)) {
+                inters.add(num);
+            }
+        }
+        
+        // Converting the set to a sorted list
+        ArrayList<Integer> intersList = new ArrayList<>(inters);
+        Collections.sort(intersList);
+        return intersList;
+    }
+
+}
 
 # optimal
 

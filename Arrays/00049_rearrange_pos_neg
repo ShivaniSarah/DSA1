@@ -47,7 +47,7 @@ class Solution:
     
         return A
 
-# better
+# better -> 2 pointers approach
 
 class Solution:
     def rearrangeArray(self, nums: List[int]) -> List[int]:

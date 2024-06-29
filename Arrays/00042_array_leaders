@@ -1,0 +1,65 @@
+https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=leaders-in-an-array
+
+Given an array arr of n positive integers, your task is to find all the leaders in the array. 
+An element of the array is considered a leader if it is greater than all the elements on its right side or 
+if it is equal to the maximum element on its right side. 
+The rightmost element is always a leader.
+
+Example 1:
+Input: n = 6, arr[] = {16,17,4,3,5,2}
+Output: 17 5 2
+Explanation: Note that there is nothing greater on the right side of 17, 5 and, 2.
+
+Example 2:
+Input: n = 5, arr[] = {10,4,2,4,1}
+Output: 10 4 4 1
+Explanation: Note that both of the 4s are in output, as to be a leader an equal element is also allowed on the right. side
+
+Example 3:
+Input: n = 4, arr[] = {5, 10, 20, 40} 
+Output: 40
+Explanation: When an array is sorted in increasing order, only the rightmost element is leader.
+
+Example 4:
+Input: n = 4, arr[] = {30, 10, 10, 5} 
+Output: 30 10 10 5
+Explanation: When an array is sorted in non-increasing order, all elements are leaders.
+
+# Python
+
+# Brute
+
+class Solution:
+    def leaders(self,n, arr):
+        ans = []
+  
+        for i in range(n):
+            leader = True
+            for j in range(i+1, n): #Checking whether arr[i] is greater than all the elements in its right side
+                if arr[j] > arr[i]:
+                    leader = False
+   
+            if leader:
+                ans.append(arr[i])
+    
+        return ans
+
+# Optimal
+
+class Solution:
+    def leaders(self,n, arr):
+        ans = []
+        max_elem = arr[n - 1]
+        ans.append(arr[n - 1])
+        # print(ans)
+        # Start checking from the end whether a number is greater than max no. from right, hence leader.
+        for i in range(n - 2, -1, -1):
+            if arr[i] >= max_elem:
+                ans.append(arr[i])
+                max_elem = arr[i]
+    
+        return reversed(ans)
+
+
+
+

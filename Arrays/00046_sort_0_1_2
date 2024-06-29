@@ -46,7 +46,7 @@ class Solution:
         for i in range(cnt0 + cnt1, len(arr)):
             arr[i] = 2
 
-# optimal
+# optimal - 3 pointers approach
 
 class Solution:
     def sortColors(self, arr: List[int]) -> None:

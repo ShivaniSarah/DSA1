@@ -10,6 +10,7 @@ for i : 1-> v
      }
 }
 
+———————————————————————————————————————————————————————--------------------------------------------------------------------------------
 
 class Solution {
 
@@ -27,7 +28,7 @@ class Solution {
 
     public int findCircleNum(int[][] adj) {
         int V= adj.length;
-        ArrayList<ArrayList<Integer>> adjLs = new ArrayList<ArrayList<Integer>>(); 
+        ArrayList<ArrayList<Integer>> adjLs = new ArrayList<ArrayList<Integer>>();  // ArrayList is dynamic list
         for(int i = 0;i<V;i++) {
             adjLs.add(new ArrayList<Integer>()); 
         }

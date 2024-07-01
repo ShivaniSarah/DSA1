@@ -92,3 +92,70 @@ class Solution(object):
 
         return xor1 ^ xor2  # the missing number
 
+
+Other trials:
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        k=0
+        flag=False
+        for i in range(len(nums)):
+            if nums[i]!=i:
+                k=i
+                flag=True
+                break
+            # else:
+            #     k=len(nums)
+        return k if flag else len(nums)
+
+#Soln 2 my soln
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        k=0
+        for i in range(len(nums)):
+            if nums[i]!=i:
+                k=i
+                break
+            else:
+                k=len(nums)
+        return k
+
+#soln 3 (optimal1)
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        k=0
+        flag =False
+        for i in range(len(nums)):
+            if nums[i]!=i:
+                k=i
+                flag=True
+                break
+        if flag:
+            return k
+        else :
+            return len(nums)
+
+#soln 4
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        k=len(nums)
+        for i in range(len(nums)):
+            if nums[i]!=i:
+                k=i
+                break
+        return k
+
+#soln 5
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        for i in range(len(nums)):
+            if nums[i]!=i:
+                return i
+        return len(nums)

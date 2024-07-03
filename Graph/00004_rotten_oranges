@@ -20,3 +20,57 @@ Example 3:
 Input: grid = [[0,2]]
 Output: 0
 Explanation: Since there are already no fresh oranges at minute 0, the answer is just 0.
+
+# BFS based as we need no of levels to be count not just no of nodes connected by a graph
+
+# java
+
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        if(grid == null || grid.length == 0) return 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int count = 0;
+        //Put the position of all rotten oranges in queue
+        //count the number of fresh oranges
+        for(int i = 0 ; i < rows ; i++) { //all the nodes at the  present level
+            for(int j = 0 ; j < cols ; j++) { // all next level nodes
+                if(grid[i][j] == 2) {
+                    queue.offer(new int[]{i , j});
+                }
+                if(grid[i][j] != 0) {
+                    count++;  // count of total oranges fresh + rotten
+                }
+            }
+        }
+        if(count == 0) return 0;
+        int countMin = 0, cnt = 0;
+        int dx[] = {0, 0, 1, -1};
+        int dy[] = {1, -1, 0, 0};
+        
+        //bfs starting from initially rotten oranges
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            cnt += size; 
+            for(int i = 0 ; i < size ; i++) { // nodes at presnt level
+                int[] point = queue.poll(); // nodes at next level to be inserted
+                for(int j = 0;j<4;j++) {
+                    int x = point[0] + dx[j];
+                    int y = point[1] + dy[j];
+                    
+                    if(x < 0 || y < 0 || x >= rows || y >= cols || grid[x][y] == 0 || 
+                    grid[x][y] == 2) continue;
+                    
+                    grid[x][y] = 2;
+                    queue.offer(new int[]{x , y});
+                }
+            }
+            
+            if(queue.size() != 0) {
+                countMin++;
+            }
+        }
+        return count == cnt ? countMin : -1;
+    }
+}

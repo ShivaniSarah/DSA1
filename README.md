@@ -21,7 +21,7 @@ https://www.geeksforgeeks.org/smallest-difference-pair-values-two-unsorted-array
 
 https://www.geeksforgeeks.org/kth-smallest-largest-element-in-unsorted-array/?ref=ml_lbp
 
-https://leetcode.com/problems/course-schedule/description/
+https://leetcode.com/problems/course-schedule/description/ cycle in directed graph
 
 Knapsack Problems 3 types:
 

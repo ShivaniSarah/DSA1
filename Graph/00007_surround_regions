@@ -26,6 +26,8 @@ Output: [["X"]]
 
 # DFS way
 
+# Java
+
 class Solution {
     static void dfs(int row, int col,int vis[][],char mat[][], int delrow[], int delcol[]) {
         vis[row][col] = 1; 

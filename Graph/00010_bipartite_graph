@@ -5,7 +5,7 @@ We can color a linear graph with no cycles - its a bipartite graph
 Any graph with even cycle length is bipartite.
 Any graph with odd cycle length is not bipartite.
 
-Bipartite Graph using DFS:
+# Bipartite Graph using DFS:
 
 class Solution {
     private boolean dfs(int node, int col, int color[], 
@@ -42,5 +42,8 @@ class Solution {
     }
 }
 
+# Bipartite Graph using BFS:
+
+# code here
 
 

@@ -4,6 +4,10 @@ https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
 
 # Java
 
+# visited array helps to know the connected component
+# pathVis array helps to we are in the current path so we clear the patVis of a node when we cover all its children nodes before going to its
+parent node and traversing a differnt path through that node.
+
 class Solution {
     private boolean dfsCheck(int node, ArrayList<ArrayList<Integer>> adj, int vis[], int pathVis[]) {
         vis[node] = 1; 

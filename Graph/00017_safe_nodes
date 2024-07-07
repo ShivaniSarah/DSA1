@@ -1,0 +1,5 @@
+https://leetcode.com/problems/find-eventual-safe-states/description/
+
+# Reverse the graph so the when u traverse from terminal nodes u get safe nodes that come out of a cycle or a different acyclic branch.
+# safe nodes are nodes through which all the possible paths end at a terminal node, means no path enters in cycle. 
+

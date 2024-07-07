@@ -11,6 +11,7 @@ Platforms used:
 Priority Queue
 
 min PQ: PriorityQueue<Integer> pQueue = new PriorityQueue<Integer>();
+
 max PQ: PriorityQueue<Integer> pQueue = new PriorityQueue<Integer>(Collections.reverseOrder());
 
 Revisit:

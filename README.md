@@ -8,6 +8,10 @@ Platforms used:
 4. neetcode
 5. interview bit
 
+Priority Queue
+
+min PQ: PriorityQueue<Integer> pQueue = new PriorityQueue<Integer>();
+max PQ: PriorityQueue<Integer> pQueue = new PriorityQueue<Integer>(Collections.reverseOrder());
 
 Revisit:
 

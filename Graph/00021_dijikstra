@@ -1,0 +1,125 @@
+
+
+
+# Using queue or checking all the possible paths brute force kind or dfs : optimal path is not explored as of PQ priority queue
+
+import java.util.Scanner;
+class dijkstra
+{static int change[];
+ 
+ static void print_path(int x)
+   { if(change[x]==1)
+       System.out.print("1->"+x);
+     else
+      { print_path(change[x]);
+        System.out.print("->"+x);
+      }
+ 
+    }
+
+  static void dijkstras(int m,int source,int cost[][])
+   {     
+      int i,j,u,min;
+       int visit[]=new int[m+1];
+       change=new int[m+1];
+      int d[]=new int[m+1];
+       int path[]=new int[m+1];
+
+
+
+
+        for(i=1;i<=m;i++)
+		{       change[i]=1;  // store the source vertex in the path array
+			visit[i]=0;
+			d[i]=cost[source][i]; // initially store the direct distance from source to other vertices	
+		}
+        
+        visit[source]=1;// Start from source vertex and make it as visited
+	path[1]=source;
+        
+	
+       	for(i=1;i<=m;i++)
+		{
+			min=999;
+		        u= -1; // reset the previous value
+			for(j=1;j<=m;j++)
+			{
+				if(visit[j]==0) 
+				{
+					if( d[j]<min) 
+					{
+				        	min=d[j]; // Finding minimum distance from source node
+					        u=j;
+                                                
+					}
+				}
+                               
+			}// end for
+ 	
+			if(u == -1) // no node
+		          break;
+
+                         
+                         path[i+1]=u;
+                         visit[u]=1; // Make selected intermediate node as visited
+                         
+                         d[u]=min;
+			
+			for(j=1;j<=m;j++)
+			{
+				if(visit[j]==0) // select a new node that is not selected
+				{
+					if( d[u]+cost[u][j]<d[j])
+				    {
+					d[j]=d[u]+cost[u][j];
+                                        change[j]=u;
+				     }// end inner if
+				}//end outer if
+			}// end for
+		}//end outer for
+path[m]=m;
+//Algo Display
+
+
+for(int z:path)
+{ if(z!=source & z!=0)
+   {if(d[z]==999)
+      System.out.println("Node "+z+ " is not reachable from source");  
+    else
+     { print_path(z);
+       System.out.println("\n cost = "+d[z]);
+      }
+   }
+    
+  
+}
+
+//End Display Algo
+
+ }//dijkstras()
+
+  public static void main(String args[])
+  { int i,j,n,src;
+    Scanner sc=new Scanner(System.in);
+    System.out.println("Enter the no. of nodes > 2 and source node");
+    n=sc.nextInt();
+    src=sc.nextInt();
+    int mat[][]=new int[n+1][n+1];
+    System.out.println("Enter the cost matrix for dijkstra");
+    for(i=1;i<=n;i++)
+    {
+     for(j=1;j<=n;j++)
+        mat[i][j]=sc.nextInt();
+     }
+
+    System.out.println("Entered cost matrix is: ");
+     for(i=1;i<=n;i++) 
+      {
+       for(j=1; j<=n; j++) 
+         System.out.print(mat[i][j]+"\t");
+       System.out.println();
+      }
+    dijkstras(n,src,mat);
+}//main
+}//class dijkstra
+

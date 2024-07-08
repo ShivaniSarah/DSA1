@@ -1,9 +1,12 @@
 https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
 
+# Using Priority Queue
 
 
+# Using Set
 
-# Using queue or checking all the possible paths brute force kind or dfs : optimal path is not explored as of PQ priority queue
+
+# Using queue or checking all the possible paths brute force kind or dfs : optimal path is not explored as of PQ priority queue or set
 
 import java.util.Scanner;
 class dijkstra

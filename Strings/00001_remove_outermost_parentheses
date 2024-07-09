@@ -1,0 +1,27 @@
+Link: https://leetcode.com/problems/remove-outermost-parentheses/description/
+
+Input: s = "(()())(())"
+Output: "()()()"
+Explanation:  The input string is "(()())(())", with primitive decomposition "(()())" + "(())".
+After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
+
+class Solution:
+    def removeOuterParentheses(self, s: str) -> str:
+        i=0
+        st=[]
+        ans=''
+        for j in range(len(s)):
+            if s[j]=='(':  
+                if st==[]:
+                    i=j
+                st.append(s[j])
+            elif s[j]==')':
+                st.pop()
+                if j==len(s)-1:
+                    ans+= s[i+1:j]
+                    return ans
+                
+            if st==[]:
+                ans+= s[i+1:j]
+
+        return ""

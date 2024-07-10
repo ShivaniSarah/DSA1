@@ -5,6 +5,11 @@ Output: "()()()"
 Explanation:  The input string is "(()())(())", with primitive decomposition "(()())" + "(())".
 After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
 
+
+# Python
+
+Approach I: using stack
+
 class Solution:
     def removeOuterParentheses(self, s: str) -> str:
         i=0
@@ -22,6 +27,29 @@ class Solution:
                     return ans
                 
             if st==[]:
+                ans+= s[i+1:j]
+
+        return ""
+
+Approach II: using a variable
+
+class Solution:
+    def removeOuterParentheses(self, s: str) -> str:
+        i=0
+        c=0
+        ans=''
+        for j in range(len(s)):
+            if s[j]=='(':  
+                if c==0:
+                    i=j
+                c+=1
+            elif s[j]==')':
+                c-=1
+                if j==len(s)-1:
+                    ans+= s[i+1:j]
+                    return ans
+                
+            if c==0:
                 ans+= s[i+1:j]
 
         return ""

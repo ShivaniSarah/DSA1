@@ -19,9 +19,10 @@ Input: n = 2, roads = [[1,0,10]]
 Output: 1
 Explanation: There is only one way to go from intersection 0 to intersection 1, and it takes 10 minutes.
 
-# just one test case didnt pass although logical it gives correct output.
-# when printed each node of priority node distance and node, was getting negative values , surely it was integer overflow
-# used long to store long value of distance in Pair and Pair1
+# Experience:
+- just one test case didnt pass although logical it gives correct output.
+- when printed each node of priority node distance and node, was getting negative values , surely it was integer overflow
+- used long to store long value of distance in Pair and Pair1
 
 # Dijikstra way
 

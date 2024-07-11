@@ -43,6 +43,11 @@ class Tuple {
         this.third = third; 
     }
 }
+
+# Dijikstra way
+
+#Java
+
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         // Create the adjacency list to depict airports and flights in

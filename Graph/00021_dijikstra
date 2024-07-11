@@ -2,55 +2,122 @@ https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-mat
 
 # Using Priority Queue
 
-
-# Using Set
-# only possible in c++ as c++ has set.begin() functionality
-
-// Create a set ds for storing the nodes as a pair {dist,node}
-        // where dist is the distance from source to the node.
-        // set stores the nodes in ascending order of the distances 
-        set<pair<int,int>> st; 
-
-        // Initialising dist list with a large number to
+class Pair{
+    int node;
+    int distance;
+    public Pair(int distance,int node){
+        this.node = node;
+        this.distance = distance;
+    }
+}
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Create a priority queue for storing the nodes as a pair {dist, node
+        // where dist is the distance from source to the node.  
+        PriorityQueue<Pair> pq = 
+        new PriorityQueue<Pair>((x,y) -> x.distance - y.distance);
+        
+        int []dist = new int[V]; 
+      
+        // Initialising distTo list with a large number to
         // indicate the nodes are unvisited initially.
         // This list contains distance from source to the nodes.
-        vector<int> dist(V, 1e9); 
+        for(int i = 0;i<V;i++) dist[i] = (int)(1e9); 
         
-        st.insert({0, S}); 
-
-        // Source initialised with dist=0
+        // Source initialised with dist=0.
         dist[S] = 0;
+        pq.add(new Pair(0,S)); 
         
-        // Now, erase the minimum distance node first from the set
+        // Now, pop the minimum distance node first from the min-heap
         // and traverse for all its adjacent nodes.
-        while(!st.empty()) {
-            auto it = *(st.begin()); 
-            int node = it.second; 
-            int dis = it.first; 
-            st.erase(it); 
+        while(pq.size() != 0) {
+            int dis = pq.peek().distance; 
+            int node = pq.peek().node; 
+            pq.remove(); 
             
-            // Check for all adjacent nodes of the erased
+            // Check for all adjacent nodes of the popped out
             // element whether the prev dist is larger than current or not.
-            for(auto it : adj[node]) {
-                int adjNode = it[0]; 
-                int edgW = it[1]; 
+            for(int i = 0;i<adj.get(node).size();i++) {
+                int edgeWeight = adj.get(node).get(i).get(1); 
+                int adjNode = adj.get(node).get(i).get(0); 
                 
-                if(dis + edgW < dist[adjNode]) {
-                    // erase if it was visited previously at 
-                    // a greater cost.
-                    if(dist[adjNode] != 1e9) 
-                        st.erase({dist[adjNode], adjNode}); 
-                        
-                    // If current distance is smaller,
-                    // push it into the queue
-                    dist[adjNode] = dis + edgW; 
-                    st.insert({dist[adjNode], adjNode}); 
-                 }
+                // If current distance is smaller,
+                // push it into the queue.
+                if(dis + edgeWeight < dist[adjNode]) {
+                    dist[adjNode] = dis + edgeWeight; 
+                    pq.add(new Pair(dist[adjNode], adjNode)); 
+                }
             }
         }
         // Return the list containing shortest distances
         // from source to all the nodes.
         return dist; 
+    }
+}
+
+# Using Set
+# only possible in c++ as c++ has set.begin() functionality
+
+class Pair{
+    int node;
+    int distance;
+    public Pair(int distance,int node){
+        this.node = node;
+        this.distance = distance;
+    }
+}
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Create a priority queue for storing the nodes as a pair {dist, node
+        // where dist is the distance from source to the node.  
+        PriorityQueue<Pair> pq = 
+        new PriorityQueue<Pair>((x,y) -> x.distance - y.distance);
+        
+        int []dist = new int[V]; 
+      
+        // Initialising distTo list with a large number to
+        // indicate the nodes are unvisited initially.
+        // This list contains distance from source to the nodes.
+        for(int i = 0;i<V;i++) dist[i] = (int)(1e9); 
+        
+        // Source initialised with dist=0.
+        dist[S] = 0;
+        pq.add(new Pair(0,S)); 
+        
+        // Now, pop the minimum distance node first from the min-heap
+        // and traverse for all its adjacent nodes.
+        while(pq.size() != 0) {
+            int dis = pq.peek().distance; 
+            int node = pq.peek().node; 
+            pq.remove(); 
+            
+            // Check for all adjacent nodes of the popped out
+            // element whether the prev dist is larger than current or not.
+            for(int i = 0;i<adj.get(node).size();i++) {
+                int edgeWeight = adj.get(node).get(i).get(1); 
+                int adjNode = adj.get(node).get(i).get(0); 
+                
+                // If current distance is smaller,
+                // push it into the queue.
+                if(dis + edgeWeight < dist[adjNode]) {
+                    dist[adjNode] = dis + edgeWeight; 
+                    pq.add(new Pair(dist[adjNode], adjNode)); 
+                }
+            }
+        }
+        // Return the list containing shortest distances
+        // from source to all the nodes.
+        return dist; 
+    }
+}
 
 
 # Using queue or checking all the possible paths brute force kind or dfs : optimal path is not explored as of PQ priority queue or set

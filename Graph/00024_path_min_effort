@@ -20,6 +20,10 @@ Input: heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]
 Output: 0
 Explanation: This route does not require any effort.
 
+# Dijikstra  way
+
+#Java
+
 class Solution {
     public int minimumEffortPath(int[][] heights) {
         // Create a priority queue containing pairs of cells 

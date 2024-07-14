@@ -37,3 +37,26 @@ class Solve {
         return new Pair(f,c);
     }
 }
+
+# APP II:
+
+class Solve {
+    Pair getFloorAndCeil(int[] arr, int n, int x) {
+        Arrays.sort(arr);
+        int low =0, high=n-1,floor=-1,ceil=-1;
+        int mid;
+        while(low<=high){
+           mid=(low+high)/2;
+           if(arr[mid]==x) return new Pair(arr[mid],arr[mid]);
+           else if(arr[mid]>x){
+               high=mid-1;
+               ceil=arr[mid];
+           }
+           else{
+               floor=arr[mid];
+               low=mid+1;
+           }
+        }
+        return new Pair(floor, ceil);
+    }
+}

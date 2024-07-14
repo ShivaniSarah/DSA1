@@ -1,5 +1,7 @@
 https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
+Note:  int mid = low + (high - low) / 2; is to prevent overflowing
+
 class Solution {
     public int[] searchRange(int[] nums, int target) {
         int n=nums.length;

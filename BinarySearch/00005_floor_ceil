@@ -1,5 +1,11 @@
 https://www.geeksforgeeks.org/problems/ceil-the-floor2802/1
 
+# 4 cases 
+# -- when arr[mid]==x => then ceil and floor equals arr[mid]
+# when x< arr[0] => floor=-1, ceil= arr[0]
+# when x=arr[n-1]  => floor=arr[n-1] ceil=-1
+# floor[mid], ceil[mid+1]
+
 class Solve {
     Pair getFloorAndCeil(int[] arr, int n, int x) {
         Arrays.sort(arr);
@@ -58,5 +64,33 @@ class Solve {
            }
         }
         return new Pair(floor, ceil);
+    }
+}
+
+APP III:
+
+class Solve {
+    Pair getFloorAndCeil(int[] arr, int n, int x) {
+        Arrays.sort(arr);
+        int low =0, high=n-1,floor=-1,ceil=-1;
+        int mid;
+        while(low<=high){
+           mid=(low+high)/2;
+           if(arr[mid]>x){
+               
+               high=mid-1;
+           }
+           else{
+               if(arr[mid]==x) return new Pair(arr[mid],arr[mid]);
+               floor=arr[mid];
+               if(mid==n-1) return new Pair(arr[mid],-1);
+               ceil=arr[mid+1];
+               
+               low=mid+1;
+           }
+        }
+        if(floor==-1) return new Pair(-1,arr[0]);
+        return new Pair(floor,ceil);
+        
     }
 }

@@ -24,6 +24,8 @@ Array: 12 : priority queue
 
 TO DO:
 
+https://www.spoj.com/problems/classical/
+
 https://www.spoj.com/problems/classical/sort=0,start=3950
 
 https://www.geeksforgeeks.org/smallest-difference-pair-values-two-unsorted-arrays/

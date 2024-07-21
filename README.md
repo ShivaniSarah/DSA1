@@ -7,9 +7,9 @@ Platforms used:
 3. udemy pratik narang course
 4. neetcode
 5. interview bit
-6. spoj
-7. code forces
-8. code 360 naukri coding ninjas
+6. code forces
+7. code 360 naukri coding ninjas
+8. spoj 
 
 Priority Queue
 

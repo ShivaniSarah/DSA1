@@ -41,3 +41,10 @@ Knapsack Problems 3 types:
 3. DP - Unbounded Knapsack
    
 From 27 June 2024, coding in java, array 38
+
+Integer.MIN_VALUE;          
+Integer.MAX_VALUE;
+Long.MIN_VALUE;
+Long.MAX_VALUE;
+Double.MIN_VALUE;
+Double.MAX_VALUE;

@@ -39,6 +39,8 @@ https://leetcode.com/problems/course-schedule/description/ cycle in directed gra
 
 https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/
 
+kth permutation sequence
+
 Knapsack Problems 3 types:
 
 1. Greedy - Fractional knapsack - price per unit - https://www.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=knapsack-with-duplicate-items

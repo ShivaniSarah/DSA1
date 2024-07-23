@@ -1,0 +1,43 @@
+https://www.geeksforgeeks.org/problems/reverse-a-stack/1
+
+You are given a stack St. You have to reverse the stack using recursion.
+
+Example 1:
+Input:
+St = {3,2,1,7,6}
+Output:
+{6,7,1,2,3}
+Explanation: Input stack after reversing will look like the stack in the output.
+
+class Solution
+{   private static void insertAtBottom(Stack<Integer> stack, int element) {
+        if (stack.isEmpty()) {
+            stack.push(element);
+        } 
+        else {
+            // Remove all elements from the stack
+            int top = stack.pop();
+            
+            // Recursive call to insert the element at the bottom
+            insertAtBottom(stack, element);
+            
+            // Push the removed elements back on top
+            stack.push(top);
+       }
+    }
+    static void reverse(Stack<Integer> stack)
+    {
+        if (stack.isEmpty()) {
+            return;
+        }
+        // Remove the top element
+        int top = stack.pop();
+        
+        // Reverse the remaining stack
+        reverse(stack);
+        
+        // Insert the removed element at the bottom of the stack
+        insertAtBottom(stack, top);
+    }
+}
+

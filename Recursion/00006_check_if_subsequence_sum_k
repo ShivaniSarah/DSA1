@@ -1,0 +1,50 @@
+Check if there exists a subsequence with sum K
+
+https://www.geeksforgeeks.org/problems/check-if-there-exists-a-subsequence-with-sum-k/1
+
+Given an array arr and target sum k, check whether there exists a subsequence such that the sum of all elements in the subsequence
+equals the given target sum(k).
+
+Example:
+
+Input:  arr = [10,1,2,7,6,1,5], k = 8.
+Output:  Yes
+Explanation:  Subsequences like [2, 6], [1, 7] sum upto 8
+
+Input:  arr = [2,3,5,7,9], k = 100. 
+Output:  No
+Explanation:  No subsequence can sum upto 100
+
+# Java
+
+class Solution {
+    
+public static boolean subSequenceSum( ArrayList<ArrayList<Integer>> ans, int a[], ArrayList<Integer> temp, int k, int start)
+	{
+		if(start > a.length || k < 0)
+			return false;
+        boolean r;
+		if(k == 0)
+		{
+			ans.add(new ArrayList<Integer>(temp) );
+			return true;
+		}
+		else {
+		    r=false;
+			for (int i = start; i < a.length; i++) {
+				temp.add(a[i]);
+				r= r || subSequenceSum(ans, a, temp, k - a[i],i+1);
+				temp.remove(temp.size() - 1);
+			}
+		}
+		return r;
+	}
+
+  public static boolean checkSubsequenceSum(int N, int[] arr, int k) {
+        ArrayList<ArrayList<Integer>> ans;
+		ans= new ArrayList<ArrayList<Integer>>();
+		return subSequenceSum(ans, arr, new ArrayList<Integer>(), k, 0);
+		
+
+  }
+}

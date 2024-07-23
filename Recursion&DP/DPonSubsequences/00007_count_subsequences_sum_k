@@ -1,0 +1,25 @@
+https://www.geeksforgeeks.org/find-all-subsequences-with-sum-equals-to-k/
+
+class Solution {
+    public static int subSequenceSum( int a[], int k, int i)
+	{
+        if(k == 0)
+		{
+			return 1;
+		}
+		if(i >= a.length || k < 0) return 0;
+
+		int pick=0;
+		if(k>=a[i]){
+              pick =  subSequenceSum( a, k - a[i],i+1);
+        }
+				
+        int not_pick =  subSequenceSum( a, k ,i+1);
+        return pick + not_pick;
+				
+		
+	}
+    public int numSubseq(int[] nums, int target) {
+        return subSequenceSum( nums, target, 0);
+    }
+}

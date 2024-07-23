@@ -1,6 +1,17 @@
 https://www.geeksforgeeks.org/problems/subset-sum-ii/0
 
+You are given an integer array nums that may contain duplicates. Your task is to return all possible subsets. Return only unique subsets and they can be in any order.
+Note: The individual subsets should be sorted.
 
+Example:
+Input: 
+nums = [1,2,2] 
+Output: 
+[[],[1],[1,2],[1,2,2],[2],[2,2]]
+Explanation: 
+We can have subsets ranging from length 0 to 3. which are listed above. Also the subset [1,2] appears twice but is printed only once as we require only unique subsets.
+
+# java
 
 class Solution {
     public static void findSubsets(int ind, int[] nums, ArrayList<Integer> ds, ArrayList<ArrayList<Integer>> ansList) {

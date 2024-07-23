@@ -1,0 +1,99 @@
+https://www.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1
+
+Given an undirected graph and an integer M. The task is to determine if the graph can be colored with at most M colors 
+such that no two adjacent vertices of the graph are colored with the same color. 
+Here coloring of a graph means the assignment of colors to all vertices. Print 1 if it is possible to colour vertices and 0 otherwise.
+
+Example 1:
+Input:
+N = 4
+M = 3
+E = 5
+Edges[] = {(0,1),(1,2),(2,3),(3,0),(0,2)}
+Output: 1
+Explanation: It is possible to colour the
+given graph using 3 colours.
+
+Example 2:
+Input:
+N = 3
+M = 2
+E = 3
+Edges[] = {(0,1),(1,2),(0,2)}
+Output: 0
+
+# java
+
+class solve {
+    // Function to determine if graph can be coloured with at most M colours
+    // such
+    // that no two adjacent vertices of graph are coloured with same colour.
+    private boolean isSafe(boolean[][] graph, int[] colors, int vertex, int color) {
+        // Check if the adjacent vertices have the same color
+        for (int i = 0; i < graph.length; i++) {
+            if (graph[vertex][i] && colors[i] == color) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean canColorGraph(boolean[][] graph, int[] colors, int m, int vertex) {
+        // If all vertices are assigned a color, return true
+        if (vertex == graph.length) {
+            return true;
+        }
+
+        // Try assigning each color from 1 to m to the current vertex
+        for (int color = 1; color <= m; color++) {
+            if (isSafe(graph, colors, vertex, color)) {
+                colors[vertex] = color;
+
+                // Recur for the next vertex
+                if (canColorGraph(graph, colors, m, vertex + 1)) {
+                    return true;
+                }
+
+                // If assigning color didn't lead to a solution, remove it (backtrack)
+                colors[vertex] = 0;
+            }
+        }
+
+        // If no color can be assigned to this vertex, return false
+        return false;
+    }
+    public boolean graphColoring(boolean graph[][], int m, int n) {
+        int[] colors = new int[n];
+        return canColorGraph(graph, colors, m, 0);
+    }
+}
+
+# default code
+
+class Solution {
+
+   private static boolean isSafe(int node, List < Integer > [] G, int[] color, int n, int col) {
+        for (int it: G[node]) {
+            if (color[it] == col) return false;
+        }
+        return true;
+    }
+    private static boolean solve(int node, List < Integer > [] G, int[] color, int n, int m) {
+        if (node == n) return true;
+
+        for (int i = 1; i <= m; i++) {
+            if (isSafe(node, G, color, n, i)) {
+                color[node] = i;
+                if (solve(node + 1, G, color, n, m) == true) return true;
+                color[node] = 0;
+            }
+        }
+        return false;
+    }
+    public static boolean graphColoring(List < Integer > [] G, int[] color, int i, int C) {
+        // Your code here
+        int n = G.length;
+        if (solve(i, G, color, n, C) == true) return true;
+        return false;
+    }
+    
+}

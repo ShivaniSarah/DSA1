@@ -21,6 +21,29 @@ Input: cardPoints = [9,7,7,9,7,7,9], k = 7
 Output: 55
 Explanation: You have to take all the cards. Your score is the sum of points of all cards.
 
+My Sol:
+
+class Solution {
+    public int maxScore(int[] arr, int k) {
+        int n=arr.length;
+        int tot=0;
+        
+        for(int i=0;i<arr.length;i++){
+            tot+=arr[i];
+        }
+        int subsum=0;
+        for(int i=0;i<n-k;i++){
+            subsum+=arr[i];
+        }
+        int maxi= tot-subsum;
+        for(int i=n-k;i<n;i++){
+            subsum = subsum + arr[i] - arr[i-(n-k)];
+            maxi=Math.max(maxi,tot-subsum);
+        }
+        return maxi;
+    }
+}
+
 # App I:
 
 class Solution {
@@ -83,3 +106,5 @@ class Solution {
         return totalPoints - minWindowSum;
     }
 }
+
+

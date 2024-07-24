@@ -1,0 +1,61 @@
+https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
+Return the number of nice sub-arrays.
+
+Example 1:
+Input: nums = [1,1,2,1,1], k = 3
+Output: 2
+Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
+
+Example 2:
+Input: nums = [2,4,6], k = 1
+Output: 0
+Explanation: There are no odd numbers in the array.
+
+Example 3:
+Input: nums = [2,2,2,1,2,2,1,2,2,2], k = 2
+Output: 16
+
+# java
+
+# App I:
+
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        int count = 0;
+        int oddCount = 0;
+        int[] prefixCounts = new int[nums.length + 1];
+        prefixCounts[0] = 1;
+
+        for (int num : nums) {
+            if (num % 2 != 0) {
+                oddCount++;
+            }
+            if (oddCount >= k) {
+                count += prefixCounts[oddCount - k];
+            }
+            prefixCounts[oddCount]++;
+        }
+
+        return count;
+    }
+}
+
+# App II:
+
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        countMap.put(0, 1);
+        int count = 0, oddCount = 0;
+        
+        for (int num : nums) {
+            if (num % 2 == 1) oddCount++;
+            count += countMap.getOrDefault(oddCount - k, 0);
+            countMap.put(oddCount, countMap.getOrDefault(oddCount, 0) + 1);
+        }
+        
+        return count;
+    }
+}

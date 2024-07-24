@@ -1,8 +1,69 @@
 https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
+Given a string s, find the length of the longest substring without repeating characters.
 
+Example 1:
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
 
+Example 2:
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
 
+Example 3:
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+
+# brute
+
+class Solution {
+    public int lengthOfLongestSubstring(String str) {
+        if (str.length() == 0)
+            return 0;
+        int maxans = 0; // Initialize maxans to 0 instead of Integer.MIN_VALUE
+        for (int i = 0; i < str.length(); i++) {
+            Set<Character> se = new HashSet<>();
+            for (int j = i; j < str.length(); j++) {
+                if (se.contains(str.charAt(j))) {
+                    maxans = Math.max(maxans, j - i);
+                    break;
+                }
+                se.add(str.charAt(j));
+            }
+            maxans = Math.max(maxans, se.size()); // Update maxans for cases without duplicates
+        }
+        return maxans;
+    }
+}
+
+# better
+
+class Solution {
+    public int lengthOfLongestSubstring(String str) {
+        if(str.length()==0)
+             return 0;
+        int maxans = 0;
+        Set < Character > set = new HashSet < > ();
+        int l = 0;
+        for (int r = 0; r < str.length(); r++) 
+        {
+            if (set.contains(str.charAt(r))) //if duplicate element is found
+            {
+                while (l < r && set.contains(str.charAt(r))) {
+                    set.remove(str.charAt(l));
+                    l++;
+                }
+            }
+            set.add(str.charAt(r));
+            maxans = Math.max(maxans, r - l + 1);
+        }
+        return maxans;
+    }
+}
 
 # optimal
 

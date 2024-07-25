@@ -1,0 +1,60 @@
+https://www.geeksforgeeks.org/problems/bits-basic-operations/1
+
+Geek is learning data structures. He wants to learn the trie data structure, but there are a few bit's prerequisites that he must first understand.
+Given three bit manipulations functions: XOR, check and setBit.
+In XOR function you are given two integers n and m return the xor of n and m.
+In check function you are given two integer a and b return 1 if ath bit (1-indexed) of b is set otherwise return 0.
+In setBit function you are given two integer c and d, set the cth bit (0-indexed) of d if not yet set .
+
+Example 1:
+Input:
+n = 1, m = 2
+a = 3, b = 4
+c = 5, d = 6
+Output: 3 1 38
+Explanation: 1 xor 2 = 3, 3rd bit of 4 is set. After setting 5th bit of 6 result is 100110 which in decimal form is 38.
+
+Example 2:
+Input: 
+n = 7, m = 8
+a = 9, b = 10
+c = 11, d = 12 
+Output: 15 0 2060 
+Explanation: 7 xor 8 = 15, 9th bit of 10 is not set. After setting 11th bit of 12 result is 100000001100 which in decimal form is 2060.
+
+# java
+
+class Solution {
+  
+    public int XOR(int n, int m) { 
+        return n ^ m; // XOR operation
+    }
+
+    public int check(int a, int b) {
+        return (b & (1 << (a - 1))) != 0 ? 1 : 0; // Check if the a-th bit is set
+    }
+
+    public int setBit(int c, int d) {
+        return d | (1 << c); // Set the c-th bit
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        
+        // Example 1
+        int n1 = 1, m1 = 2;
+        int a1 = 3, b1 = 4;
+        int c1 = 5, d1 = 6;
+        System.out.println(sol.XOR(n1, m1)); // Output: 3
+        System.out.println(sol.check(a1, b1)); // Output: 1
+        System.out.println(sol.setBit(c1, d1)); // Output: 38
+
+        // Example 2
+        int n2 = 7, m2 = 8;
+        int a2 = 9, b2 = 10;
+        int c2 = 11, d2 = 12;
+        System.out.println(sol.XOR(n2, m2)); // Output: 15
+        System.out.println(sol.check(a2, b2)); // Output: 0
+        System.out.println(sol.setBit(c2, d2)); // Output: 2060
+    }
+}

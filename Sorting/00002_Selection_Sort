@@ -1,5 +1,7 @@
 https://www.geeksforgeeks.org/problems/selection-sort/1
 
+TC : O(N^2)
+
 Input:
 N = 5
 arr[] = {4, 1, 3, 9, 7}

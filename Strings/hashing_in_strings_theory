@@ -1,0 +1,150 @@
+https://cp-algorithms.com/string/string-hashing.html
+https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
+
+Hashing is a technique often used to efficiently search for substrings or patterns within strings. The idea is to convert the string or substring into a numerical value (hash) that can be quickly compared. If the hashes match, then the actual strings are compared to confirm the match.
+Here are some common hashing techniques used for strings:
+
+1. Rolling Hash (e.g., Rabin-Karp Algorithm)
+The Rabin-Karp algorithm uses a rolling hash function to efficiently search for a pattern within a text. The rolling hash function allows the hash value of a substring to be computed in constant time.
+
+Rolling Hash Function:
+Hash of a string: For a string S of length m, hash it using a polynomial rolling hash function:
+ 
+mod
+Hash(S)=(S[0]⋅p 
+m−1
+ +S[1]⋅p 
+m−2
+ +⋯+S[m−1]⋅p 
+0
+ )modmod
+where 
+𝑝
+p is a prime number (e.g., 31 or 53), and mod is a large prime number to avoid overflow.
+
+Rolling Hash Update: For a substring S[i...j] to S[i+1...j+1], update the hash value in constant time using the precomputed hash of the previous substring.
+
+Java Implementation:
+
+java
+Copy code
+class Solution {
+    private static final int P = 31; // A prime base
+    private static final int MOD = 1_000_000_007; // A large prime modulus
+
+    public int findMatching(String text, String pattern) {
+        int n = text.length();
+        int m = pattern.length();
+        
+        if (m > n) return -1;
+        
+        long patternHash = computeHash(pattern, m);
+        long textHash = computeHash(text, m);
+        long pPow = 1; // P^m % MOD
+        
+        // Precompute P^m % MOD
+        for (int i = 0; i < m; i++) {
+            pPow = (pPow * P) % MOD;
+        }
+        
+        for (int i = 0; i <= n - m; i++) {
+            if (textHash == patternHash && text.substring(i, i + m).equals(pattern)) {
+                return i;
+            }
+            
+            // Roll the hash
+            if (i < n - m) {
+                textHash = (textHash - text.charAt(i) * pPow) % MOD;
+                textHash = (textHash * P + text.charAt(i + m)) % MOD;
+                textHash = (textHash + MOD) % MOD; // Ensure positive
+            }
+        }
+        
+        return -1;
+    }
+    
+    private long computeHash(String s, int len) {
+        long hash = 0;
+        long pPow = 1;
+        
+        for (int i = 0; i < len; i++) {
+            hash = (hash + s.charAt(i) * pPow) % MOD;
+            pPow = (pPow * P) % MOD;
+        }
+        
+        return hash;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String text = "gffgfg";
+        String pattern = "gfg";
+        System.out.println("First index of match: " + solution.findMatching(text, pattern));
+        
+        text = "gffggg";
+        pattern = "gfg";
+        System.out.println("First index of match: " + solution.findMatching(text, pattern));
+    }
+}
+2. Hashing for Duplicate Detection (e.g., in a Sliding Window)
+Hashing is also used to detect duplicates within a sliding window of a string. By maintaining a hash of the current window and updating it as the window slides, you can efficiently check for duplicate substrings.
+
+Example Implementation:
+
+java
+Copy code
+import java.util.HashSet;
+
+class Solution {
+    private static final int P = 31;
+    private static final int MOD = 1_000_000_007;
+
+    public boolean hasDuplicateSubstring(String s, int length) {
+        if (length > s.length()) return false;
+        
+        HashSet<Long> seen = new HashSet<>();
+        long currentHash = 0;
+        long pPow = 1;
+        
+        // Compute the hash for the first window
+        for (int i = 0; i < length; i++) {
+            currentHash = (currentHash * P + s.charAt(i)) % MOD;
+            pPow = (pPow * P) % MOD;
+        }
+        
+        seen.add(currentHash);
+        
+        // Slide the window
+        for (int i = length; i < s.length(); i++) {
+            currentHash = (currentHash - s.charAt(i - length) * pPow) % MOD;
+            currentHash = (currentHash * P + s.charAt(i)) % MOD;
+            currentHash = (currentHash + MOD) % MOD; // Ensure positive
+            
+            if (seen.contains(currentHash)) {
+                return true;
+            }
+            
+            seen.add(currentHash);
+        }
+        
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String s = "banana";
+        int length = 3;
+        System.out.println("Has duplicate substring of length " + length + ": " + solution.hasDuplicateSubstring(s, length));
+    }
+}
+Key Points
+Hash Function Choice: Use a prime base 
+𝑃
+P and a large prime modulus 
+𝑀
+𝑂
+𝐷
+MOD to minimize hash collisions and handle large values.
+Rolling Hash: Efficiently update hash values when sliding over substrings.
+Hash Collisions: While rare with good hash functions, they can occur. Ensure proper collision handling, such as verifying actual string matches.
+These techniques make string operations more efficient, especially for large texts or when needing to perform multiple substring searches.

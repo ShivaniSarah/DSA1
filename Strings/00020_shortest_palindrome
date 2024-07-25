@@ -1,0 +1,86 @@
+https://leetcode.com/problems/shortest-palindrome/
+
+You are given a string s. You can convert s to a palindrome by adding characters in front of it.
+Return the shortest palindrome you can find by performing this transformation.
+
+Example 1:
+Input: s = "aacecaaa"
+Output: "aaacecaaa"
+
+Example 2:
+Input: s = "abcd"
+Output: "dcbabcd"
+
+# using z function
+
+class Solution {
+    private int[] zFunction(String s) {
+        int n = s.length();
+        int[] z = new int[n];
+        int l = 0, r = 0;
+        
+        for (int i = 1; i < n; ++i) {
+            if (i <= r) {
+                z[i] = Math.min(r - i + 1, z[i - l]);
+            }
+            while (i + z[i] < n && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                ++z[i];
+            }
+            if (i + z[i] - 1 > r) {
+                l = i;
+                r = i + z[i] - 1;
+            }
+        }
+        return z;
+    }
+    public String shortestPalindrome(String s) {
+         String rs = new StringBuilder(s).reverse().toString();
+        String t = s + "$" + rs;
+        int[] zvalues = zFunction(t);
+        
+        for (int i = 0; i < zvalues.length; ++i) {
+            if (zvalues[i] == (t.length() - i)) {
+                return rs.substring(0, s.length() - zvalues[i]) + s;
+            }
+        }
+        return "";
+    }
+}
+
+# Using string
+
+class Solution {
+    private int[] computePrefixFunction(String s) {
+        int n = s.length();
+        int[] prefix = new int[n];
+        int j = 0; // length of the previous longest prefix suffix
+        
+        for (int i = 1; i < n; ++i) {
+            while (j > 0 && s.charAt(i) != s.charAt(j)) {
+                j = prefix[j - 1];
+            }
+            if (s.charAt(i) == s.charAt(j)) {
+                ++j;
+            }
+            prefix[i] = j;
+        }
+        return prefix;
+    }
+
+    public String shortestPalindrome(String s) {
+         int n = s.length();
+        String reversed = new StringBuilder(s).reverse().toString();
+        String combined = s + "$" + reversed;
+        
+        // Compute prefix function on the combined string
+        int[] prefix = computePrefixFunction(combined);
+        
+        // Find the length of the longest suffix of the original string
+        // that is also a prefix of the reversed string
+        int longestPrefixSuffix = prefix[combined.length() - 1];
+        
+        // Append the characters to form the shortest palindrome
+        String toAppend = reversed.substring(0, n - longestPrefixSuffix);
+        return toAppend + s;
+    }
+}

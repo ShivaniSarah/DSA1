@@ -1,0 +1,43 @@
+Count Palindromic Subsequences
+https://www.geeksforgeeks.org/problems/count-palindromic-subsequences/1
+
+Given a string str of length N, you have to find number of palindromic subsequence (need not necessarily be distinct) present in the string str.
+Note: You have to return the answer module 109+7;
+
+Example 1:
+Input: 
+Str = "abcd"
+Output: 
+4
+Explanation:
+palindromic subsequence are : "a" ,"b", "c" ,"d"
+
+Using DP
+
+class Solution
+{   private static final int MOD = 1000000007;
+    long countPS(String str)
+    {
+        int n = str.length();
+        long[][] dp = new long[n][n];
+        
+        // Base case: Single character substrings
+        for (int i = 0; i < n; ++i) {
+            dp[i][i] = 1;
+        }
+        
+        // Fill the table for substrings of length > 1
+        for (int length = 2; length <= n; ++length) {
+            for (int i = 0; i <= n - length; ++i) {
+                int j = i + length - 1;
+                if (str.charAt(i) == str.charAt(j)) {
+                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] + 1) % MOD;
+                } else {
+                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1] + MOD) % MOD;
+                }
+            }
+        }
+        
+        return dp[0][n - 1];
+    }
+}

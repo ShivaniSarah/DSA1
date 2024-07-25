@@ -13,12 +13,6 @@ Output: 127
 
 # java
 
-// class Solution {
-//     public int findMaximumXOR(int[] nums) {
-        
-//     }
-// }
-
 class Solution {
     class TrieNode {
         TrieNode[] children = new TrieNode[2];

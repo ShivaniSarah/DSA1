@@ -1,5 +1,9 @@
 https://cp-algorithms.com/string/string-hashing.html
 https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
+Z function Algo: https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/
+Rabin Karp Algo: https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/
+KMP Algo : https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/
+
 
 Hashing is a technique often used to efficiently search for substrings or patterns within strings. The idea is to convert the string or substring into a numerical value (hash) that can be quickly compared. If the hashes match, then the actual strings are compared to confirm the match.
 Here are some common hashing techniques used for strings:

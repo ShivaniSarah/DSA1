@@ -115,3 +115,84 @@ class Trie {
  * boolean param_2 = obj.search(word);
  * boolean param_3 = obj.startsWith(prefix);
  */
+
+App II:
+
+class Trie {
+    private Node root;
+    static class Node {
+        Node[] links;
+        boolean flag;
+
+        Node(){
+        links = new Node[26];
+        flag = false;
+        }
+        
+        boolean containsKey(char ch) {
+            return this.links[ch - 'a'] != null;
+        }
+        void put(char ch, Node node) {
+            this.links[ch - 'a'] = node;
+        }
+        Node get(char ch) {
+            return links[ch - 'a'];
+        }
+        void setEnd() {
+            flag = true;
+        }
+
+        boolean isEnd() {
+            return flag;
+        }
+    }
+    public Trie() {
+        root = new Node();
+    }
+    
+    public void insert(String word) {
+        Node node = root;
+        for (int i = 0; i < word.length(); i++) {
+            if (!node.containsKey(word.charAt(i))) {
+                // Create a new node for
+                // the letter if not present
+                node.put(word.charAt(i), new Node());
+            }
+            // Move to the next node
+            node = node.get(word.charAt(i));
+        }
+        // Mark the end of the word
+        node.setEnd();
+    }
+    
+    public boolean search(String word) {
+         Node node = root;
+        for (int i = 0; i < word.length(); i++) {
+            if (!node.containsKey(word.charAt(i))) {
+                // If a letter is not found,
+                // the word is not in the Trie
+                return false;
+            }
+            // Move to the next node
+            node = node.get(word.charAt(i));
+        }
+        // Check if the last node
+        // marks the end of a word
+        return node.isEnd();
+    }
+    
+    public boolean startsWith(String prefix) {
+         Node node = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            if (!node.containsKey(prefix.charAt(i))) {
+                // If a letter is not found, there is
+                // no word with the given prefix
+                return false;
+            }
+            // Move to the next node
+            node = node.get(prefix.charAt(i));
+        }
+        // The prefix is found in the Trie
+        return true;
+    }
+}

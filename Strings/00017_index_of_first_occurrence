@@ -24,6 +24,8 @@ class Solution {
     }
 }
 
+# Z -function
+
 class Solution {
     public int findMatching(String text, String pat) {
         int textLen = text.length();

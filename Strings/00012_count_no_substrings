@@ -1,0 +1,40 @@
+https://www.geeksforgeeks.org/problems/count-number-of-substrings4528/1
+
+Given a string of lowercase alphabets, count all possible substrings (not necessarily distinct) that have exactly k distinct characters. 
+
+Example 1:
+Input: S = "aba", K = 2
+Output:3
+Explanation:The substrings are: "ab", "ba" and "aba".
+
+Input: S = "abaaca", K = 1
+Output: 7
+Explanation: The substrings are: "a", "b", "a", "aa", "a", "c", "a". 
+
+# Java
+
+class Solution
+{   private long atMostK(String S, int K) {
+        if (K == 0) return 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int left = 0;
+        long count = 0;
+        
+        for (int right = 0; right < S.length(); right++) {
+            map.put(S.charAt(right), map.getOrDefault(S.charAt(right), 0) + 1);
+            
+            while (map.size() > K) {
+                map.put(S.charAt(left), map.get(S.charAt(left)) - 1);
+                if (map.get(S.charAt(left)) == 0) map.remove(S.charAt(left));
+                left++;
+            }
+            
+            count += right - left + 1;
+        }
+        
+        return count;
+    }
+    long substrCount (String S, int K) {
+        return atMostK(S, K) - atMostK(S, K - 1);
+    }
+}

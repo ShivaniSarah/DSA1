@@ -1,0 +1,102 @@
+https://leetcode.com/problems/maximum-xor-with-an-element-from-array/description/
+
+You are given an array nums consisting of non-negative integers. You are also given a queries array, where queries[i] = [xi, mi].
+The answer to the ith query is the maximum bitwise XOR value of xi and any element of nums that does not exceed mi. In other words, the answer is max(nums[j] XOR xi) for all j such that nums[j] <= mi. If all elements in nums are larger than mi, then the answer is -1.
+Return an integer array answer where answer.length == queries.length and answer[i] is the answer to the ith query.
+
+Example 1:
+Input: nums = [0,1,2,3,4], queries = [[3,1],[1,3],[5,6]]
+Output: [3,3,7]
+Explanation:
+1) 0 and 1 are the only two integers not greater than 1. 0 XOR 3 = 3 and 1 XOR 3 = 2. The larger of the two is 3.
+2) 1 XOR 2 = 3.
+3) 5 XOR 2 = 7.
+
+Example 2:
+Input: nums = [5,2,4,6,6,3], queries = [[12,4],[8,1],[6,3]]
+Output: [15,-1,5]
+
+# Java
+
+class Solution {
+    class TrieNode {
+        TrieNode[] children = new TrieNode[2];
+    }
+
+    private TrieNode root;
+
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int q = queries.length;
+        
+        // Sort nums array
+        Arrays.sort(nums);
+
+        // Create an array to store the original indices of the queries
+        int[][] queriesWithIndex = new int[q][3];
+        for (int i = 0; i < q; i++) {
+            queriesWithIndex[i][0] = queries[i][0];
+            queriesWithIndex[i][1] = queries[i][1];
+            queriesWithIndex[i][2] = i;
+        }
+        
+        // Sort queries based on the second element (mi)
+        Arrays.sort(queriesWithIndex, (a, b) -> Integer.compare(a[1], b[1]));
+        
+        // Initialize result array
+        int[] result = new int[q];
+        Arrays.fill(result, -1);
+        
+        // Initialize Trie
+        root = new TrieNode();
+        
+        int idx = 0;
+        for (int[] query : queriesWithIndex) {
+            int xi = query[0];
+            int mi = query[1];
+            int originalIndex = query[2];
+            
+            // Insert valid nums into the Trie
+            while (idx < n && nums[idx] <= mi) {
+                insert(nums[idx]);
+                idx++;
+            }
+            
+            // If Trie is not empty, find the maximum XOR for xi
+            if (idx > 0) {
+                result[originalIndex] = findMaxXor(xi);
+            }
+        }
+        
+        return result;
+    }
+
+    private void insert(int num) {
+        TrieNode node = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node.children[bit] == null) {
+                node.children[bit] = new TrieNode();
+            }
+            node = node.children[bit];
+        }
+    }
+
+    private int findMaxXor(int num) {
+        TrieNode node = root;
+        int maxXor = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            int oppositeBit = bit == 0 ? 1 : 0;
+            if (node.children[oppositeBit] != null) {
+                maxXor = (maxXor << 1) | 1;
+                node = node.children[oppositeBit];
+            } else {
+                maxXor = (maxXor << 1);
+                node = node.children[bit];
+            }
+        }
+        return maxXor;
+    }
+
+}

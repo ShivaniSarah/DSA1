@@ -1,0 +1,40 @@
+https://www.geeksforgeeks.org/problems/index-of-the-first-occurrence-of-pattern-in-a-text/1
+https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/description/
+
+Given two strings text and pattern, find the first index where pattern exactly matches with any substring of text. 
+Return -1 if pattern doesn't exist as a substring in text.
+
+Example 1:
+Input:
+text = gffgfg
+pattern = gfg
+Output: 3
+Explanation:  Considering 0-based indexing, substring of text from 3rd to last index is gfg.
+
+Example 2:
+Input:
+text = gffggg
+pattern = gfg
+Output: -1
+Explanation: pattern "gfg" does not exist in the text.
+
+class Solution {
+    public int findMatching(String text, String pat) {
+        int textLen = text.length();
+        int patLen = pat.length();
+        
+        if (patLen > textLen) {
+            return -1; // Pattern cannot be present if it's longer than text
+        }
+        
+        // Iterate over each possible starting index in text
+        for (int i = 0; i <= textLen - patLen; i++) {
+            // Check if the substring matches the pattern
+            if (text.substring(i, i + patLen).equals(pat)) {
+                return i; // Return the starting index of the match
+            }
+        }
+        
+        return -1; // Return -1 if no match is found
+    }
+}

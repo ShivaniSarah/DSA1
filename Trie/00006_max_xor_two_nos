@@ -13,6 +13,12 @@ Output: 127
 
 # java
 
+// class Solution {
+//     public int findMaximumXOR(int[] nums) {
+        
+//     }
+// }
+
 class Solution {
     class TrieNode {
         TrieNode[] children = new TrieNode[2];
@@ -57,16 +63,4 @@ class Solution {
         return maxXOR;
     }
 
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        
-        // Example 1
-        int[] nums1 = {3, 10, 5, 25, 2, 8};
-        System.out.println(sol.findMaximumXOR(nums1)); // Output: 28
-
-        // Example 2
-        int[] nums2 = {14, 70, 53, 83, 49, 91, 36, 80, 92, 51, 66, 70};
-        System.out.println(sol.findMaximumXOR(nums2)); // Output: 127
-    }
 }
-

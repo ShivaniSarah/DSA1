@@ -20,6 +20,12 @@ Explanation: pattern "gfg" does not exist in the text.
 
 class Solution {
     public int findMatching(String text, String pat) {
+        return text.indexOf(pat);
+    }
+}
+
+class Solution {
+    public int findMatching(String text, String pat) {
         int textLen = text.length();
         int patLen = pat.length();
         

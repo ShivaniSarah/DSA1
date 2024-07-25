@@ -1,0 +1,84 @@
+https://leetcode.com/problems/longest-happy-prefix/description/
+
+A string is called a happy prefix if is a non-empty prefix which is also a suffix (excluding itself).
+Given a string s, return the longest happy prefix of s. Return an empty string "" if no such prefix exists.
+
+Example 1:
+Input: s = "level"
+Output: "l"
+Explanation: s contains 4 prefix excluding itself ("l", "le", "lev", "leve"), and suffix ("l", "el", "vel", "evel"). The largest prefix which is also suffix is given by "l".
+
+Example 2:
+Input: s = "ababab"
+Output: "abab"
+Explanation: "abab" is the largest prefix which is also suffix. They can overlap in the original string.
+
+# java using z function
+
+class Solution {
+    private int[] zFunction(String s) {
+        int n = s.length();
+        int[] z = new int[n];
+        int l = 0, r = 0;
+        
+        for (int i = 1; i < n; ++i) {
+            if (i <= r) {
+                z[i] = Math.min(r - i + 1, z[i - l]);
+            }
+            while (i + z[i] < n && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                ++z[i];
+            }
+            if (i + z[i] - 1 > r) {
+                l = i;
+                r = i + z[i] - 1;
+            }
+        }
+        return z;
+    }
+
+    public String longestPrefix(String s) {
+        int[] zvalues = zFunction(s);
+        int n = s.length();
+        for (int i = 1; i < n; ++i) {
+            int length = zvalues[i];
+            if (length == n - i) {
+                return s.substring(0, length);
+            }
+        }
+        return "";
+    }
+}
+
+# using string
+
+class Solution {
+    private int[] computePrefixFunction(String s) {
+        int n = s.length();
+        int[] prefix = new int[n];
+        int j = 0; // length of the previous longest prefix suffix
+        
+        for (int i = 1; i < n; ++i) {
+            while (j > 0 && s.charAt(i) != s.charAt(j)) {
+                j = prefix[j - 1];
+            }
+            if (s.charAt(i) == s.charAt(j)) {
+                ++j;
+            }
+            prefix[i] = j;
+        }
+        return prefix;
+    }
+
+    public String longestPrefix(String s) {
+        int n = s.length();
+        int[] prefix = computePrefixFunction(s);
+        int lengthOfPrefix = prefix[n - 1];
+        
+        // The longest happy prefix cannot be the entire string itself
+        // Thus, the length of the happy prefix should be less than n
+        if (lengthOfPrefix > 0) {
+            return s.substring(0, lengthOfPrefix);
+        }
+        return "";
+    }
+}

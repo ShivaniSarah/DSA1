@@ -1,0 +1,47 @@
+https://leetcode.com/problems/sum-of-beauty-of-all-substrings/
+
+The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.
+
+For example, the beauty of "abaacc" is 3 - 1 = 2.
+Given a string s, return the sum of beauty of all of its substrings.
+
+Example 1:
+Input: s = "aabcb"
+Output: 5
+Explanation: The substrings with non-zero beauty are ["aab","aabc","aabcb","abcb","bcb"], each with beauty equal to 1.
+
+Example 2:
+Input: s = "aabcbaa"
+Output: 17
+
+# Java
+
+class Solution {
+    public int beautySum(String s) {
+        int totalBeauty = 0;
+        int n = s.length();
+        
+        // Iterate through all possible starting points of substrings
+        for (int start = 0; start < n; start++) {
+            Map<Character, Integer> freqMap = new HashMap<>();
+            
+            // Iterate through all possible ending points of substrings
+            for (int end = start; end < n; end++) {
+                char c = s.charAt(end);
+                freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+                
+                // Find max and min frequency in the current substring
+                int maxFreq = 0, minFreq = Integer.MAX_VALUE;
+                for (int freq : freqMap.values()) {
+                    maxFreq = Math.max(maxFreq, freq);
+                    minFreq = Math.min(minFreq, freq);
+                }
+                
+                // Update total beauty
+                totalBeauty += (maxFreq - minFreq);
+            }
+        }
+        
+        return totalBeauty;  
+    }
+}

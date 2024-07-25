@@ -1,0 +1,68 @@
+https://www.geeksforgeeks.org/problems/search-pattern-rabin-karp-algorithm--141631/1
+
+class Solution
+{
+    private int[] computeLPSArray(String pattern) {
+        int m = pattern.length();
+        int[] lps = new int[m];
+        int length = 0;  // length of the previous longest prefix suffix
+        int i = 1;
+        
+        lps[0] = 0; // lps[0] is always 0
+        
+        while (i < m) {
+            if (pattern.charAt(i) == pattern.charAt(length)) {
+                length++;
+                lps[i] = length;
+                i++;
+            } else {
+                // mismatch after length matches
+                if (length != 0) {
+                    length = lps[length - 1];
+                } else {
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+        return lps;
+    }
+    ArrayList<Integer> search(String pattern, String text)
+    {
+        ArrayList<Integer> result = new ArrayList<>();
+        int n = text.length();
+        int m = pattern.length();
+        
+        if (m == 0) {
+            return result;  // Empty pattern case
+        }
+        
+        int[] lps = computeLPSArray(pattern);
+        
+        int i = 0;  // index for text
+        int j = 0;  // index for pattern
+        
+        while (i < n) {
+            if (pattern.charAt(j) == text.charAt(i)) {
+                i++;
+                j++;
+            }
+            
+            if (j == m) {
+                // Found a match, add the starting index (1-based)
+                result.add(i - j + 1);
+                j = lps[j - 1];
+            } else if (i < n && pattern.charAt(j) != text.charAt(i)) {
+                // mismatch after j matches
+                if (j != 0) {
+                    j = lps[j - 1];
+                } else {
+                    i++;
+                }
+            }
+        }
+        
+        return result;
+        
+    }
+}

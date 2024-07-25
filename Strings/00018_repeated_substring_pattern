@@ -1,0 +1,54 @@
+https://leetcode.com/problems/repeated-substring-pattern/
+
+Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+
+Example 1:
+Input: s = "abab"
+Output: true
+Explanation: It is the substring "ab" twice.
+
+Example 2:
+Input: s = "aba"
+Output: false
+
+Example 3:
+Input: s = "abcabcabcabc"
+Output: true
+Explanation: It is the substring "abc" four times or the substring "abcabc" twice.
+
+# java
+
+class Solution {
+    private int[] zFunction(char[] c) {
+        int n = c.length;
+        int[] z = new int[n];
+        int left = 0, right = 0;
+        
+        for (int i = 1; i < n; i++) {
+            if (i <= right) {
+                z[i] = Math.min(right - i + 1, z[i - left]);
+            }
+            while (i + z[i] < n && c[i + z[i]] == c[z[i]]) {
+                z[i]++;
+            }
+            if (i + z[i] - 1 > right) {
+                right = i + z[i] - 1;
+                left = i;
+            }
+        }
+        return z;
+    }
+    
+    public boolean repeatedSubstringPattern(String str) {
+        int n = str.length();
+        int[] z = zFunction(str.toCharArray());
+        
+        // Check all possible lengths of substring that could repeat
+        for (int i = 1; i < n; i++) {
+            if (z[i] == n - i && n % i == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

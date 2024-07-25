@@ -35,3 +35,44 @@ class Solution
             }
 	}
 }
+
+# recursive
+
+class Solution
+{   
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    private int findMinIndex(int[] arr, int start) {
+        int minIndex = start;
+        for (int i = start + 1; i < arr.length; i++) {
+            if (arr[i] < arr[minIndex]) {
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
+    private void selectionSortRecursive(int[] arr, int start) {
+        // Base case: If the start index is at the last element, the array is sorted
+        if (start >= arr.length - 1) {
+            return;
+        }
+        
+        // Find the index of the minimum element in the unsorted portion
+        int minIndex = findMinIndex(arr, start);
+        
+        // Swap the found minimum element with the first element of the unsorted portion
+        if (minIndex != start) {
+            swap(arr, start, minIndex);
+        }
+        
+        // Recursively sort the remaining unsorted portion of the array
+        selectionSortRecursive(arr, start + 1);
+    }
+	void selectionSort(int arr[], int n)
+	{
+	    selectionSortRecursive(arr, 0);
+	}
+}

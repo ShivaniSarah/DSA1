@@ -1,0 +1,128 @@
+https://leetcode.com/problems/score-after-flipping-matrix/
+
+You are given an m x n binary matrix grid.
+
+A move consists of choosing any row or column and toggling each value in that row or column (i.e., changing all 0's to 1's, and all 1's to 0's).
+
+Every row of the matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.
+
+Return the highest possible score after making any number of moves (including zero moves).
+
+Example 1:
+Input: grid = [[0,0,1,1],[1,0,1,0],[1,1,0,0]]
+Output: 39
+Explanation: 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39
+
+Example 2:
+Input: grid = [[0]]
+Output: 1
+
+# java
+
+class Solution {
+    public int matrixScore(int[][] a) {
+        int n = a.length;
+        int m = a[0].length;
+        int res = (1 << (m - 1)) * n;
+
+        for (int i = 1; i < m; i++) {
+            int curr = 0;
+            for (int j = 0; j < n; j++) {
+                if (a[j][i] == a[j][0]) {
+                    curr++;
+                }
+            }
+            res += (1 << (m - i - 1)) * Math.max(curr, n - curr);
+        }
+
+        return res;
+    }
+}
+
+or
+
+class Solution {
+    public int matrixScore(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // Flip rows to ensure the leftmost column has all 1s.
+        for (int i = 0; i < n; i++) {
+            if (grid[i][0] == 0) {
+                for (int j = 0; j < m; j++) {
+                    grid[i][j] ^= 1;
+                }
+            }
+        }
+
+        // Flip columns if the number of 1s in a column is less than the number of 0s.
+        for (int j = 1; j < m; j++) {
+            int colCount = 0;
+            for (int i = 0; i < n; i++) {
+                colCount += grid[i][j];
+            }
+
+            if (colCount < n - colCount) {
+                for (int i = 0; i < n; i++) {
+                    grid[i][j] ^= 1;
+                }
+            }
+        }
+
+        // Calculate the final score.
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                ans += grid[i][j] * (1 << (m - 1 - j));
+            }
+        }
+        return ans;
+    }
+}
+
+or
+
+class Solution {
+    public int matrixScore(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int ans = n * (1 << (m - 1));
+
+        for (int j = 1; j < m; j++) {
+            int colCount = 0;
+            for (int i = 0; i < n; i++) 
+                colCount += grid[i][0] == 0 ? (grid[i][j] ^ 1) : grid[i][j];
+
+            if (colCount < n - colCount) {
+                ans += (n - colCount) * (1 << (m - 1 - j));
+            } else {
+                ans += (colCount) * (1 << (m - 1 - j));
+            }
+        }
+        return ans;
+    }
+}
+
+or
+
+class Solution {
+    public int matrixScore(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        int res = (1 << (m - 1)) * n;  
+
+        for (int j = 1; j < m; ++j) {
+            int val = 1 << (m - 1 - j);
+            int set = 0;
+
+            for (int i = 0; i < n; ++i) {
+                if (grid[i][j] == grid[i][0]) {
+                    set++;
+                }
+            }
+
+            res += Math.max(set, n - set) * val;
+        }
+
+        return res;
+    }
+}

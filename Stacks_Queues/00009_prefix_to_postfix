@@ -1,0 +1,39 @@
+https://www.geeksforgeeks.org/problems/prefix-to-postfix-conversion/1
+
+You are given a string that represents the prefix form of a valid mathematical expression. Convert it to its postfix form.
+
+Example:
+
+Input: 
+*-A/BC-/AKL
+Output: 
+ABC/-AK/L-*
+Explanation: 
+The above output is its valid postfix form.
+
+# java
+
+class Solution {
+    static String preToPost(String pre_exp) {
+        // code here
+    Stack<String> st = new Stack<>();
+    for(int i=pre_exp.length()-1;i>=0;i--)
+    {
+        char ch=pre_exp.charAt(i);
+        if(Character.isLetterOrDigit(ch))
+        {
+            st.push(ch+"");
+        }
+        else
+        {
+            String t1=st.peek();
+            st.pop();
+            String t2=st.peek();
+            st.pop();
+            String ans=t1+t2+ch;
+            st.push(ans);
+        }
+    }
+    return st.peek();
+    }
+}

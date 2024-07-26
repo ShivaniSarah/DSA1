@@ -1,4 +1,5 @@
 # Please refer https://www.geeksforgeeks.org/deque-interface-java-example/ for methods of Deque
+
 add(element)	This method is used to add an element at the tail of the queue. If the Deque is capacity restricted and no space is left for insertion, it returns an IllegalStateException. The function returns true on successful insertion.
 addFirst(element)	This method is used to add an element at the head of the queue. If the Deque is capacity restricted and no space is left for insertion, it returns an IllegalStateException. The function returns true on successful insertion.
 addLast(element)	This method is used to add an element at the tail of the queue. If the Deque is capacity restricted and no space is left for insertion, it returns an IllegalStateException. The function returns true on successful insertion.
@@ -61,3 +62,155 @@ public class ArrayDequeDemo {
         System.out.println(de_que);
     }
 }
+
+
+# Queue
+
+// Java program to demonstrate a Queue
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class QueueExample {
+
+    public static void main(String[] args)
+    {
+        Queue<Integer> q
+            = new LinkedList<>();
+
+        // Adds elements {0, 1, 2, 3, 4} to
+        // the queue
+        for (int i = 0; i < 5; i++)
+            q.add(i);
+
+        // Display contents of the queue.
+        System.out.println("Elements of queue "
+                           + q);
+
+        // To remove the head of queue.
+        int removedele = q.remove();
+        System.out.println("removed element-"
+                           + removedele);
+
+        System.out.println(q);
+
+        // To view the head of queue
+        int head = q.peek();
+        System.out.println("head of queue-"
+                           + head);
+
+        // Rest all methods of collection
+        // interface like size and contains
+        // can be used with this
+        // implementation.
+        int size = q.size();
+        System.out.println("Size of queue-"
+                           + size);
+    }
+}
+
+add(int index, element)	This method is used to add an element at a particular index in the queue. When a single parameter is passed, it simply adds the element at the end of the queue.
+addAll(int index, Collection collection)	This method is used to add all the elements in the given collection to the queue. When a single parameter is passed, it adds all the elements of the given collection at the end of the queue.
+size()	This method is used to return the size of the queue.
+clear()	This method is used to remove all the elements in the queue. However, the reference of the queue created is still stored.
+remove()	This method is used to remove the element from the front of the queue.
+remove(int index)	This method removes an element from the specified index. It shifts subsequent elements(if any) to left and decreases their indexes by 1.
+remove(element)	This method is used to remove and return the first occurrence of the given element in the queue.
+get(int index)	This method returns elements at the specified index.
+set(int index, element)	This method replaces elements at a given index with the new element. This function returns the element which was just replaced by a new element.
+indexOf(element)	This method returns the first occurrence of the given element or -1 if the element is not present in the queue.
+lastIndexOf(element)	This method returns the last occurrence of the given element or -1 if the element is not present in the queue.
+equals(element)	This method is used to compare the equality of the given element with the elements of the queue.
+hashCode()	This method is used to return the hashcode value of the given queue.
+isEmpty()	This method is used to check if the queue is empty or not. It returns true if the queue is empty, else false.
+contains(element)	This method is used to check if the queue contains the given element or not. It returns true if the queue contains the element.
+containsAll(Collection collection)	This method is used to check if the queue contains all the collection of elements.
+sort(Comparator comp)	This method is used to sort the elements of the queue on the basis of the given comparator.
+boolean add(object)	This method is used to insert the specified element into a queue and return true upon success.
+boolean offer(object)	This method is used to insert the specified element into the queue.
+Object poll()	This method is used to retrieve and removes the head of the queue, or returns null if the queue is empty.
+Object element()	This method is used to retrieves, but does not remove, the head of queue.
+Object peek()	This method is used to retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+
+# Stack
+
+// Java program to demonstrate the removing
+// of the elements from the stack
+import java.util.*;
+import java.io.*;
+
+public class StackDemo {
+    public static void main(String args[])
+    {
+        // Creating an empty Stack
+        Stack<Integer> stack = new Stack<Integer>();
+
+        // Use add() method to add elements
+        stack.push(10);
+        stack.push(15);
+        stack.push(30);
+        stack.push(20);
+        stack.push(5);
+
+        // Displaying the Stack
+        System.out.println("Initial Stack: " + stack);
+
+        // Removing elements using pop() method
+        System.out.println("Popped element: "
+                           + stack.pop());
+        System.out.println("Popped element: "
+                           + stack.pop());
+
+        // Displaying the Stack after pop operation
+        System.out.println("Stack after pop operation "
+                           + stack);
+    }
+}
+
+empty()It returns true if nothing is on the top of the stack. Else, returns false.
+peek()Returns the element on the top of the stack, but does not remove it.
+pop() Removes and returns the top element of the stack. An ‘EmptyStackException’ An exception is thrown if we call pop() when the invoking stack is empty.
+push(Object element)Pushes an element on the top of the stack.
+search(Object element) It determines whether an object exists in the stack. If the element is found,It returns the position of the element from the top of the stack. Else, it returns -1.
+addAll(int index, Collection c)	Inserts all the elements in the specified Collection into this Vector at the specified position.
+addElement(Object o)	Adds the specified component to the end of this vector, increasing its size by one.
+capacity()	Returns the current capacity of this vector.
+clear()	Removes all the elements from this Vector.
+clone()	Returns a clone of this vector.
+contains(Object o)	Returns true if this vector contains the specified element.
+containsAll(Collection c)	Returns true if this Vector contains all the elements in the specified Collection.
+copyInto(Object []array)	Copies the components of this vector into the specified array.
+elementAt(int index)	Returns the component at the specified index.
+elements()	Returns an enumeration of the components of this vector.
+ensureCapacity(int minCapacity)	Increases the capacity of this vector, if necessary, to ensure that it can hold at least the number of components specified by the minimum capacity argument.equals()	Compares the specified Object with this Vector for equality.
+firstElement()	Returns the first component (the item at index 0) of this vector.
+get(int index)	Returns the element at the specified position in this Vector.
+hashCode()	Returns the hash code value for this Vector.
+indexOf(Object o) Returns the index of the first occurrence of the specified element in this vector, or -1 if this vector does not contain the element.
+indexOf(Object o, int index)	Returns the index of the first occurrence of the specified element in this vector, searching forwards from the index, or returns -1 if the element is not found.
+insertElementAt(Object o, int index)	Inserts the specified object as a component in this vector at the specified index.
+isEmpty()	Tests if this vector has no components.
+iterator()	Returns an iterator over the elements in this list in proper sequence.
+lastElement()	Returns the last component of the vector.
+lastIndexOf(Object o)Returns the index of the last occurrence of the specified element in this vector, or -1 If this vector does not contain the element.
+lastIndexOf(Object o, int index)Returns the index of the last occurrence of the specified element in this vector, searching backward from the index, or returns -1 if the element is not found.
+listIterator()	Returns a list iterator over the elements in this list (in proper sequence).
+listIterator(int index)	
+Returns a list iterator over the elements in this list (in proper sequence), starting at the specified position in the list.
+remove(int index)	Removes the element at the specified position in this Vector.
+remove(Object o)	Removes the first occurrence of the specified element in this Vector If the Vector does not contain the element, it is unchanged.
+removeAll(Collection c)	Removes from this Vector all of its elements that are contained in the specified Collection.
+removeAllElements()	Removes all components from this vector and sets its size to zero.
+removeElement(Object o)	Removes the first (lowest-indexed) occurrence of the argument from this vector.
+removeElementAt(int index)	Deletes the component at the specified index.
+removeRange(int fromIndex, int toIndex)	Removes from this list all the elements whose index is between fromIndex, inclusive, and toIndex, exclusive.
+retainAll(Collection c)	Retains only the elements in this Vector that are contained in the specified Collection.
+set(int index, Object o)	Replaces the element at the specified position in this Vector with the specified element.
+setElementAt(Object o, int index)	Sets the component at the specified index of this vector to be the specified object.
+setSize(int newSize)	Sets the size of this vector.
+size()	Returns the number of components in this vector.
+subList(int fromIndex, int toIndex)	Returns a view of the portion of this List between fromIndex, inclusive, and toIndex, exclusive.
+toArray()	Returns an array containing all of the elements in this Vector in the correct order.
+toArray(Object []array)	Returns an array containing all of the elements in this Vector in the correct order; the runtime type of the returned array is that of the specified array.
+toString()	Returns a string representation of this Vector, containing the String representation of each element.
+trimToSize()	Trims the capacity of this vector to be the vector’s current size.

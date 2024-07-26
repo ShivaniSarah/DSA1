@@ -1,0 +1,77 @@
+https://leetcode.com/problems/maximum-odd-binary-number/
+
+You are given a binary string s that contains at least one '1'.
+You have to rearrange the bits in such a way that the resulting binary number is the maximum odd binary number that can be created from this combination.
+Return a string representing the maximum odd binary number that can be created from the given combination.
+Note that the resulting string can have leading zeros.
+
+Example 1:
+Input: s = "010"
+Output: "001"
+Explanation: Because there is just one '1', it must be in the last position. So the answer is "001".
+
+Example 2:
+Input: s = "0101"
+Output: "1001"
+Explanation: One of the '1's must be in the last position. The maximum number that can be made with the remaining digits is "100". So the answer is "1001".
+
+# java
+
+class Solution {
+    public String maximumOddBinaryNumber(String s) {
+        int zero = 0, one = 0;
+        for(char ch: s.toCharArray()){
+            if(ch == '0'){
+                zero++;
+            }else{
+                one++;
+            }
+        }
+        StringBuilder str = new StringBuilder("");
+        while(one-- > 1){
+            str.append('1');
+        }
+        while(zero-- > 0){
+            str.append('0');
+        }
+        str.append('1');
+        return str.toString();
+    }
+}
+
+or
+
+
+class Solution {
+    public String maximumOddBinaryNumber(String s) {
+        char[] arr = s.toCharArray();
+        Arrays.sort(arr);
+        reverseArray(arr); 
+        int j = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == '0') {
+                j = i;
+                break;
+            }
+        }
+        if (j == -1) {
+            return String.valueOf(arr);
+        }
+        char temp = arr[arr.length-1];
+        arr[arr.length-1] = arr[j-1];
+        arr[j-1] = temp;
+        return String.valueOf(arr);
+    }
+    private void reverseArray(char[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            char temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}

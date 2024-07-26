@@ -1,0 +1,75 @@
+https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/description/
+
+Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+
+Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of 
+size k and average greater than or equal to threshold.
+
+Example 1:
+
+Input: arr = [2,2,2,2,5,5,5,8], k = 3, threshold = 4
+Output: 3
+Explanation: Sub-arrays [2,5,5],[5,5,5] and [5,5,8] have averages 4, 5 and 6 respectively. All other sub-arrays of size 3 have averages less than 4 (the threshold).
+Example 2:
+
+Input: arr = [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5
+Output: 6
+Explanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note that averages are not integers.
+
+# java
+
+class Solution {
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+        int avg = 0;
+        int count = 0;
+        int start = 0;
+        int sum = 0;
+        for(int end = 0 ; end  < arr.length ; end++){
+            sum = sum+arr[end];
+            
+            if(end>=k-1){
+                avg = sum / k;
+                if(avg>=threshold) count++;
+                sum=sum-arr[start];
+                start++;
+            }
+        }  
+        return count;
+    }
+}
+
+or 
+
+class Solution {
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+        int currSum = 0; // For storing the sum value of window size
+        int countK = 0; // To check if the size is achieved then start adding the values
+        int countRes = 0; // To store the result count
+        int len = arr.length;
+        int avg;
+        for(int i=0 ; i<len ; i++){
+            currSum += arr[i];
+            countK++;
+            if(countK >= k){
+                avg = (currSum/k);
+                if(avg >= threshold){
+                    countRes++;
+                }
+                /**
+                    This will subtract the first element in the window and 
+                    in the next iteration, the new window will be added.
+                    For e.g:
+                    arr=[1,2,3,4,5] and k = 3
+                    i=2
+                    currSum = (1+2+3) = 6
+                    currSum = currSum - arr[(i+1)-k];
+                    window is (1,2,3) - Subtract 1 from the window
+                    then shift the window.
+                    currSum = 6 - arr[0]; 
+                **/
+                currSum = currSum - arr[(i+1)-k]; 
+            }
+        }
+        return countRes;
+    }
+}

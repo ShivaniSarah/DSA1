@@ -1,0 +1,77 @@
+https://www.geeksforgeeks.org/problems/infix-to-postfix-1587115620/1
+
+Given an infix expression in the form of string str. Convert this infix expression to postfix expression.
+
+Infix expression: The expression of the form a op b. When an operator is in-between every pair of operands.
+Postfix expression: The expression of the form a b op. When an operator is followed for every pair of operands.
+Note: The order of precedence is: ^ greater than * equals to / greater than + equals to -. Ignore the right associativity of ^.
+Example 1:
+
+Input: str = "a+b*(c^d-e)^(f+g*h)-i"
+Output: abcd^e-fgh*+^*+i-
+Explanation:
+After converting the infix expression 
+into postfix expression, the resultant 
+expression will be abcd^e-fgh*+^*+i-
+Example 2:
+
+Input: str = "A*(B+C)/D"
+Output: ABC+*D/
+Explanation:
+After converting the infix expression 
+into postfix expression, the resultant 
+expression will be ABC+*D/
+
+# java
+
+class Solution {
+    // Function to convert an infix expression to a postfix expression.
+    public static String infixToPostfix(String exp) {
+        // Your code here
+        Stack<String> st = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<exp.length(); i++){
+            // A-> 65 to Z-> 65+26 = 91
+            // a-> 97 to z-> 97+26 = 123
+            // 0-> 48 ro 9-> 48+10 = 58
+           char ch = exp.charAt(i);
+           if( (ch>=65 && ch<=91) || (ch>=97 && ch<=123) || (ch>=48 && ch<=58) ){
+               sb.append(ch);
+           }else if(ch=='('){
+               st.push(ch+"");
+           }else if(ch==')'){
+               while(!st.isEmpty() && !st.peek().equals("(")){
+                   sb.append(st.peek());
+                   st.pop();
+               }
+               if(!st.isEmpty()){
+                   st.pop();
+               }
+           }else{
+               while(!st.isEmpty() && (priority(ch) <= priority(st.peek().charAt(0)) ) ){
+                    sb.append(st.peek());
+                    st.pop();
+               }
+               st.push(ch+"");
+           }
+           
+        }
+        while(!st.isEmpty()){
+            sb.append(st.peek());
+            st.pop();
+        }
+        return sb.toString();
+    }
+    public static int priority(char c){
+        if(c=='^'){
+            return 3;
+        }
+        if(c=='*' || c=='/'){
+            return 2;
+        }
+        if(c=='+' || c=='-'){
+            return 1;
+        }
+        return -1;
+    }
+}

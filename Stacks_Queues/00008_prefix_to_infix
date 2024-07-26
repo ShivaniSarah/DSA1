@@ -1,0 +1,36 @@
+https://www.geeksforgeeks.org/problems/prefix-to-infix-conversion/1
+
+Prefix to Infix Conversion
+You are given a string S of size N that represents the prefix form of a valid mathematical expression. Convert it to its infix form.
+
+Example 1:
+Input: 
+*-A/BC-/AKL
+Output: 
+((A-(B/C))*((A/K)-L))
+Explanation: 
+The above output is its valid infix form.
+
+# java
+
+class Solution {
+    static String preToInfix(String pre_exp) {
+        // code here
+        Stack<String> stack = new Stack<>();
+        for(int i=pre_exp.length()-1; i>=0; i--){
+            char ch = pre_exp.charAt(i);
+            if(Character.isAlphabetic(ch) || Character.isDigit(ch)){
+                stack.push(ch + "");
+            }else{
+                String first = stack.pop();
+                String second = stack.pop();
+                String temp = "(" + first + ch + second +")";
+                stack.push(temp);
+            }
+        }
+        return stack.peek();
+    }
+}
+
+
+

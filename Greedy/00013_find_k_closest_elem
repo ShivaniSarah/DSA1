@@ -1,0 +1,84 @@
+https://leetcode.com/problems/find-k-closest-elements/description/
+
+Find K Closest Elements
+
+Given a sorted integer array arr, two integers k and x, return the k closest integers to x in the array. 
+The result should also be sorted in ascending order.
+An integer a is closer to x than an integer b if:
+
+|a - x| < |b - x|, or
+|a - x| == |b - x| and a < b
+ 
+Example 1:
+Input: arr = [1,2,3,4,5], k = 4, x = 3
+Output: [1,2,3,4]
+
+Example 2:
+Input: arr = [1,2,3,4,5], k = 4, x = -1
+Output: [1,2,3,4]
+
+# java
+
+class Solution {
+    public List<Integer> findClosestElements(int[] a, int k, int x) {
+        List<Integer> nm=new ArrayList<>();
+        int i=0,j=a.length-1;
+        while(j-i+1>k)
+        {
+            if(Math.abs(x-a[i])>Math.abs(x-a[j]))
+            {
+                i++;
+            }
+            else if(Math.abs(x-a[i])<=Math.abs(x-a[j]))
+            {
+                j--;
+            }
+        }
+        for(int p=i;p<=j;p++)
+        {
+            nm.add(a[p]);
+        }
+        return nm;
+    }
+}
+
+or
+
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        // Intrinsic sort based on the difference, if the absolute diff is same, it will pick the smallest element.
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> Math.abs(x-a) != Math.abs(x-b) ? 
+                                                        Math.abs(x-b) - Math.abs(x-a): b-a);
+        for(int i: arr){ // inject array elements into PQ.
+            pq.offer(i);
+            if(pq.size() > k) pq.poll(); // Remove one when size is more than k.
+        }
+        List<Integer> out = new ArrayList<>(pq);
+        Collections.sort(out); // the list as it will be in reverseorder.
+        return out;
+    }
+}
+
+or
+
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+
+        int left = 0, right = arr.length - k;
+        while (left < right) {
+            int midpoint = left + (right - left) / 2; // same as (left + right) / 2
+            if (x - arr[midpoint] > arr[midpoint + k] - x) {
+                left = midpoint + 1;
+            }
+            else {
+                right = midpoint;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>(k);
+        for (int i = left; i < left + k; i++) {
+            result.add(arr[i]);
+        }
+        return result;
+    }
+}

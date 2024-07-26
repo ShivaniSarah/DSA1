@@ -1,0 +1,42 @@
+https://www.geeksforgeeks.org/problems/postfix-to-infix-conversion/1
+
+You are given a string that represents the postfix form of a valid mathematical expression. Convert it to its infix form.
+
+Example:
+
+Input:
+ab*c+ 
+Output: 
+((a*b)+c)
+Explanation: 
+The above output is its valid infix form.
+
+# java
+
+class Solution {
+    static String postToInfix(String exp) {
+        // code here
+        Stack<String> st = new Stack<>();
+
+        int len=exp.length();
+        char ch;
+        for(int i=0;i<len;i++)
+        {
+            ch=exp.charAt(i);
+            if(Character.isLetterOrDigit(ch))
+            {
+                st.push(ch+"");
+            }
+            else
+            {
+                String t1=st.peek();
+                st.pop();
+                String t2=st.peek();
+                st.pop();
+                String ans='('+t2+ch+t1+')';
+                st.push(ans);
+            }
+        }
+        return st.peek();
+    }
+}

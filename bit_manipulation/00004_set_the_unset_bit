@@ -1,0 +1,34 @@
+https://www.geeksforgeeks.org/problems/set-the-rightmost-unset-bit4436/1
+
+Given a non-negative number n . The problem is to set the rightmost unset bit in the binary representation of n.
+
+Examples :
+Input: n = 6
+Output: 7
+Explanation: The binary representation of 6 is 110. After setting right most bit it becomes 111 which is 7.
+Input: n = 15
+Output: 31
+Explanation: The binary representation of 15 is 01111. After setting right most bit it becomes 11111 which is 31.
+
+# java
+
+class Solution {
+    static int setBit(int n) {
+        int right=n|(n+1);
+        return right;
+    }
+}
+
+or
+
+class Solution {
+    static int setBit(int n) {
+
+       if( (n &(n+1))==0){
+           n=n|1;
+       }
+       int x=n|n+1;
+       return x;
+  
+    }
+}

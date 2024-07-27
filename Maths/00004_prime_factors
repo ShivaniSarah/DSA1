@@ -1,0 +1,99 @@
+https://www.geeksforgeeks.org/problems/prime-factors5052/1
+
+Given a number N. Find its unique prime factors in increasing order.
+
+Example 1:
+
+Input: N = 100
+Output: 2 5
+Explanation: 2 and 5 are the unique prime
+factors of 100.
+Example 2:
+
+Input: N = 35
+Output: 5 7
+Explanation: 5 and 7 are the unique prime
+factors of 35.
+
+# java
+
+class Solution
+{
+    public int[] AllPrimeFactors(int N)
+    {
+        // code here
+        Set<Integer> set = new HashSet<>();
+        
+        int num = N;
+        
+        while(num % 2== 0){
+            set.add(2);
+            num = num /2;
+        }
+        
+    
+            for(int i= 3;i<=Math.sqrt(num);i=i+2){
+                while(num % i == 0){
+                    set.add(i);
+                    num = num/i;
+                }
+            }
+        
+        
+        if(num>2){
+            set.add(num);
+        }
+        
+       
+        
+        
+        
+        int[] res = new int[set.size()];
+        int i = 0;
+        for(int n : set){
+            res[i++] = n;
+        }
+        
+        Arrays.sort(res);
+        
+        return res;
+        
+        
+    }
+}
+
+
+or
+
+class Solution
+{
+    public int[] AllPrimeFactors(int N)
+    {
+        // code here
+        int[] res;
+        
+        if(N == 2 || N == 3){
+            res= new int[1];
+            res[0]= N;
+            return res;
+        }
+        
+        int i;
+        List<Integer> ans = new ArrayList<>();
+        for(i = 2; i <= N;i++){
+            if( N%i == 0 ){
+                ans.add(i);
+                while( N%i == 0){
+                    N = N/i;
+                }
+            }
+        }
+        
+        res = new int[ans.size()];
+        for(i =0; i < ans.size();i++){
+            res[i] = ans.get(i);
+        }
+        return res;
+        
+    }
+}

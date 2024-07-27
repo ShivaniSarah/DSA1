@@ -1,0 +1,39 @@
+Prime Factorization using Sieve
+
+https://www.geeksforgeeks.org/problems/prime-factorization-using-sieve/1
+
+You are given a positive number N. Using the concept of Sieve, compute its prime factorisation.
+
+Example:
+
+Input: 
+N = 12246
+Output: 
+2 3 13 157
+Explanation: 
+2*3*13*157 = 12246 = N.
+
+# java
+
+class Solution {
+    // You must implement this function
+    static void sieve() {}
+
+    static List<Integer> findPrimeFactors(int N) {
+        // code here
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        for(int i = 2; i * i <= N; i++) {
+            if(N % i == 0) {
+                while(N % i == 0) {
+                    ans.add(i);
+                    N = N / i;
+                }
+            }
+        }
+        
+        if(N != 1) ans.add(N);
+        
+        return ans;
+    }
+}

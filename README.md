@@ -118,5 +118,68 @@ cars.size();
 Collections.sort(cars);
 
 all add set get method are on LinkedList or ArrayList or any List objects
-    
+
+
+Fetching test cases:
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class TestCasesInput {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<ArrayList<String>> testCases = new ArrayList<>();
+        
+        while (scanner.hasNextLine()) {
+            ArrayList<String> testCase = new ArrayList<>();
+            String line;
+            while (scanner.hasNextLine() && !(line = scanner.nextLine()).isEmpty()) {
+                testCase.add(line);
+            }
+            if (!testCase.isEmpty()) {
+                testCases.add(testCase);
+            }
+        }
+
+        // Example output of the test cases
+        for (ArrayList<String> testCase : testCases) {
+            System.out.println("Test Case:");
+            for (String line : testCase) {
+                System.out.println(line);
+            }
+            System.out.println();
+        }
+    }
+}
+
+import java.util.Scanner;
+
+public class MultilineInput {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read the number of test cases
+        int t = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        for (int i = 0; i < t; i++) {
+            // Read the first line of the test case
+            String[] line1 = scanner.nextLine().split(" ");
+            int a = Integer.parseInt(line1[0]);
+            int b = Integer.parseInt(line1[1]);
+
+            // Read the second line of the test case
+            String[] line2 = scanner.nextLine().split(" ");
+            int c = Integer.parseInt(line2[0]);
+            int d = Integer.parseInt(line2[1]);
+
+            // Perform operations with the input values
+            System.out.println("Test case " + (i + 1) + ": a = " + a + ", b = " + b + ", c = " + c + ", d = " + d);
+        }
+
+        scanner.close();
+    }
+}
+
+
 

@@ -1,0 +1,47 @@
+https://leetcode.com/problems/minimize-deviation-in-array/description/
+
+You are given an array nums of n positive integers.
+
+You can perform two types of operations on any element of the array any number of times:
+
+If the element is even, divide it by 2.
+For example, if the array is [1,2,3,4], then you can do this operation on the last element, and the array will be [1,2,3,2].
+If the element is odd, multiply it by 2.
+For example, if the array is [1,2,3,4], then you can do this operation on the first element, and the array will be [2,2,3,4].
+The deviation of the array is the maximum difference between any two elements in the array.
+
+Return the minimum deviation the array can have after performing some number of operations.
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: 1
+Explanation: You can transform the array to [1,2,3,2], then to [2,2,3,2], then the deviation will be 3 - 2 = 1.
+
+# java
+
+class Solution {
+    static final int[] q = new int[1600000];
+
+    public int minimumDeviation(int[] nums) {
+        final int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] % 2 == 1) {
+                nums[i] *= 2;
+            }
+        }
+        Arrays.sort(nums);
+        int qstart = 0;
+        int qend = 0;
+        int best = nums[n - 1] - nums[0];
+        int numptr = n - 2;
+        q[qend++] = nums[n - 1];
+        int min = nums[0];
+        while (true) {
+            final int pick = numptr >= 0 && nums[numptr] > q[qstart] ? nums[numptr--] : q[qstart++];
+            best = Math.min(best, pick - min);
+            if (pick % 2 == 1) return best;
+            min = Math.min(min, q[qend++] = pick / 2);
+        }
+    }
+}

@@ -1,0 +1,96 @@
+https://leetcode.com/problems/reorganize-string/description/
+
+Given a string s, rearrange the characters of s so that any two adjacent characters are not the same.
+Return any possible rearrangement of s or return "" if not possible.
+
+Example 1:
+
+Input: s = "aab"
+Output: "aba"
+Example 2:
+
+Input: s = "aaab"
+Output: ""
+
+# java
+
+public class Solution {
+    public String reorganizeString(String s) {
+        HashMap<Character, Integer> freqMap = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+        }
+
+        PriorityQueue<Character> maxHeap = new PriorityQueue<>((a, b) -> freqMap.get(b) - freqMap.get(a));
+        maxHeap.addAll(freqMap.keySet());
+
+        StringBuilder res = new StringBuilder();
+        while (maxHeap.size() >= 2) {
+            char char1 = maxHeap.poll();
+            char char2 = maxHeap.poll();
+
+            res.append(char1);
+            res.append(char2);
+
+            freqMap.put(char1, freqMap.get(char1) - 1);
+            freqMap.put(char2, freqMap.get(char2) - 1);
+
+            if (freqMap.get(char1) > 0) maxHeap.add(char1);
+            if (freqMap.get(char2) > 0) maxHeap.add(char2);
+        }
+
+        if (!maxHeap.isEmpty()) {
+            char ch = maxHeap.poll();
+            if (freqMap.get(ch) > 1) return "";
+            res.append(ch);
+        }
+
+        return res.toString();
+    }
+}
+
+or
+
+class Solution {
+    public String reorganizeString(String s) {
+        PriorityQueue<Pair<Integer,Character>> mxheap ;
+        mxheap = new PriorityQueue<>((a,b) -> a.getKey()!=b.getKey() ?  -a.getKey() + b.getKey() : a.getValue()- b.getValue());
+        int i = 0 , n = s.length();
+        int[] count = new int[26];
+        for(i = 0 ; i  < n ;i++){
+            char c = s.charAt(i);
+            count[c-'a']++;
+        }
+        for(i = 0 ; i < 26; i++)
+            if(count[i] != 0)
+                mxheap.add(new Pair(count[i], (char)('a'+i)));
+        // System.out.println(mxheap);
+        String ans = "";
+        while( mxheap.size() > 0 ){
+            int num = mxheap.peek().getKey();
+            char c = mxheap.peek().getValue();
+            mxheap.poll();
+            
+            ans+=c;
+            boolean present = false;
+            int num2 = 0;
+            char c2 = ' ';
+            if(mxheap.size() > 0 ){
+                num2 = mxheap.peek().getKey();
+                c2 = mxheap.peek().getValue();
+                mxheap.poll();
+                present = true;
+                ans+=c2;
+            }
+            if(present && num2-1 > 0)
+                mxheap.add(new Pair(num2-1, c2));
+            if(num -1 > 0)
+                mxheap.add(new Pair(num-1,c));
+        }
+        for(i = 1 ; i < ans.length(); i++){
+            if(ans.charAt(i) == ans.charAt(i-1) )
+                return "";
+        }
+        return ans;
+    }
+}

@@ -40,6 +40,8 @@ class Solution {
     }
 }
 
+or
+
 class Solution {
     public int constrainedSubsetSum(int[] nums, int k) {
         int res = Integer.MIN_VALUE;

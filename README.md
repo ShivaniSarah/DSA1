@@ -2,6 +2,26 @@
 
 fill arrays-> 00048_blank
 
+Topics:
+
+1. Sorting-------------------
+2. Array
+3. Strings
+4. Sliding window and two pointer
+5. Greedy
+6. Heap/Priority Queue
+7. Stack and Queue and Dequeue and Monotonic Stack
+8. Binary Search-----------------
+9. Recursion---------------------------
+10. DP                                
+11. Graph
+12. Binary Tree
+13. Binary Search Tree------------------
+14. LinkedList
+15. Trie
+16. Bit Manipulation----------------
+17. Math 
+
 Platforms used:
 0. https://takeuforward.org
 1. leetcode
@@ -23,7 +43,6 @@ max PQ: PriorityQueue<Integer> pQueue = new PriorityQueue<Integer>(Collections.r
 Revisit:
 
 Array: 12 : priority queue
-
 
 TO DO:
 

@@ -67,16 +67,12 @@ list.add("b");
 List<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collector.toList());
 List<Pair> l = list.stream().map(s -> new Pair(s)).toList(); //Java11 or 17
 Set<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collector.toSet());
-
 class Pair {
-
     String s;
-
     Pair(String s) {
         this.s = s;
     }
 }
-
 ArrayList<String> cars = new ArrayList<String>(); // Create an ArrayList object
 cars.add("Volvo");
 cars.add("BMW");

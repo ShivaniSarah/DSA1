@@ -1,0 +1,57 @@
+https://www.geeksforgeeks.org/problems/merge-k-sorted-arrays/1
+
+Given k sorted arrays arranged in the form of a matrix of size k * k. The task is to merge them into one sorted array. Return the merged sorted array ( as a pointer to the merged sorted arrays in cpp, as an ArrayList in java, and list in python).
+
+Examples :
+
+Input: k = 3, arr[][] = {{1,2,3},{4,5,6},{7,8,9}}
+Output: 1 2 3 4 5 6 7 8 9
+Explanation: Above test case has 3 sorted arrays of size 3, 3, 3 arr[][] = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]. The merged list will be [1, 2, 3, 4, 5, 6, 7, 8, 9].
+Input: k = 4, arr[][]={{1,2,3,4},{2,2,3,4},{5,5,6,6},{7,8,9,9}}
+Output: 1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9 
+Explanation: Above test case has 4 sorted arrays of size 4, 4, 4, 4 arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4], [5, 5, 6, 6], [7, 8, 9, 9 ]]. The merged list will be [1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9].
+
+# java
+
+class Pair
+{
+    int data;
+    int rowindex;
+    int colindex;
+    public Pair(int data,int rowindex,int colindex)
+    {
+        this.data=data;
+        this.rowindex=rowindex;
+        this.colindex=colindex;
+    }
+}
+class Solution
+{
+    //Function to merge k sorted arrays.
+    public static ArrayList<Integer> mergeKArrays(int[][] arr,int K) 
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        PriorityQueue<Pair> pq=new PriorityQueue<>(new Comparator<>()
+        {
+            public int compare(Pair x,Pair y)
+            {
+                return x.data-y.data;
+            }
+        });
+        for(int i=0;i<K;i++)
+        {
+            pq.add(new Pair(arr[i][0],i,0));
+        }
+        while(!pq.isEmpty())
+        {
+            Pair p=pq.poll();
+            ans.add(p.data);
+            if(p.colindex<K-1)
+            {
+                pq.add(new Pair(arr[p.rowindex][p.colindex+1],p.rowindex,p.colindex+1));
+            }
+        }
+        return ans;
+        
+    }
+}

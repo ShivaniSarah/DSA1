@@ -55,3 +55,8 @@ Long.MIN_VALUE;
 Long.MAX_VALUE;
 Double.MIN_VALUE;
 Double.MAX_VALUE;
+
+list.stream().mapToInt(i -> i).toArray();
+list.stream().mapToLong(i -> i).toArray();
+list.stream().mapToDouble(i -> i).toArray();
+

@@ -1,0 +1,42 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/description/
+
+Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+For example, the following two linked lists begin to intersect at node c1:
+
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.
+
+Note that the linked lists must retain their original structure after the function returns.
+
+# java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) 
+            return null;
+        
+        ListNode tempA = headA;
+        ListNode tempB = headB;
+
+        // Traverse both lists
+        while (tempA != tempB) {
+            // Move to the start of the other list when reaching the end
+            tempA = (tempA == null) ? headB : tempA.next;
+            tempB = (tempB == null) ? headA : tempB.next;
+        }
+        
+        // Return the intersection node (or null if there is no intersection)
+        return tempA;
+    }
+}

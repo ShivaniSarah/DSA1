@@ -1,0 +1,31 @@
+https://www.geeksforgeeks.org/problems/introduction-to-doubly-linked-list/1
+
+Geek is learning data structures and is familiar with linked lists, but he's curious about how to access the previous element in a linked list in the same way that we access the next element. His teacher explains doubly linked lists to him.
+
+Given an integer array arr of size n. Construct the doubly linked list from arr and return the head of it.
+
+Example 1:
+
+Input:
+n = 5
+arr = [1,2,3,4,5]
+Output:
+1 2 3 4 5
+Explanation: Linked list for the given array will be 1<->2<->3<->4<->5.
+
+# java
+
+
+class Solution {
+    Node constructDLL(int arr[]) {
+        Node head = new Node(arr[0]);
+        Node temp = head;
+        for (int i=1; i<arr.length; i++) {
+            Node temp1 = new Node(arr[i]);
+            temp.next = temp1;
+            temp1.prev = temp;
+            temp = temp1;
+        }
+        return head;
+    }
+}

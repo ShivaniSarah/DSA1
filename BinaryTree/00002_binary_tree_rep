@@ -1,0 +1,43 @@
+https://www.geeksforgeeks.org/problems/binary-tree-representation/1
+
+Binary Tree Representation
+
+You are given an array nodes.
+It contains 7 integers, which represents the value of nodes of the binary tree in level order traversal.
+You are also given a root of the tree which has a value equal to nodes[0].
+
+Your task to construct a binary tree by creating nodes for the remaining 6 nodes.
+
+Input: 
+nodes = [1 2 3 4 5 6 7]
+Output: 
+         1
+       /   \
+     2       3
+   /  \     /  \
+   4  5    6   7
+Explanation: 
+The 7 node binary tree is represented above.
+
+# java
+
+class Solution{
+    
+    public static Node f(int idx,ArrayList<Integer> v){
+        if(idx >= v.size()) return null ;
+        Node root = new Node(v.get(idx));
+        root.left = f(2*idx+1, v);
+        root.right = f(2*idx+2, v);
+        
+        return root;
+        
+    }
+    public static void createTree(Node root0, ArrayList<Integer> v ){
+        // Code here
+        
+        root0.left = f(1, v);
+        root0.right = f(2,v);
+        
+        
+    }
+}

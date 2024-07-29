@@ -1,6 +1,7 @@
 https://www.geeksforgeeks.org/max-heap-in-java/
 https://www.geeksforgeeks.org/priority-queue-class-in-java/
 
+TC : build takes O(n) time and other operations takes log(n) time
 Note : By default min heap and poll pops element from front 
 
 # Min Heap

@@ -1,0 +1,72 @@
+https://leetcode.com/problems/binary-tree-inorder-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public void inorder(TreeNode root, List<Integer> arr) {
+        // If the current node is null
+        // (base case for recursion), return
+        if (root == null) {
+            return;
+        }
+        // Recursively traverse the left subtree
+        inorder(root.left, arr);
+        // Push the current node's value into the list
+        arr.add(root.val);
+        // Recursively traverse the right subtree
+        inorder(root.right, arr);
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+         List<Integer> arr = new ArrayList<>();
+        // Call the inorder traversal function
+        inorder(root, arr);
+        // Return the resulting list
+        // containing inorder traversal values
+        return arr;
+    }
+}
+
+or
+
+# Morris Traversal
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        TreeNode curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                list.add(curr.val);
+                curr = curr.right;
+            } else {
+                TreeNode prev = curr.left;
+                while (prev.right != null && prev.right != curr) {
+                    prev = prev.right;
+                }
+                if (prev.right == null) {
+                    prev.right = curr;
+                    curr= curr.left;
+                } else {
+                    prev.right = null;
+                    list.add(curr.val);
+                    curr = curr.right;
+                }
+            }
+        }
+        return list;
+    }
+}
+

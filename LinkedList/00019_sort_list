@@ -1,0 +1,49 @@
+https://leetcode.com/problems/sort-list/
+
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+Example 1:
+
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+
+# java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Extract the elements from the linked list
+        List<Integer> elements = new ArrayList<>();
+        ListNode current = head;
+        while (current != null) {
+            elements.add(current.val);
+            current = current.next;
+        }
+
+        // Sort the elements
+        Collections.sort(elements);
+
+        // Create a new sorted linked list
+        ListNode result = new ListNode(elements.get(0));
+        ListNode resultPointer = result;
+        for (int i = 1; i < elements.size(); i++) {
+            resultPointer.next = new ListNode(elements.get(i));
+            resultPointer = resultPointer.next;
+        }
+
+        return result;
+    }
+}

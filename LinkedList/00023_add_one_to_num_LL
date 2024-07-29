@@ -1,0 +1,95 @@
+https://www.geeksforgeeks.org/add-1-number-represented-linked-list/
+
+For example 1999 is represented as (1-> 9-> 9 -> 9) and adding 1 to it should change it to (2->0->0->0) 
+
+// Java code 
+import java.util.*;
+
+/* Linked list Node */
+class Node {
+int data;
+Node next;
+
+Node(int d) {
+	data = d;
+	next = null;
+}
+}
+
+class AddLinkedList
+{
+
+// Function to insert a node at the
+// beginning of the Singly Linked List
+static Node push(Node head_ref, int new_data)
+{
+	
+	/* allocate node */
+	Node new_node = new Node(new_data);
+
+	/* link the old list of the new node */
+	new_node.next = head_ref;
+
+	/* move the head to point to the new node */
+	head_ref = new_node;
+	return head_ref;
+}
+
+static void printList(Node n) {
+	while (n != null) {
+	System.out.print(n.data + " ");
+	n = n.next;
+	}
+	System.out.println();
+}
+
+// function working on addition.
+static Node addTwoLists(Node first) {
+	int num1 = 0;
+	
+	// get the number.
+	while (first.next != null) {
+	num1 += first.data;
+	num1 *= 10;
+	first = first.next;
+	}
+	num1 += first.data;
+	
+	// add one to it.
+	int num2 = num1 + 1;
+	Node temp = null;
+	
+	// Node* result=temp;
+	// made the linked list form it.
+	while (num2 != 0) {
+	int last = num2 % 10;
+	temp = push(temp, last);
+	num2 = num2 / 10;
+	}
+	
+	// return the list
+	return temp;
+}
+
+public static void main(String[] args) {
+	Node first = null;
+	first = push(first, 6);
+	first = push(first, 4);
+	first = push(first, 9);
+	first = push(first, 5);
+	first = push(first, 7);
+	Node ans = addTwoLists(first);
+	System.out.print("Sum is of first : ");
+	printList(ans);
+	Node second = null;
+	second = push(second, 9);
+	second = push(second, 9);
+	second = push(second, 9);
+	second = push(second, 1);
+	System.out.print("Sum is of second : ");
+	Node res = addTwoLists(second);
+	printList(res);
+}
+}
+
+// This code is contributed by Utkarsh.

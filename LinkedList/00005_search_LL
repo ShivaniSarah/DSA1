@@ -1,0 +1,38 @@
+https://www.geeksforgeeks.org/problems/search-in-linked-list-1664434326/1
+
+Given a linked list of n nodes and a key , the task is to check if the key is present in the linked list or not.
+Example:
+
+Input:
+n = 4
+1->2->3->4
+Key = 3
+Output:
+True
+Explanation:
+3 is present in Linked List, so the function returns true.
+
+# java
+
+// User function Template for Java
+
+/* Node of a linked list
+  class Node {
+   int data;
+    Node next;
+    Node(int d)  { data = d;  next = null; }
+}
+*/
+class Solution {
+    static boolean searchKey(int n, Node head, int key) {
+        // Code here
+        Node curr=head;
+        while(curr!=null){
+            if(curr.data==key){
+                return true;
+            }
+            curr=curr.next;
+        }
+        return false;
+    }
+}

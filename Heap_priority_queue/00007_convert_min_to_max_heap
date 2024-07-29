@@ -1,0 +1,54 @@
+https://www.geeksforgeeks.org/problems/convert-min-heap-to-max-heap-1666385109/1
+
+You are given an array arr of N integers representing a min Heap. The task is to convert it to max Heap.
+
+A max-heap is a complete binary tree in which the value in each internal node is greater than or equal to the values in the children of that node. 
+
+Example 1:
+
+Input:
+N = 4
+arr = [1, 2, 3, 4]
+Output:
+[4, 2, 3, 1]
+Explanation:
+
+The given min Heap:
+
+          1
+        /   \
+      2       3
+     /
+   4
+
+Max Heap after conversion:
+
+         4
+       /   \
+      2     3
+    /
+   1
+
+# java
+
+class Solution {
+    static void convertMinToMaxHeap(int N, int arr[]) {
+        for(int i = (N-2)/2; i>=0; i--) {
+            shiftDown(arr, i);
+        }
+    }
+    
+    static void shiftDown(int[] arr, int i) {
+        int maxIndex = i;
+        if(2*i + 1 < arr.length && arr[2*i + 1] > arr[maxIndex]) maxIndex = 2*i + 1;
+        if(2*i + 2 < arr.length && arr[2*i + 2] > arr[maxIndex]) maxIndex = 2*i + 2;
+        
+        if(i == maxIndex) return;
+        int tmp = arr[i];
+        arr[i] = arr[maxIndex];
+        arr[maxIndex] = tmp;
+        
+        shiftDown(arr, maxIndex);
+    } 
+}
+

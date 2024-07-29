@@ -1,0 +1,46 @@
+https://www.geeksforgeeks.org/problems/does-array-represent-heap4345/1
+
+Given an array arr of size n, the task is to check if the given array can be a level order representation of a Max Heap.
+
+Example 1:
+
+Input:
+n = 6
+arr[] = {90, 15, 10, 7, 12, 2}
+Output: 
+1
+Explanation: 
+The given array represents below tree
+       90
+     /    \
+   15      10
+  /  \     /
+7    12  2
+The tree follows max-heap property as every
+node is greater than all of its descendants.
+
+# java
+
+class Solution {
+    public boolean helper(long arr[],int i){
+        if(i>=arr.length){
+            return true;
+        }
+        int left=2*i+1;
+        int right=2*i+2;
+        boolean lefttree=helper(arr,left);
+        boolean righttree=helper(arr,right);
+        if(!lefttree || !righttree||(left<arr.length&&arr[i]<arr[left])||(right<arr.length&&arr[i]<arr[right])){
+            return false;
+        }
+        else{
+            return true;
+        }
+        
+    }
+    
+    public boolean countSub(long arr[], long n)
+    {
+        return helper(arr,0);
+    }
+}

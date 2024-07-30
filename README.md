@@ -75,6 +75,9 @@ Long.MAX_VALUE;
 Double.MIN_VALUE;
 Double.MAX_VALUE;
 
+Note : Java Pair class is from javafx if u cant import from import javafx.util.Pair; then use the following:
+Queue<AbstractMap.SimpleEntry<Node, Integer>> queue = new LinkedList<>();
+
 list.stream().mapToInt(i -> i).toArray();
 
 list.stream().mapToLong(i -> i).toArray();

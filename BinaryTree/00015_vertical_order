@@ -1,0 +1,179 @@
+https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+
+Vertical Order Traversal of a Binary Tree
+
+Given the root of a binary tree, calculate the vertical order traversal of the binary tree.
+
+For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. The root of the tree is at (0, 0).
+
+The vertical order traversal of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
+
+Return the vertical order traversal of the binary tree.
+
+Input: root = [3,9,20,null,null,15,7]
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.
+
+# java
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    class Pair{
+        int val;
+        int x;
+        int y;
+        Pair(int val,int x,int y){
+            this.val=val;
+            this.x=x;
+            this.y=y;
+        }
+    }
+    PriorityQueue<Pair> pq;
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> result=new ArrayList<>();
+        pq=new PriorityQueue<>((a,b)->{
+            if(a.x!=b.x)
+            return a.x-b.x;
+            else
+            if(a.y!=b.y)
+            return a.y-b.y;
+            else
+            return a.val-b.val;
+        });
+        dfs(root,0,0);
+        // while(!pq.isEmpty()){
+        //     System.out.println(pq.peek().val+"\t"+pq.poll().x);
+        // }        
+        while(!pq.isEmpty()){
+            List<Integer> list=new ArrayList<>();
+            Pair poll=pq.poll();
+            list.add(poll.val);
+            while(!pq.isEmpty()&&pq.peek().x==poll.x){
+                list.add(pq.poll().val);
+            }
+            result.add(list);
+        }
+        return result;
+    }
+    private void dfs(TreeNode root,int x,int y){
+        if(root==null)
+        return;
+        pq.offer(new Pair(root.val,x,y));
+        dfs(root.left,x-1,y+1);
+        dfs(root.right,x+1,y+1);
+    }
+}
+
+or
+
+class Tuple {
+    public Tuple(TreeNode x, int row, int col) {
+        this.x = x;
+        this.row = row;
+        this.col = col;
+    }
+
+    TreeNode x;
+    int row;
+    int col;
+}
+
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        
+        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> t = new TreeMap<>();
+        Queue<Tuple> q = new LinkedList<>();
+        q.add(new Tuple(root, 0, 0));
+        
+        while (!q.isEmpty()) {
+            Tuple temp = q.poll();
+            TreeNode p = temp.x;
+            int x_row = temp.row;
+            int y_col = temp.col;
+            
+            t.putIfAbsent(x_row, new TreeMap<>());
+            t.get(x_row).putIfAbsent(y_col, new PriorityQueue<>());
+            t.get(x_row).get(y_col).offer(p.val);
+            
+            if (p.left != null) {
+                q.add(new Tuple(p.left, x_row - 1, y_col + 1));
+            }
+            if (p.right != null) {
+                q.add(new Tuple(p.right, x_row + 1, y_col + 1));
+            }
+        }
+        
+        for (TreeMap<Integer, PriorityQueue<Integer>> ys : t.values()) {
+            List<Integer> column = new ArrayList<>();
+            for (PriorityQueue<Integer> nodes : ys.values()) {
+                while (!nodes.isEmpty()) {
+                    column.add(nodes.poll());
+                }
+            }
+            ans.add(column);
+        }
+        
+        return ans;
+    }
+}
+
+or
+
+
+class Solution {
+    
+    Map<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map;
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        if (root == null)
+            return null;
+        map = new TreeMap<>();
+        dfs(root, 0, 0);
+        List<List<Integer>> res = new LinkedList<>();
+        for (int key : map.keySet()){
+            List<Integer> list = new LinkedList<>();
+            TreeMap<Integer, PriorityQueue<Integer>> tm = map.get(key);
+            for (int k : tm.keySet()){
+                PriorityQueue<Integer> pq = tm.get(k);
+                while (!pq.isEmpty()){
+                    list.add(pq.poll());
+                }
+            }
+            res.add(list);
+        }
+        return res;
+    }
+    
+    private void dfs(TreeNode root, int index, int level){
+        if (root == null)
+            return;
+        
+        map.putIfAbsent(index, new TreeMap<>());
+        map.get(index).putIfAbsent(level, new PriorityQueue<>());
+        map.get(index).get(level).add(root.val);
+        dfs(root.left, index - 1, level + 1);
+        dfs(root.right, index + 1, level + 1);
+    }
+}

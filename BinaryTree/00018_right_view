@@ -104,3 +104,27 @@ class Solution {
         return ans;
     }
 }
+
+
+https://www.geeksforgeeks.org/problems/right-view-of-binary-tree/1
+
+class Solution {
+    private void recursionRight(Node root, int level, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+
+        if (res.size() == level) {
+            res.add(root.data);
+        }
+
+        recursionRight(root.right, level + 1, res);
+        recursionRight(root.left, level + 1, res);
+    }
+
+    ArrayList<Integer> rightView(Node root) {
+        ArrayList<Integer> res = new ArrayList<>();
+        recursionRight(root, 0, res);
+        return res;
+    }
+}

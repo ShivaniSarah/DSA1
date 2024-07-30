@@ -1,5 +1,7 @@
 https://www.geeksforgeeks.org/binary-heap/
 
+# binary heap is not a sorted data structure
+
 // Java program for the above approach 
 import java.util.*; 
 

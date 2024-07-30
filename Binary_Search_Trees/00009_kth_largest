@@ -1,0 +1,46 @@
+https://www.geeksforgeeks.org/problems/kth-largest-element-in-bst/1
+
+Given a Binary Search Tree. Your task is to complete the function which will return the Kth largest element without doing any modification in Binary Search Tree.
+
+Example 1:
+
+Input:
+      4
+    /   \
+   2     9
+k = 2 
+Output: 4
+
+# java
+
+class Solution {   
+    private void reverseInorder(Node node, int[] counter, int k, int[] kLargest) {
+        if (node == null || counter[0] >= k) return;
+
+        // Traverse right subtree
+        reverseInorder(node.right, counter, k, kLargest);
+
+        // Increment counter after visiting right subtree
+        counter[0]++;
+
+        // Check if current node is the Kth largest
+        if (counter[0] == k) {
+            kLargest[0] = node.data;
+            return;
+        }
+
+        // Traverse left subtree if Kth largest is not found yet
+        reverseInorder(node.left, counter, k, kLargest);
+    }
+
+    // return the Kth largest element in the given BST rooted at 'root'
+    public int kthLargest(Node root, int k) {
+        int[] kLargest = new int[]{Integer.MIN_VALUE};
+        // Counter to track visited nodes
+        int[] counter = new int[]{0};
+
+        reverseInorder(root, counter, k, kLargest);
+
+        return kLargest[0];
+    }
+}

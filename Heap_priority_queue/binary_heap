@@ -1,6 +1,7 @@
 https://www.geeksforgeeks.org/binary-heap/
 
 # binary heap is not a sorted data structure as it is stored in array not in nodes
+building heap takes O(n) insertion takes O(logn)
 
 Arr[(i-1)/2]	Returns the parent node
 Arr[(2*i)+1]	Returns the left child node

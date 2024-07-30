@@ -184,5 +184,6 @@ public class MultilineInput {
     }
 }
 
+Binary Search Tree is a sorted data structure but heap is not
 
 

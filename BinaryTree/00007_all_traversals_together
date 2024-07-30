@@ -1,4 +1,5 @@
-                            
+https://takeuforward.org/data-structure/preorder-inorder-postorder-traversals-in-one-traversal/
+
 import java.util.*;
 
 // Node structure for the binary tree

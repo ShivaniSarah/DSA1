@@ -1,0 +1,117 @@
+https://www.geeksforgeeks.org/problems/largest-bst/1
+
+Largest BST
+
+Given a binary tree. Find the size of its largest subtree which is a Binary Search Tree.
+Note: Here Size equals the number of nodes in the subtree.
+
+Examples :
+
+Input:   1
+        /  \
+        4   4              
+       / \ 
+      6   8
+Output: 1 
+Explanation: There's no sub-tree with size greater than 1 which forms a BST. All the leaf Nodes are the BSTs with size equal to 1.
+
+Input:    6
+        /   \
+      6      2              
+       \    / \
+        2  1   3
+Output: 3
+Explanation: The following sub-tree is a BST of size 3:  2
+                                                       /   \
+                                                      1     3
+
+# java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+class node{
+    int max;
+    int min;
+    int size;
+    node(int min,int max,int size){
+        this.max=max;
+        this.min=min;
+        this.size=size;
+    }
+};
+
+class Solution{
+    
+    
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root)
+    {
+        return bst(root).size;
+    }
+    public static node bst(Node root){
+        if(root==null)
+            return new node(Integer.MAX_VALUE,Integer.MIN_VALUE,0);
+        node left=bst(root.left);
+        node right=bst(root.right);
+        if(root.data>left.max && root.data<right.min){
+            return new node(Math.min(root.data,left.min),Math.max(root.data,right.max),left.size+right.size+1);
+        }
+        return new node(Integer.MIN_VALUE,Integer.MAX_VALUE,Math.max(left.size,right.size));
+        
+    }
+    
+}
+
+or
+
+class Solution{
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root) {
+        if (root == null) return 0;
+        int[] maxsize = new int[1];
+        maxsize[0] = 0;
+        findLargest(root, maxsize);
+        return maxsize[0];
+    }
+
+    static void findLargest(Node root, int[] maxsize) {
+        if (root == null) return;
+        
+        // Check if the current subtree rooted at 'root' is a BST
+        if (isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) {
+            // Calculate the size of the subtree
+            int size = getSize(root);
+            // Update maxsize if this BST subtree is larger
+            if (size > maxsize[0]) {
+                maxsize[0] = size;
+            }
+        }
+        
+        // Recursively find largest BST in left and right subtrees
+        findLargest(root.left, maxsize);
+        findLargest(root.right, maxsize);
+    }
+
+    static boolean isBST(Node root, int min, int max) {
+        if (root == null) return true;
+        if (root.data <= min || root.data >= max) {
+            return false;
+        }
+        return isBST(root.left, min, root.data) && isBST(root.right, root.data, max);
+    }
+
+    static int getSize(Node root) {
+        if (root == null) return 0;
+        return getSize(root.left) + getSize(root.right) + 1;
+    }
+}
+

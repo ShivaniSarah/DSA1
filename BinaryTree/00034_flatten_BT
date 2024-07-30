@@ -1,0 +1,73 @@
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+
+Given the root of a binary tree, flatten the tree into a "linked list":
+
+The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+ 
+Example 1:
+
+Input: root = [1,2,5,3,4,null,6]
+Output: [1,null,2,null,3,null,4,null,5,null,6]
+
+# java
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public void flatten(TreeNode root) {
+        // Base case: If the current
+        // node is null, return.
+        if (root == null) {
+            return;
+        }
+        // Use a stack for
+        // iterative traversal.
+        Stack<TreeNode> st = new Stack<>();
+        // Push the root node
+        // onto the stack.
+        st.push(root);
+        
+        // Continue the loop until
+        // the stack is empty.
+        while (!st.empty()) {
+            // Get the top node from the stack.
+            TreeNode cur = st.pop();
+
+            if (cur.right != null) {
+                // Push the right child
+                // onto the stack.
+                st.push(cur.right);
+            }
+
+            if (cur.left != null) {
+                // Push the left child
+                // onto the stack.
+                st.push(cur.left);
+            }
+
+            if (!st.empty()) {
+                // Connect the right child to
+                // the next node in the stack.
+                cur.right = st.peek();
+            }
+
+            // Set the left child to null to
+            // form a right-oriented linked list.
+            cur.left = null;
+        }
+    }
+}

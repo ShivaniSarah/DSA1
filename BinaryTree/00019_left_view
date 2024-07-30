@@ -72,3 +72,166 @@ class Tree {
         return ans;
     }
 }
+
+or
+
+class Tree
+{   
+     HashMap<Integer,Integer>map;
+     void recur(Node root,int count){
+         if(root==null) return;
+         
+         if(!map.containsKey(count)){
+             map.put(count,root.data);
+         }
+         
+         recur(root.left,count+1);
+         recur(root.right,count+1);
+     }
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      map=new HashMap<>();
+      ArrayList<Integer>list=new ArrayList<>();
+       recur(root,0);
+     for(int i=0;i<=map.size();i++){
+         if(map.containsKey(i))
+         list.add(map.get(i));
+     }
+      
+      return list;
+    }
+}
+
+or
+
+class Tree
+{
+    ArrayList<Integer> leftView(Node root)
+    {
+         ArrayList<Integer> l=new ArrayList<>();
+         if(root==null) return l;
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            int lev=q.size();
+            int[] arr=new int[lev];
+            for(int i=0;i<lev;i++){
+                Node ele=q.remove();
+                arr[i]=ele.data;
+                if(ele.left!=null)  q.add(ele.left);
+                if(ele.right!=null)  q.add(ele.right);
+            }
+            if(arr.length!=0)
+                l.add(arr[0]);
+        }
+         return l;
+    }
+}
+
+or
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      ArrayList<Integer> res = new ArrayList<>();
+      if(root == null){
+          return res;
+      }
+      Queue<Node> q = new LinkedList<>();
+      q.add(root);
+      while(!q.isEmpty()){
+          int n = q.size();
+          for(int i=1; i<=n; i++){
+              Node tmp = q.poll();
+              if(i == 1){
+                  res.add(tmp.data);
+              }
+              if(tmp.left != null){
+                  q.add(tmp.left);
+              }
+              if(tmp.right!=null){
+                  q.add(tmp.right);
+              }
+          }
+      }
+      return res;
+    }
+}
+
+
+or
+
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+        ArrayList<Integer> result = new ArrayList<>();
+        LinkedList<Node> helper = new LinkedList<>();
+        helper.add(root);
+        helper.add(null);
+        
+        while(helper.peek() != null) {
+            boolean isFirst = true;
+            while (helper.peek() != null) {
+                Node temp = helper.remove();
+                if(isFirst) {
+                    result.add(temp.data);
+                    isFirst = false;
+                }
+                if (temp.left != null) helper.add(temp.left);
+                if(temp.right != null) helper.add(temp.right);
+            }
+            helper.remove();
+            helper.add(null);
+        }
+        return result;
+      // Your code here
+    }
+}
+
+
+or
+
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+        if(root==null)return new ArrayList<>();
+        
+      // Your code here
+      ArrayList<Integer>list=new ArrayList<>();
+      Queue<Node> q=new LinkedList<>();
+      q.add(root);
+      int c=0;
+      while(!q.isEmpty()){
+          int level=q.size();
+          for(int i=0;i<level;i++){
+              Node x=q.remove();
+              if(i==0){
+                  c=1;
+              }
+              else{
+                  c=0;
+              }
+              if(c==1){
+                  list.add(x.data);
+              }
+              if(x.left!=null){
+                  q.add(x.left);
+              }
+              if(x.right!=null){
+                  q.add(x.right);
+              }
+          }
+      }
+      return list;
+    }

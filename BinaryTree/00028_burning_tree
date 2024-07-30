@@ -1,0 +1,104 @@
+https://www.geeksforgeeks.org/problems/burning-tree/1
+
+Given a binary tree and a node data called target. Find the minimum time required to burn the complete binary tree if the target is set on fire. It is known that in 1 second all nodes connected to a given node get burned. That is its left child, right child, and parent.
+Note: The tree contains unique values.
+
+
+Examples : 
+
+Input:      
+          1
+        /   \
+      2      3
+    /  \      \
+   4    5      6
+       / \      \
+      7   8      9
+                   \
+                   10
+Target Node = 8
+Output: 7
+Explanation: If leaf with the value 
+8 is set on fire. 
+After 1 sec: 5 is set on fire.
+After 2 sec: 2, 7 are set to fire.
+After 3 sec: 4, 1 are set to fire.
+After 4 sec: 3 is set to fire.
+After 5 sec: 6 is set to fire.
+After 6 sec: 9 is set to fire.
+After 7 sec: 10 is set to fire.
+It takes 7s to burn the complete tree.
+
+# java
+
+class Solution
+{
+    /*class Node {
+    	int data;
+    	Node left;
+    	Node right;
+    
+    	Node(int data) {
+    		this.data = data;
+    		left = null;
+    		right = null;
+    	}
+    }*/
+    
+    public static int minTime(Node root, int target) 
+    {
+        // Your code goes here
+        Map<Node,Node> parentTrack=new HashMap<>();
+        Node targetNode =getParent(root,parentTrack,target);
+        Map<Node,Boolean> visited=new HashMap<>();
+        Queue<Node> q=new LinkedList<>();
+        int curr_level=0;
+        q.add(targetNode);
+        visited.put(targetNode,true);
+        while(!q.isEmpty()){
+            
+            curr_level++;
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                Node temp=q.remove();
+                if(temp.left!=null && visited.get(temp.left)==null){
+                    q.add(temp.left);
+                    visited.put(temp.left,true);
+                }
+                if(temp.right!=null && visited.get(temp.right)==null){
+                    q.add(temp.right);
+                    visited.put(temp.right,true);
+                }
+                if(parentTrack.get(temp)!=null && visited.get(parentTrack.get(temp))==null){
+                    q.add(parentTrack.get(temp));
+                    visited.put(parentTrack.get(temp),true);
+                }
+            }
+            
+        }
+        
+        return curr_level-1;
+    }
+    
+    public static Node getParent(Node root,Map<Node,Node> parentTrack,int target){
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        Node res=null;
+        
+        while(!q.isEmpty()){
+            Node temp=q.remove();
+            if(temp.data==target){
+                res=temp;
+            }
+            if(temp.left!=null){
+                parentTrack.put(temp.left,temp);
+                q.add(temp.left);
+            }
+            if(temp.right!=null){
+                parentTrack.put(temp.right,temp);
+                q.add(temp.right);
+            }
+        }
+        return res;
+    }
+}

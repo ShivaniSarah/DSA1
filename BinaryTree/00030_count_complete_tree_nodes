@@ -1,0 +1,82 @@
+https://leetcode.com/problems/count-complete-tree-nodes/
+
+Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+Design an algorithm that runs in less than O(n) time complexity.
+
+Example 1:
+Input: root = [1,2,3,4,5,6]
+Output: 6
+
+Example 2:
+Input: root = []
+Output: 0
+
+Example 3:
+Input: root = [1]
+Output: 1
+
+
+# java
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int findHeightLeft(TreeNode node) {
+        int height = 0;
+        while (node != null) {
+            height++;
+            node = node.left;
+        }
+        return height;
+    }
+
+    // Function to find the
+    // height of the right subtree
+    private int findHeightRight(TreeNode node) {
+        int height = 0;
+        while (node != null) {
+            height++;
+            node = node.right;
+        }
+        return height;
+    }
+    public int countNodes(TreeNode root) {
+        // Check if the tree is empty
+        if (root == null) {
+            return 0;
+        }
+
+        // Find the height of the left subtree
+        int lh = findHeightLeft(root);
+        // Find the height of the right subtree
+        int rh = findHeightRight(root);
+
+        // If the heights are equal, the tree
+        // is a full binary tree, and we can
+        // calculate the total nodes
+        if (lh == rh) {
+            return (1 << lh) - 1;
+        }
+
+        // If the heights are not equal,
+        // recursively count nodes in the
+        // left and right subtrees
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+}

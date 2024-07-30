@@ -1,0 +1,96 @@
+https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+
+Given a Binary Tree, find its Boundary Traversal. The traversal should be in the following order: 
+
+Left boundary nodes: defined as the path from the root to the left-most node ie- the leaf node you could reach when you always travel preferring the left subtree over the right subtree. 
+Leaf nodes: All the leaf nodes except for the ones that are part of left or right boundary.
+Reverse right boundary nodes: defined as the path from the right-most node to the root. The right-most node is the leaf node you could reach when you always travel preferring the right subtree over the left subtree. Exclude the root from this as it was already included in the traversal of left boundary nodes.
+Note: If the root doesn't have a left subtree or right subtree, then the root itself is the left or right boundary. 
+
+Example 1:
+
+Input:
+        1 
+      /   \
+     2     3  
+    / \   / \ 
+   4   5 6   7
+      / \
+     8   9
+   
+Output: 1 2 4 8 9 6 7 3
+
+# java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+
+class Solution
+{
+    boolean checkLeaf(Node node){
+        return ((node.left==null) && (node.right==null));
+    }
+    void addLeftBound(Node node , ArrayList<Integer> ll){
+        Node curr = node.left;
+        while(curr!=null){
+            if(checkLeaf(curr)==false){
+                ll.add(curr.data);
+            }if(curr.left!=null){
+                curr = curr.left;
+            }else{
+                curr = curr.right;
+            }
+        }
+    }
+    void addLeaf(Node node , ArrayList<Integer> ll){
+        if(node.left!=null){
+            addLeaf(node.left,ll);
+        }
+        if(checkLeaf(node)){
+            ll.add(node.data);
+            return;
+        }
+        if(node.right!=null){
+            addLeaf(node.right,ll);
+        }
+    }
+    void addRightBound(Node node , ArrayList<Integer> ll){
+        ArrayList<Integer> ans = new ArrayList<>();
+        Node curr = node.right;
+        while(curr!=null){
+            if(checkLeaf(curr)==false){
+                ans.add(curr.data);
+            }
+            if(curr.right!=null){
+                curr = curr.right;
+            }else{
+                curr = curr.left;
+            }
+        }
+        for(int i=ans.size()-1;i>=0;i--){
+            ll.add(ans.get(i));
+        }
+        
+    }
+	ArrayList <Integer> boundary(Node node)
+	{
+	    ArrayList<Integer> res = new ArrayList<>();
+	    if(checkLeaf(node)==false){
+	        res.add(node.data);
+	    }
+	    addLeftBound(node,res);
+	    addLeaf(node,res);
+	    addRightBound(node,res);
+	    return res;
+	    
+	}
+}

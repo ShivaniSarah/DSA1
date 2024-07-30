@@ -188,4 +188,91 @@ class Solution {
     }      
 }
 
+or
 
+class Pair<K,V>{
+        private K key;
+        private V val;
+        
+        public Pair(K key, V val){
+            this.key = key;
+            this.val = val;
+        }
+        
+        public K getKey(){
+            return key;
+        }
+        
+        public V getVal(){
+            return val;
+        }
+    }
+    
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    
+    static ArrayList<Integer> topView(Node root) {
+        // add your code
+        ArrayList<Integer> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        Map<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair<Node, Integer>> q = new LinkedList<>();
+        q.add(new Pair<>(root, 0));
+        while(!q.isEmpty()){
+            Pair<Node, Integer>  temp = q.remove();
+            Node n = temp.getKey();
+            int h = temp.getVal();
+            if(!map.containsKey(h)){
+                map.put(h, n.data);
+            }
+            if(n.left!=null){
+                q.add(new Pair<>(n.left, h-1));
+            }
+            if(n.right!=null){
+                q.add(new Pair<>(n.right, h+1));
+            }
+        }
+        for(int v : map.values()){
+            res.add(v);
+        }
+        return res;
+    }
+}
+
+or
+
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+     static void bv(Node root, int hDist, int level, Map<Integer, int[]> map) {
+        if (root == null) {
+            return;
+        }
+
+        // If this is the first node at its horizontal distance or
+        // the level of this node is greater than the level of the current node at the same horizontal distance
+        if (!map.containsKey(hDist) || level< map.get(hDist)[1]) {
+            map.put(hDist, new int[]{root.data, level});
+        }
+
+        // Recur for left and right subtrees
+        bv(root.left, hDist - 1, level + 1, map);
+        bv(root.right, hDist + 1, level + 1, map);
+    }
+
+    // Function to return a list containing the bottom view of the given tree.
+    public ArrayList<Integer> topView(Node root) {
+        Map<Integer, int[]> map = new TreeMap<>();
+        bv(root, 0, 0, map);
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {
+            result.add(entry.getValue()[0]);
+        }
+
+        return result;
+    }
+}

@@ -1,0 +1,52 @@
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+
+Example 1:
+
+Input: root = [3,1,4,null,2], k = 1
+Output: 1
+
+# java
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ 
+class Solution {
+
+    private void inorder(TreeNode node, int[] counter, int k, int[] kSmallest) {
+        if (node == null || counter[0] >= k) return;
+
+        inorder(node.left, counter, k, kSmallest);
+        counter[0]++;
+
+        if (counter[0] == k) {
+            kSmallest[0] = node.val;
+            return;
+        }
+
+        inorder(node.right, counter, k, kSmallest);
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        int[] kSmallest = new int[]{Integer.MIN_VALUE};
+        int[] counter = new int[]{0};
+
+        inorder(root, counter, k, kSmallest);
+
+        return kSmallest[0];
+    }
+}

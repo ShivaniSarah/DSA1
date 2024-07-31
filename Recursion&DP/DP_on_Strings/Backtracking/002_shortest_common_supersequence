@@ -17,6 +17,74 @@ Example 2:
 Input: str1 = "aaaaaaaa", str2 = "aaaaaaaa"
 Output: "aaaaaaaa"
 
+# java
+
+public class Solution {
+
+    // Function to find the length of LCS and fill the DP table
+    private static int[][] computeLCS(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = new int[n + 1][m + 1];
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp;
+    }
+
+    // Function to construct the shortest common supersequence
+    public static String shortestCommonSupersequence(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = computeLCS(s1, s2);
+
+        StringBuilder sb = new StringBuilder();
+        int i = n, j = m;
+        
+        // Construct the shortest common supersequence
+        while (i > 0 && j > 0) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                sb.append(s1.charAt(i - 1));
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                sb.append(s1.charAt(i - 1));
+                i--;
+            } else {
+                sb.append(s2.charAt(j - 1));
+                j--;
+            }
+        }
+
+        // Append remaining characters
+        while (i > 0) {
+            sb.append(s1.charAt(i - 1));
+            i--;
+        }
+        while (j > 0) {
+            sb.append(s2.charAt(j - 1));
+            j--;
+        }
+
+        // Reverse the string as we built it backwards
+        return sb.reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        String s1 = "abcde";
+        String s2 = "ace";
+        System.out.println("The Shortest Common Supersequence is: " + shortestCommonSupersequence(s1, s2));
+    }
+}
+
+# python
 
 class Solution(object):
     def shortestCommonSupersequence(self, s1, s2):

@@ -1,5 +1,47 @@
 get_all_subset_sum_of_array
 
+# java
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    
+    // Method to get all subset sums
+    public List<Integer> getAllSubsetSum(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        result.add(0);  // Initial subset sum is 0
+
+        getSubsetSum(nums.length - 1, nums, result);
+        
+        return result;
+    }
+    
+    // Recursive method to calculate all subset sums
+    private void getSubsetSum(int ind, int[] arr, List<Integer> a) {
+        if (ind < 0) {
+            return;
+        }
+        
+        List<Integer> temp = new ArrayList<>();
+        for (int i : a) {
+            temp.add(i + arr[ind]);
+        }
+        a.addAll(temp);
+        
+        getSubsetSum(ind - 1, arr, a);
+    }
+    
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {1, 2, 3};
+        List<Integer> result = solution.getAllSubsetSum(nums);
+        System.out.println(result);  // Output all subset sums
+    }
+}
+
+# python
 
 class Solution(object):
     def get_all_subset_sum(self, nums):

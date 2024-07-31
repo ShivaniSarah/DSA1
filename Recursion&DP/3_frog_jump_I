@@ -88,6 +88,30 @@ class Solution {
     }
 }
 
+Recursion
+
+public class Solution {
+
+    // Helper function to calculate minimum energy recursively
+    private int f(int n, int[] height) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return Math.abs(height[n] - height[n - 1]);
+        }
+
+        int l = f(n - 1, height) + Math.abs(height[n] - height[n - 1]);
+        int r = f(n - 2, height) + Math.abs(height[n] - height[n - 2]);
+
+        return Math.min(l, r);
+    }
+
+    // Main function to calculate minimum energy
+    public int minimumEnergy(int[] height, int n) {
+        return f(n - 1, height);
+    }
+}
 
 
 # python

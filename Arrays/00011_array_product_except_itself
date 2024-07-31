@@ -11,6 +11,43 @@ Example 2:
 Input: nums = [-1,1,0,-3,3]
 Output: [0,0,9,0,0]
 
+# java
+
+public class Solution {
+    public int[] productExceptSelf(int[] arr) {
+        int n = arr.length;
+
+        // Base case
+        if (n == 1) {
+            return new int[]{0};
+        }
+        int[] prod = new int[n];
+        int temp = 1;
+
+        // Initialize prod array with 1
+        for (int i = 0; i < n; i++) {
+            prod[i] = 1;
+        }
+
+        // In this loop, temp contains the product of elements on the left side excluding arr[i]
+        for (int i = 0; i < n; i++) {
+            prod[i] = temp;
+            temp *= arr[i];
+        }
+
+        // Initialize temp to 1 for the product on the right side
+        temp = 1;
+
+        // In this loop, temp contains the product of elements on the right side excluding arr[i]
+        for (int i = n - 1; i >= 0; i--) {
+            prod[i] *= temp;
+            temp *= arr[i];
+        }
+        return prod;
+    }
+}
+
+# python
 
 class Solution:
     def productExceptSelf(self, arr: List[int]) -> List[int]:

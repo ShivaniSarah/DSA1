@@ -18,6 +18,119 @@ Input: nums = [9,6,4,2,3,5,7,0,1]
 Output: 8
 Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
 
+# java
+
+public class Solution {
+    public int missingNumber(int[] a) {
+        int N = a.length;
+
+        // Outer loop that runs from 0 to N:
+        for (int i = 0; i <= N; i++) {
+            // flag variable to check if an element exists
+            boolean flag = false;
+
+            // Search the element using linear search:
+            for (int j = 0; j < N; j++) {
+                if (a[j] == i) {
+                    // i is present in the array:
+                    flag = true;
+                    break;
+                }
+            }
+
+            // Check if the element is missing (i.e., flag == false):
+            if (!flag) {
+                return i;
+            }
+        }
+
+        // The following line will never execute.
+        // It is just to avoid warnings.
+        return -1;
+    }
+
+}
+
+or
+
+public class Solution {
+    public int missingNumber(int[] a) {
+        int N = a.length;
+        int[] hash = new int[N + 1];  // hash array
+
+        // Storing the frequencies:
+        for (int i = 0; i < N; i++) {
+            hash[a[i]]++;
+        }
+
+        // Checking the frequencies for numbers 0 to N:
+        for (int i = 0; i <= N; i++) {
+            if (hash[i] == 0) {
+                return i;
+            }
+        }
+
+        // The following line will never execute.
+        // It is just to avoid warnings.
+        return -1;
+    }
+}
+
+or
+
+public class Solution {
+    public int missingNumber(int[] a) {
+        int N = a.length;
+        
+        // Summation of first N numbers:
+        int summation = (N * (N + 1)) / 2;
+
+        // Summation of all array elements:
+        int s2 = 0;
+        for (int num : a) {
+            s2 += num;
+        }
+
+        int missingNum = summation - s2;
+        return missingNum;
+    }
+}
+
+or
+
+public class Solution {
+    public int missingNumber(int[] a) {
+        int N = a.length;
+        int xor1 = 0;
+        int xor2 = 0;
+
+        // XOR of array elements
+        for (int i = 0; i < N; i++) {
+            xor2 ^= a[i];
+        }
+
+        // XOR of numbers from 0 to N-1
+        for (int i = 0; i < N; i++) {
+            xor1 ^= i;
+        }
+
+        // XOR of numbers from 0 to N
+        xor1 ^= N;
+
+        // The missing number
+        return xor1 ^ xor2;
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] a = {0, 1, 2, 4};
+        System.out.println(sol.missingNumber(a)); // Output: 3
+    }
+}
+
+# python
+
 # Brute:
 
 class Solution(object):

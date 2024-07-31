@@ -28,66 +28,6 @@ Output: -1
 Explanation: No common elements.
 
 ———————————————————————————————————————————————————————--------------------------------------------------------------------------------
-# python
-
-# Brute:
-
-class Solution:
-    def printIntersection(self,arr1, arr2, n, m):
-        freq = {}
-        inters = []
-        
-        for num in arr1:
-            freq[num] = 1
-        
-        for num in arr2:
-            if freq.get(num, 0)==1 :
-                freq[num] = 2
-        
-        for k,v in freq.items():
-            if v==2:
-                inters.append(k)
-        
-        return sorted(inters)
-
-# Better
-
-class Solution:
-    def printIntersection(self,arr1, arr2, n, m):
-        s = set()
-        inters = set()
-        
-        for num in arr1:
-            s.add(num)
-        
-        for num in arr2:
-            if num in s :
-                inters.add(num)
-        
-        return sorted(inters)
-
-# Optimal
-
-class Solution:
-    def printIntersection(self,arr1, arr2, n, m):
-        i, j = 0, 0  # Pointers
-        inters = []  # Intersection list
-    
-        while i < len(arr1) and j < len(arr2):
-            if arr1[i] == arr2[j]:  # Case 1
-                if len(inters) == 0 or inters[-1] != arr1[i]:
-                    inters.append(arr1[i])
-                i += 1
-                j += 1
-            else:  # Case 2 and 3
-                if arr1[i]<arr2[j]:
-                    i+=1
-                else:
-                    j += 1
-    
-        return inters
-
-———————————————————————————————————————————————————————--------------------------------------------------------------------------------
 
 # Java
 
@@ -185,4 +125,65 @@ class Solution
     }
 
 }
+
+
+———————————————————————————————————————————————————————--------------------------------------------------------------------------------
+# python
+
+# Brute:
+
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        freq = {}
+        inters = []
+        
+        for num in arr1:
+            freq[num] = 1
+        
+        for num in arr2:
+            if freq.get(num, 0)==1 :
+                freq[num] = 2
+        
+        for k,v in freq.items():
+            if v==2:
+                inters.append(k)
+        
+        return sorted(inters)
+
+# Better
+
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        s = set()
+        inters = set()
+        
+        for num in arr1:
+            s.add(num)
+        
+        for num in arr2:
+            if num in s :
+                inters.add(num)
+        
+        return sorted(inters)
+
+# Optimal
+
+class Solution:
+    def printIntersection(self,arr1, arr2, n, m):
+        i, j = 0, 0  # Pointers
+        inters = []  # Intersection list
+    
+        while i < len(arr1) and j < len(arr2):
+            if arr1[i] == arr2[j]:  # Case 1
+                if len(inters) == 0 or inters[-1] != arr1[i]:
+                    inters.append(arr1[i])
+                i += 1
+                j += 1
+            else:  # Case 2 and 3
+                if arr1[i]<arr2[j]:
+                    i+=1
+                else:
+                    j += 1
+    
+        return inters
 

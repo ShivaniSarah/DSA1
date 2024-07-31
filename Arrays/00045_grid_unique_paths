@@ -2,6 +2,25 @@ https://leetcode.com/problems/unique-paths/
 
 # most optimal soln is m+n-2Cn-1 or m+n-2Cm-1
 
+# java
+
+public class Solution {
+    public int uniquePaths(int m, int n) {
+        int r = m - 1;
+        long res = 1;
+        int N = m + n - 2;
+        
+        // Using long to avoid overflow issues
+        for (int i = 1; i <= r; i++) {
+            res = res * (N - r + i) / i;
+        }
+        
+        return (int) res; // Cast to int as the result should fit in an int
+    }
+}
+
+# python
+
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         r = m - 1
@@ -10,3 +29,5 @@ class Solution:
         for i in range(1, r + 1):
             res = res * (N - r + i) / i
         return int(res)
+
+

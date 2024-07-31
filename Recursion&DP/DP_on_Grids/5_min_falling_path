@@ -8,6 +8,53 @@ Specifically, the next element from position (row, col) will be (row + 1, col - 
 
 # Variable Starting Point and Variable Ending Point
 
+# java
+
+# DP II:
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int[][] dp = new int[n][n];
+
+        // Initialize the dp array with the first row of the matrix
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = matrix[0][i];
+        }
+
+        // Fill the dp array from the second row to the last row
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int left = Integer.MAX_VALUE;
+                int right = Integer.MAX_VALUE;
+
+                // Check the cell to the left
+                if (j - 1 >= 0) {
+                    left = dp[i - 1][j - 1];
+                }
+
+                // Check the cell to the right
+                if (j + 1 < n) {
+                    right = dp[i - 1][j + 1];
+                }
+
+                // Update the dp value for the current cell
+                dp[i][j] = Math.min(left, Math.min(dp[i - 1][j], right)) + matrix[i][j];
+            }
+        }
+
+        // Find the minimum value in the last row of the dp array
+        int minPathSum = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            minPathSum = Math.min(minPathSum, dp[n - 1][i]);
+        }
+
+        return minPathSum;
+    }
+}
+
+# python
+
 # DP II:
 
 import sys

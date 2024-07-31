@@ -22,6 +22,53 @@ Input: s = "cb", p = "?a"
 Output: false
 Explanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.
 
+# java
+
+# DP II:
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int m = s.length();
+        int n = p.length();
+        
+        // Create a DP table with dimensions (m+1) x (n+1)
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        
+        // Base case: empty string matches empty pattern
+        dp[0][0] = true;
+        
+        // Handle patterns that can match empty string (like *, **, etc.)
+        for (int j = 1; j <= n; j++) {
+            if (p.charAt(j - 1) == '*') {
+                dp[0][j] = dp[0][j - 1];
+            }
+        }
+        
+        // Fill the table
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (p.charAt(j - 1) == '*') {
+                    // '*' can match empty sequence or one more character in s
+                    dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
+                } else if (p.charAt(j - 1) == '?' || p.charAt(j - 1) == s.charAt(i - 1)) {
+                    // Match current character or '?'
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+            }
+        }
+        
+        return dp[m][n];
+    }
+}
+
+# DP I:
+
+
+
+
+
+# python
+
 # DP II:
 
 class Solution(object):

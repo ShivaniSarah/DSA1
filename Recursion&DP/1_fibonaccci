@@ -78,7 +78,25 @@ class Solution {
     }
 }
 
+# recursion
 
+public class Solution {
+
+    // Helper function to calculate the nth Fibonacci number recursively
+    private int f(int n) {
+        if (n == 0 || n == 1) {  // base case
+            return n;
+        }
+        int l = f(n - 1);        // get left value from recursion
+        int r = f(n - 2);        // get right value from recursion
+        return l + r;            // return sum of l and r
+    }
+
+    // Main function to calculate the nth Fibonacci number
+    public int fib(int n) {
+        return f(n);  // return final recursion value
+    }
+}
 
 
 # python

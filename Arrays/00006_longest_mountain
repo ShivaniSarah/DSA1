@@ -16,6 +16,76 @@ Input: arr = [2,1,4,7,3,2,5]
 Output: 5
 Explanation: The largest mountain is [1,4,7,3,2] which has length 5.
 
+# java
+
+public class Solution {
+    public int longestMountain(int[] arr) {
+        int n = arr.length;
+        if (n < 3) return 0;
+
+        int[] increasing = new int[n];
+        int[] decreasing = new int[n];
+
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i - 1]) {
+                increasing[i] = increasing[i - 1] + 1;
+            }
+        }
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] > arr[i + 1]) {
+                decreasing[i] = decreasing[i + 1] + 1;
+            }
+        }
+
+        int longest = 0;
+        for (int i = 1; i < n - 1; i++) {
+            if (increasing[i] > 0 && decreasing[i] > 0) {
+                longest = Math.max(longest, increasing[i] + decreasing[i] + 1);
+            }
+        }
+
+        return longest >= 3 ? longest : 0;
+    }
+}
+
+or
+
+public class Solution {
+    public int longestMountain(int[] arr) {
+        int n = arr.length;
+        if (n < 3) return 0;
+
+        int ans = 0;
+        int i = 1;
+
+        while (i <= n - 2) {
+            if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+                int count = 0;
+                int j = i;
+
+                while (j > 0 && arr[j] > arr[j - 1]) {
+                    count++;
+                    j--;
+                }
+
+                while (i <= n - 2 && arr[i] > arr[i + 1]) {
+                    count++;
+                    i++;
+                }
+
+                ans = Math.max(ans, count);
+            } else {
+                i++;
+            }
+        }
+
+        return ans > 0 ? ans + 1 : ans;
+    }
+}
+
+
+
 Approach I:
 
 class Solution:

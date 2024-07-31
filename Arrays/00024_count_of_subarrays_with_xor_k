@@ -28,6 +28,100 @@ Output 2:
 Explanation 2:
  The subarrays having XOR of their elements as 5 are [5] and [5, 6, 7, 8, 9]
 
+# java
+
+class Solution {
+    public int solve(int[] a, int k) {
+        int n = a.length; // size of the given array
+        int cnt = 0;
+
+        // Step 1: Generating subarrays
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+
+                // Step 2: Calculate XOR of all elements
+                int xorr = 0;
+                for (int K = i; K <= j; K++) {
+                    xorr ^= a[K];
+                }
+
+                // Step 3: Check XOR and count
+                if (xorr == k) {
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+    }
+}
+
+or
+
+class Solution {
+    // @param a : array of integers
+    // @param k : integer
+    // @return an integer
+    public int solve(int[] a, int k) {
+        int n = a.length; // size of the given array
+        int cnt = 0;
+
+        // Step 1: Generating subarrays
+        for (int i = 0; i < n; i++) {
+            int xorr = 0;
+            for (int j = i; j < n; j++) {
+
+                // Step 2: Calculate XOR of all elements
+                xorr ^= a[j];
+
+                // Step 3: Check XOR and count
+                if (xorr == k) {
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+    }
+}
+
+
+or
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    // @param a : array of integers
+    // @param k : integer
+    // @return an integer
+    public int solve(int[] a, int k) {
+        int n = a.length; // size of the given array
+        int xr = 0; // Prefix XOR
+        Map<Integer, Integer> mpp = new HashMap<>(); // Dictionary to store occurrences of XOR values
+        mpp.put(xr, 1); // Initialize with the count of prefix XOR 0
+        int cnt = 0; // Count of subarrays with XOR equal to k
+
+        for (int i = 0; i < n; i++) {
+            // Compute prefix XOR till index i
+            xr ^= a[i];
+
+            // Compute the value that we need to check in the map
+            int x = xr ^ k;
+
+            // Add the occurrence of xr^k to the count
+            cnt += mpp.getOrDefault(x, 0);
+
+            // Insert the prefix XOR till index i into the map
+            mpp.put(xr, mpp.getOrDefault(xr, 0) + 1);
+        }
+
+        return cnt;
+    }
+}
+
+
+# python
 
 Brute Force Solution:
 

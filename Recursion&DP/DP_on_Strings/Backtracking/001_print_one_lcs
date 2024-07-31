@@ -11,6 +11,119 @@ Example 2:
 Input: s = aaa, t = a
 Output: a
 
+# java
+
+public class Solution {
+
+    // Function to find the Longest Common Subsequence
+    public static void lcs(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+
+        // Create a 2D array for dynamic programming
+        int[][] dp = new int[n + 1][m + 1];
+
+        // Fill the dp array
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        // Construct the LCS string
+        StringBuilder str = new StringBuilder();
+        int i = n;
+        int j = m;
+
+        while (i > 0 && j > 0) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                str.append(s1.charAt(i - 1));
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+
+        // Print the LCS (reversed since we constructed it backwards)
+        System.out.println("The Longest Common Subsequence is " + str.reverse().toString());
+    }
+
+    public static void main(String[] args) {
+        String s1 = "abcde";
+        String s2 = "bdgek";
+        
+        lcs(s1, s2);
+    }
+}
+
+or
+
+public class Solution {
+
+    // Function to find the length of the LCS
+    private static int lcsLength(String s1, String s2, int x, int y, int[][] dp) {
+        if (x == 0 || y == 0) {
+            return 0;
+        }
+        if (dp[x][y] != -1) {
+            return dp[x][y];
+        }
+        if (s1.charAt(x - 1) == s2.charAt(y - 1)) {
+            dp[x][y] = 1 + lcsLength(s1, s2, x - 1, y - 1, dp);
+        } else {
+            dp[x][y] = Math.max(lcsLength(s1, s2, x - 1, y, dp), lcsLength(s1, s2, x, y - 1, dp));
+        }
+        return dp[x][y];
+    }
+
+    // Function to backtrack and construct the LCS string
+    private static String backtrack(String s1, String s2, int x, int y, int[][] dp) {
+        if (x == 0 || y == 0) {
+            return "";
+        }
+        if (s1.charAt(x - 1) == s2.charAt(y - 1)) {
+            return backtrack(s1, s2, x - 1, y - 1, dp) + s1.charAt(x - 1);
+        }
+        if (dp[x - 1][y] > dp[x][y - 1]) {
+            return backtrack(s1, s2, x - 1, y, dp);
+        } else {
+            return backtrack(s1, s2, x, y - 1, dp);
+        }
+    }
+
+    public static void lcsRecursive(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = new int[n + 1][m + 1];
+
+        // Initialize the dp array with -1
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+
+        lcsLength(s1, s2, n, m, dp);
+        String lcsStr = backtrack(s1, s2, n, m, dp);
+
+        System.out.println("The Longest Common Subsequence is " + lcsStr);
+    }
+
+    public static void main(String[] args) {
+        String s1 = "ABCBDAB";
+        String s2 = "BDCAB";
+        lcsRecursive(s1, s2);
+    }
+}
+
+
+# python
+
 Backtracking I:
 
 def lcs(s1, s2):

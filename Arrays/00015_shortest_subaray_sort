@@ -12,6 +12,62 @@ Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the wh
 Input: nums = [1,2,3,4]
 Output: 0
 
+# java
+
+class Solution {
+
+    public int findUnsortedSubarray(int[] nums) {
+        // Function to find the smallest subarray that needs sorting
+        return subarraySort(nums);
+    }
+
+    // Helper function to check if an element is out of order
+    private boolean outOfOrder(int[] arr, int i) {
+        int x = arr[i];
+        if (i == 0) {
+            return arr.length > 1 && x > arr[1];
+        }
+        if (i == arr.length - 1) {
+            return arr.length > 1 && x < arr[i - 1];
+        }
+        return x > arr[i + 1] || x < arr[i - 1];
+    }
+
+    // Function to find the smallest subarray that needs sorting
+    private int subarraySort(int[] arr) {
+        int smallest = Integer.MAX_VALUE;
+        int largest = Integer.MIN_VALUE;
+
+        // Find the smallest and largest elements that are out of order
+        for (int i = 0; i < arr.length; i++) {
+            int x = arr[i];
+            if (outOfOrder(arr, i)) {
+                smallest = Math.min(smallest, x);
+                largest = Math.max(largest, x);
+            }
+        }
+
+        if (smallest == Integer.MAX_VALUE) {
+            return 0;
+        }
+
+        // Find the correct positions of smallest and largest elements
+        int left = 0;
+        while (left < arr.length && smallest >= arr[left]) {
+            left++;
+        }
+
+        int right = arr.length - 1;
+        while (right >= 0 && largest <= arr[right]) {
+            right--;
+        }
+
+        return right - left + 1;
+    }
+}
+
+# python
+
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
 

@@ -23,6 +23,125 @@ Explanation:
 1 is the only positive integer and -1 the only negative integer in nums.
 So nums is rearranged to [1,-1].
 
+#java
+
+import java.util.*;
+
+public class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> neg = new ArrayList<>();
+        int n = nums.length;
+        
+        // Segregate the array into positives and negatives.
+        for (int num : nums) {
+            if (num > 0) {
+                pos.add(num);
+            } else {
+                neg.add(num);
+            }
+        }
+        
+        int[] result = new int[n];
+        int posSize = pos.size();
+        int negSize = neg.size();
+        
+        // If positives are lesser than the negatives.
+        if (posSize < negSize) {
+            // First, fill array alternatively till the point 
+            // where positives and negatives are equal in number.
+            for (int i = 0; i < posSize; i++) {
+                result[2 * i] = pos.get(i);
+                result[2 * i + 1] = neg.get(i);
+            }
+            
+            // Fill the remaining negatives at the end of the array.
+            int index = posSize * 2;
+            for (int i = posSize; i < negSize; i++) {
+                result[index] = neg.get(i);
+                index++;
+            }
+        }
+        // If negatives are lesser than the positives.
+        else {
+            // First, fill array alternatively till the point 
+            // where positives and negatives are equal in number.
+            for (int i = 0; i < negSize; i++) {
+                result[2 * i] = pos.get(i);
+                result[2 * i + 1] = neg.get(i);
+            }
+            
+            // Fill the remaining positives at the end of the array.
+            int index = negSize * 2;
+            for (int i = negSize; i < posSize; i++) {
+                result[index] = pos.get(i);
+                index++;
+            }
+        }
+        
+        return result;
+    }
+    
+}
+
+or
+
+public class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        
+        // positive elements start from 0 and negative from 1.
+        int posIndex = 0, negIndex = 1;
+        for (int num : nums) {
+            if (num < 0) {
+                ans[negIndex] = num;
+                negIndex += 2;
+            } else {
+                ans[posIndex] = num;
+                posIndex += 2;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+or
+
+public class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> neg = new ArrayList<>();
+
+        // Segregate the array into positives and negatives
+        for (int num : nums) {
+            if (num > 0) {
+                pos.add(num);
+            } else {
+                neg.add(num);
+            }
+        }
+
+        int[] result = new int[nums.length];
+        
+        // Positives on even indices, negatives on odd indices
+        int posIndex = 0, negIndex = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 0) {
+                result[i] = pos.get(posIndex++);
+            } else {
+                result[i] = neg.get(negIndex++);
+            }
+        }
+        
+        return result;
+    }
+    
+}
+
+# python
+
 # brute:
 
 class Solution:

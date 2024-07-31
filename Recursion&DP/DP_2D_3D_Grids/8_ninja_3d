@@ -19,7 +19,121 @@ They cannot go out of the boundary of the given matrix, we need to return the ma
 # base cases from end point because we cant have all cells covered starting from first row
 # hence recursion/dp can be started from both start or end point of a journey.
 
+# java
 
+App I
+
+
+class Solution {
+    public int solve(int n, int m, int grid[][]) {
+        int[][][] dp = new int[n][m][m];
+
+        // Initialize the values for the last row of dp based on grid values
+        for (int j1 = 0; j1 < m; j1++) {
+            for (int j2 = 0; j2 < m; j2++) {
+                if (j1 == j2) {
+                    dp[n - 1][j1][j2] = grid[n - 1][j1];
+                } else {
+                    dp[n - 1][j1][j2] = grid[n - 1][j1] + grid[n - 1][j2];
+                }
+            }
+        }
+
+        // Iterate through rows from the second-to-last row to the first row
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j1 = 0; j1 < m; j1++) {
+                for (int j2 = 0; j2 < m; j2++) {
+                    int maxi = Integer.MIN_VALUE;
+
+                    // Try out 9 possible options by changing the indices
+                    for (int di = -1; di <= 1; di++) {
+                        for (int dj = -1; dj <= 1; dj++) {
+                            int ans = 0;
+                            if (j1 == j2) {
+                                ans = grid[i][j1];
+                            } else {
+                                ans = grid[i][j1] + grid[i][j2];
+                            }
+
+                            if ((j1 + di < 0 || j1 + di >= m) || (j2 + dj < 0 || j2 + dj >= m)) {
+                                ans += Integer.MIN_VALUE; // A large negative value if out of bounds
+                            } else {
+                                ans += dp[i + 1][j1 + di][j2 + dj]; // Add the value from the next row
+                            }
+
+                            maxi = Math.max(ans, maxi);
+                        }
+                    }
+
+                    // Store the maximum chocolates collected in the memoization table
+                    dp[i][j1][j2] = maxi;
+                }
+            }
+        }
+
+        // Return the maximum chocolates collected in the top row and the last column
+        return dp[0][0][m - 1];
+    }
+}
+
+APP II
+
+
+class Solution {
+    public int solve(int n, int m, int grid[][]) {
+        int[][][] dp = new int[n][m][m];
+        for (int[][] row : dp) {
+            for (int[] subRow : row) {
+                Arrays.fill(subRow, -1);
+            }
+        }
+
+        // Initialize the first row of dp
+        dp[0][0][m - 1] = grid[0][0] + grid[0][m - 1];
+
+        // Iterate over each row starting from the second row
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = j; k < m; k++) {
+                    if (dp[i][j][k] == -1) {
+                        continue;
+                    }
+
+                    // Iterate over possible movements
+                    for (int x = j - 1; x <= j + 1; x++) {
+                        if (x < 0 || x >= m) {
+                            continue;
+                        }
+
+                        for (int y = k - 1; y <= k + 1; y++) {
+                            if (y < 0 || y >= m) {
+                                continue;
+                            }
+
+                            if (x == y) {
+                                dp[i + 1][x][y] = Math.max(dp[i + 1][x][y], grid[i + 1][x] + dp[i][j][k]);
+                            } else {
+                                dp[i + 1][x][y] = Math.max(dp[i + 1][x][y], grid[i + 1][x] + grid[i + 1][y] + dp[i][j][k]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Find the maximum value in the last row of dp
+        int maxPoints = Integer.MIN_VALUE;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                maxPoints = Math.max(maxPoints, dp[n - 1][i][j]);
+            }
+        }
+
+        return maxPoints;
+    }
+}
+
+# python
 
 import sys
 

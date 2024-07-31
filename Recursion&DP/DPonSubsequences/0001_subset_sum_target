@@ -9,6 +9,81 @@ Output: 1
 Explanation: Here there exists a subset with
 sum = 9, 4+3+2 = 9.
 
+# java
+
+# Dp II:
+
+class Solution {
+    public boolean isSubsetSum(int N, int[] arr, int sum) {
+        // Create a 2D boolean array to store the subset sum results
+        boolean[][] dp = new boolean[N + 1][sum + 1];
+        
+        // Initialize the first column to true (sum 0 can always be achieved with any subset)
+        for (int i = 0; i <= N; i++) {
+            dp[i][0] = true;
+        }
+
+        // Fill the dp table
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= sum; j++) {
+                if (arr[i - 1] <= j) {
+                    // Include the current element or exclude it
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];
+                } else {
+                    // Exclude the current element
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        
+        return dp[N][sum];
+    }
+
+}
+
+# Dp I:
+
+class Solution {
+    
+    // Helper function for subset sum with memoization
+    private int f(int i, int s, int[] arr, int N, int[][] dp) {
+        if (s == 0) {
+            return 1;
+        }
+        if (s < 0) {
+            return 0;
+        }
+        if (i >= N) {
+            return 0;
+        }
+
+        if (dp[i][s] != -1) {
+            return dp[i][s];
+        }
+
+        int p = f(i + 1, s - arr[i], arr, N, dp);
+        int n = f(i + 1, s, arr, N, dp);
+        dp[i][s] = Math.max(p, n);
+
+        return dp[i][s];
+    }
+
+    public boolean isSubsetSum(int N, int[] arr, int sum) {
+        int[][] dp = new int[N + 1][sum + 1];
+        // Initialize dp array with -1
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+
+        return f(0, sum, arr, N, dp)==1? true:false;
+    }
+
+}
+
+
+
+# python
+
 # DP II:
 
 class Solution:

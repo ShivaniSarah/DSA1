@@ -27,6 +27,134 @@ Explanation: The arrays we are merging are [] and [1].
 The result of the merge is [1].
 Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
 
+# java
+
+class Solution {
+    private void swapIfGreater(int[] arr1, int[] arr2, int ind1, int ind2) {
+        if (arr1[ind1] > arr2[ind2]) {
+            int temp = arr1[ind1];
+            arr1[ind1] = arr2[ind2];
+            arr2[ind2] = temp;
+        }
+    }
+
+    public void merge(int[] arr1, int n, int[] arr2, int m) {
+        int len = n + m;
+        int gap = (len / 2) + (len % 2);
+
+        while (gap > 0) {
+            int left = 0;
+            int right = left + gap;
+
+            while (right < len) {
+                if (left < n && right >= n) {
+                    swapIfGreater(arr1, arr2, left, right - n);
+                } else if (left >= n) {
+                    swapIfGreater(arr2, arr2, left - n, right - n);
+                } else {
+                    swapIfGreater(arr1, arr1, left, right);
+                }
+
+                left++;
+                right++;
+            }
+
+            if (gap == 1) {
+                break;
+            }
+
+            gap = (gap / 2) + (gap % 2);
+        }
+
+        for (int i = n; i < n + m; i++) {
+            arr1[i] = arr2[i - n];
+        }
+    }
+}
+
+
+or
+
+class Solution {
+    public void merge(int[] arr1, int n, int[] arr2, int m) {
+        int[] arr3 = new int[n + m];
+        int left = 0;
+        int right = 0;
+        int index = 0;
+
+        // Insert the elements from the 2 arrays into the 3rd array using left and right pointers:
+        while (left < n && right < m) {
+            if (arr1[left] <= arr2[right]) {
+                arr3[index] = arr1[left];
+                left++;
+            } else {
+                arr3[index] = arr2[right];
+                right++;
+            }
+            index++;
+        }
+
+        // If right pointer reaches the end:
+        while (left < n) {
+            arr3[index] = arr1[left];
+            left++;
+            index++;
+        }
+
+        // If left pointer reaches the end:
+        while (right < m) {
+            arr3[index] = arr2[right];
+            right++;
+            index++;
+        }
+
+        // Fill back the elements from arr3 to arr1:
+        for (int i = 0; i < n + m; i++) {
+            arr1[i] = arr3[i];
+        }
+    }
+}
+
+or
+
+class Solution {
+    public void merge(int[] arr1, int n, int[] arr2, int m) {
+        // Declare 2 pointers:
+        int left = n - 1;
+        int right = 0;
+
+        // Swap elements if necessary to make space for the elements of arr2
+        while (left >= 0 && right < m) {
+            if (arr1[left] > arr2[right]) {
+                // Swap elements
+                int temp = arr1[left];
+                arr1[left] = arr2[right];
+                arr2[right] = temp;
+                left--;
+                right++;
+            } else {
+                break;
+            }
+        }
+
+        // Fill arr1 with sorted elements from arr2
+        // Temporarily mark positions in arr1 for arr2 elements
+        for (int i = n; i < n + m; i++) {
+            arr1[i] = Integer.MAX_VALUE;
+        }
+
+        // Sort arr1 and arr2
+        java.util.Arrays.sort(arr1);
+        java.util.Arrays.sort(arr2);
+
+        // Fill the remaining space in arr1 with elements from arr2
+        for (int i = n; i < n + m; i++) {
+            arr1[i] = arr2[i - n];
+        }
+    }
+}
+
+# python
 
 # Optimal Approach: Gap method or shell sort
 

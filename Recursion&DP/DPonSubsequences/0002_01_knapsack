@@ -25,6 +25,75 @@ weight[] = {4,5,6}
 Output: 0
 Explanation: Every item has a weight exceeding the knapsack's capacity (3).
 
+# java
+
+# DP II:
+
+class Solution {
+    public int knapSack(int W, int[] wt, int[] val, int n) {
+        // Create a 2D array for dp
+        int[][] dp = new int[n + 1][W + 1];
+        
+        // Build the dp array
+        for (int i = 1; i <= n; i++) {
+            for (int w = 0; w <= W; w++) {
+                if (wt[i - 1] <= w) {
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+        
+        // Return the maximum value that can be achieved with weight W
+        return dp[n][W];
+    }
+}
+
+# DP I:
+
+class Solution {
+    // Recursive function with memoization
+    private int knapsackUtil(int[] wt, int[] val, int ind, int W, int[][] dp) {
+        if (ind == 0) {
+            if (wt[0] <= W) {
+                return val[0];
+            } else {
+                return 0;
+            }
+        }
+
+        if (dp[ind][W] != -1) {
+            return dp[ind][W];
+        }
+
+        // Not taking the current item
+        int notTaken = knapsackUtil(wt, val, ind - 1, W, dp);
+
+        // Taking the current item
+        int taken = Integer.MIN_VALUE;
+        if (wt[ind] <= W) {
+            taken = val[ind] + knapsackUtil(wt, val, ind - 1, W - wt[ind], dp);
+        }
+
+        dp[ind][W] = Math.max(notTaken, taken);
+        return dp[ind][W];
+    }
+
+    public int knapSack(int W, int[] wt, int[] val,int n) {
+        // int n = wt.length;
+        int[][] dp = new int[n][W + 1];
+        // Initialize dp array with -1
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+        return knapsackUtil(wt, val, n - 1, W, dp);
+    }
+}
+
+
+# python
+
 # DP II: tabulation
 
 class Solution:

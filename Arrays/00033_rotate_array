@@ -1,5 +1,82 @@
 https://leetcode.com/problems/rotate-array/submissions/1300153290/
 
+# java
+
+left  rotate::
+
+public class Solution {
+    // Helper function to reverse a part of the array
+    void reverse(int[] array, int start, int end) {
+        while (start < end) {
+            int temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    public void rotate(int[] arr, int k) {
+        int n = arr.length;
+        k = k % n; // Handle cases where k >= n
+
+        // Reverse the first n - k elements
+        reverse(arr, 0, n - k - 1);
+        // Reverse the last k elements
+        reverse(arr, n - k, n - 1);
+        // Reverse the whole array
+        reverse(arr, 0, n - 1);
+    }
+}
+
+right rotate::
+
+public class Solution {
+    // Helper function to reverse a part of the array
+    void reverse(int[] array, int start, int end) {
+        while (start < end) {
+            int temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    public void rotate(int[] arr, int k) {
+        int n = arr.length;
+        k = k % n; // Handle cases where k >= n
+
+        // Reverse the last k elements
+        reverse(arr, n - k, n - 1);
+        // Reverse the first n - k elements
+        reverse(arr, 0, n - k - 1);
+        // Reverse the entire array
+        reverse(arr, 0, n - 1);
+    }
+}
+
+another approach::
+
+public class Solution {
+
+    public void rightRotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n; // Handle cases where k >= n
+
+        int[] temp = Arrays.copyOf(nums, n);
+
+        // Copy elements to the rotated positions
+        for (int i = 0; i < k; i++) {
+            nums[i] = temp[n - k + i];
+        }
+        for (int i = k; i < n; i++) {
+            nums[i] = temp[i - k];
+        }
+    }
+}
+# python
+
 Left Rotate:
 
 class Solution(object):

@@ -16,6 +16,132 @@ Output : 0
 Explanation: 
 There is no such sub-array with sum 6.
 
+# java
+
+Optimal : (for only positives, for positives, negatives and zero )
+
+class Solution{
+    // Function for finding maximum and value pair
+    public static int lenOfLongSubarr (int a[], int n, int k) {
+        // HashMap to store the cumulative sum and the earliest index it was found at
+        HashMap<Integer, Integer> preSumMap = new HashMap<>();
+        int sum = 0;
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Calculate the prefix sum till index i
+            sum += a[i];
+
+            // If the sum is equal to k, update maxLen
+            if (sum == k) {
+                maxLen = Math.max(maxLen, i + 1);
+            }
+
+            // Calculate the remaining part i.e. sum - k
+            int rem = sum - k;
+
+            // If rem is in the map, calculate the length and update maxLen
+            if (preSumMap.containsKey(rem)) {
+                int length = i - preSumMap.get(rem);
+                maxLen = Math.max(maxLen, length);
+            }
+
+            // Update the map with the prefix sum and its index
+            if (!preSumMap.containsKey(sum)) {
+                preSumMap.put(sum, i);
+            }
+        }
+
+        return maxLen;
+    }
+}
+
+or
+
+class Solution{
+    // Function for finding maximum and value pair
+    public static int lenOfLongSubarr (int a[], int n, int k) {
+        int length = 0;
+
+        // Loop for starting index
+        for (int i = 0; i < n; i++) {
+            // Loop for ending index
+            for (int j = i; j < n; j++) {
+                // Calculate the sum of subarray a[i...j]
+                int sum = 0;
+                for (int K = i; K <= j; K++) {
+                    sum += a[K];
+                }
+
+                // Check if the sum of this subarray equals k
+                if (sum == k) {
+                    length = Math.max(length, j - i + 1);
+                }
+            }
+        }
+
+        return length;
+    }
+}
+
+or
+
+class Solution{
+    // Function for finding maximum and value pair
+    public static int lenOfLongSubarr (int a[], int n, int k) {
+        int length = 0;
+
+        // Loop for starting index
+        for (int i = 0; i < n; i++) {
+            int sum = 0; // Initialize sum of subarray
+
+            // Loop for ending index
+            for (int j = i; j < n; j++) {
+                // Add the current element to the sum
+                sum += a[j];
+
+                // Check if the sum of this subarray equals k
+                if (sum == k) {
+                    length = Math.max(length, j - i + 1);
+                }
+            }
+        }
+        return length;
+    }
+}
+
+Optimal: (only for positive numbers)
+
+class Solution{
+    // Function for finding maximum and value pair
+    public static int lenOfLongSubarr (int a[], int n, int k) {
+        int maxLen = 0;    // Maximum length of subarray with sum k
+        int sum = 0;       // Current sum of the subarray
+
+        // HashMap to store (sum, index) pairs
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);  // Base case to handle subarrays starting from index 0
+
+        // Traverse the array
+        for (int right = 0; right < n; right++) {
+            sum += a[right];  // Update the current sum
+
+            // If (sum - k) is found in the map, update maxLen
+            if (map.containsKey(sum - k)) {
+                maxLen = Math.max(maxLen, right - map.get(sum - k));
+            }
+
+            // Store the current sum with its index if it hasn't been stored
+            map.putIfAbsent(sum, right);
+        }
+
+        return maxLen;  // Return the maximum length found
+
+    }
+}
+
+
+# python
 
 Optimal : (for only positives, for positives, negatives and zero )
 

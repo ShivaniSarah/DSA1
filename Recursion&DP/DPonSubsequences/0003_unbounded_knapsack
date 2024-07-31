@@ -32,6 +32,76 @@ The optimal choice is to pick the 1st element 8 times.
 Expected Time Complexity: O(N*W)
 Expected Auxiliary Space: O(W)
 
+# java
+
+class Solution {
+    public int knapSack(int n, int W, int[] val, int[] wt) {
+        // Create dp table initialized to 0
+        int[][] dp = new int[n][W + 1];
+        
+        // Initialize first row of dp table
+        for (int i = wt[0]; i <= W; i++) {
+            dp[0][i] = (i / wt[0]) * val[0];
+        }
+
+        // Fill the dp table for the rest of the items
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j <= W; j++) {
+                // Not taking the current item
+                int notTaken = dp[i - 1][j];
+                
+                // Taking the current item
+                int taken = Integer.MIN_VALUE;
+                if (wt[i] <= j) {
+                    taken = val[i] + dp[i][j - wt[i]];
+                }
+                
+                // Update the dp table with the maximum value
+                dp[i][j] = Math.max(notTaken, taken);
+            }
+        }
+        
+        return dp[n - 1][W];
+    }
+}
+
+or
+
+class Solution {
+    
+    public int knapSack(int N, int W, int[] val, int[] wt) {
+        int[][] dp = new int[N][W + 1];
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+        return f(wt, val, N - 1, W, dp);
+    }
+
+    private int f(int[] wt, int[] val, int ind, int W, int[][] dp) {
+        if (ind == 0) {
+            return (W / wt[0]) * val[0];
+        }
+
+        if (dp[ind][W] != -1) {
+            return dp[ind][W];
+        }
+
+        int notTaken = f(wt, val, ind - 1, W, dp);
+        int taken = Integer.MIN_VALUE;
+
+        if (wt[ind] <= W) {
+            taken = val[ind] + f(wt, val, ind, W - wt[ind], dp);
+        }
+
+        dp[ind][W] = Math.max(notTaken, taken);
+        return dp[ind][W];
+    }
+
+}
+
+
+# python
+
 DP II:
 
 import sys

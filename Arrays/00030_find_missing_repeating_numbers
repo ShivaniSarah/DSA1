@@ -19,6 +19,149 @@ Output: 3 2
 Explanation: Repeating number is 3 and 
 smallest positive missing number is 2.
 
+# java
+
+class Solve {
+    public int[] findTwoElement(int[] a, int n) {
+        int repeating = -1, missing = -1;
+        
+        // Find the repeating and missing number
+        for (int i = 1; i <= n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (a[j] == i) {
+                    count++;
+                }
+            }
+            
+            if (count == 2) {
+                repeating = i;
+            } else if (count == 0) {
+                missing = i;
+            }
+            
+            if (repeating != -1 && missing != -1) {
+                break;
+            }
+        }
+        
+        return new int[] { repeating, missing };
+    }
+}
+
+or
+
+
+class Solve {
+    public int[] findTwoElement(int[] a, int n) {
+        int[] hash = new int[n + 1];
+        
+        // Update the hash array
+        for (int i = 0; i < n; i++) {
+            hash[a[i]]++;
+        }
+        
+        // Find the repeating and missing numbers
+        int repeating = -1, missing = -1;
+        for (int i = 1; i <= n; i++) {
+            if (hash[i] == 2) {
+                repeating = i;
+            } else if (hash[i] == 0) {
+                missing = i;
+            }
+            
+            if (repeating != -1 && missing != -1) {
+                break;
+            }
+        }
+        
+        return new int[] { repeating, missing };
+    }
+}
+
+or
+
+class Solve {
+    public int[] findTwoElement(int[] a, int n) {
+        // Find Sn and S2n:
+        long SN = (long) n * (n + 1) / 2;
+        long S2N = (long) n * (n + 1) * (2 * n + 1) / 6;
+
+        // Calculate S and S2:
+        long S = 0;
+        long S2 = 0;
+        for (int i = 0; i < n; i++) {
+            S += a[i];
+            S2 += (long) a[i] * a[i];
+        }
+
+        // Calculate X and Y
+        long val1 = S - SN;
+        long val2 = S2 - S2N;
+
+        // X + Y = val2 / val1
+        long x = (val1 + (val2 / val1)) / 2;
+        long y = x - val1;
+
+        return new int[] {(int) x, (int) y};
+    }
+}
+
+or
+
+class Solve {
+    public int[] findTwoElement(int[] a, int n) {
+        int xr = 0;
+        
+        // Step 1: Find XOR of all elements and numbers from 1 to n
+        for (int i = 0; i < n; i++) {
+            xr ^= a[i];
+            xr ^= (i + 1);
+        }
+        
+        // xr now holds the XOR of repeating and missing numbers
+        // Step 2: Find the differentiating bit number
+        int number = xr & ~(xr - 1);
+        
+        // Step 3: Group the numbers
+        int zero = 0;
+        int one = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if ((a[i] & number) != 0) {
+                one ^= a[i];
+            } else {
+                zero ^= a[i];
+            }
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if ((i & number) != 0) {
+                one ^= i;
+            } else {
+                zero ^= i;
+            }
+        }
+        
+        // Last step: Identify the numbers
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == zero) {
+                cnt++;
+            }
+        }
+        
+        if (cnt == 2) {
+            return new int[] { zero, one };
+        }
+        
+        return new int[] { one, zero };
+    }
+}
+
+
+# python
+
 Brute Approach:
 
 class Solution:

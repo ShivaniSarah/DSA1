@@ -81,7 +81,26 @@ class Solution {
     }
 }
 
+# recusrsion
 
+public class Solution {
+
+    // Helper function to calculate the number of ways to climb stairs recursively
+    private int f(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        return f(n - 1) + f(n - 2);
+    }
+
+    // Main function to calculate the number of ways to climb stairs
+    public int climbStairs(int n) {
+        return f(n);
+    }
+}
 
 # python
 

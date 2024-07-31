@@ -54,6 +54,97 @@ class Solution {
     }
 }
 
+or
+
+class Solution {
+
+    public int findUnsortedSubarray(int[] nums) {
+        // Function to find the smallest subarray that needs sorting
+        return subarraySort(nums);
+    }
+
+    // Helper function to check if an element is out of order
+    private boolean outOfOrder(int[] arr, int i) {
+        int x = arr[i];
+        if (i == 0) {
+            return arr.length > 1 && x > arr[1];
+        }
+        if (i == arr.length - 1) {
+            return arr.length > 1 && x < arr[i - 1];
+        }
+        return x > arr[i + 1] || x < arr[i - 1];
+    }
+
+    // Function to find the smallest subarray that needs sorting
+    private int subarraySort(int[] arr) {
+        int smallest = Integer.MAX_VALUE;
+        int largest = Integer.MIN_VALUE;
+
+        // Find the smallest and largest elements that are out of order
+        for (int i = 0; i < arr.length; i++) {
+            int x = arr[i];
+            if (outOfOrder(arr, i)) {
+                smallest = Math.min(smallest, x);
+                largest = Math.max(largest, x);
+            }
+        }
+
+        if (smallest == Integer.MAX_VALUE) {
+            return 0;
+        }
+
+        // Find the correct positions of smallest and largest elements
+        int left = 0;
+        while (left < arr.length && smallest >= arr[left]) {
+            left++;
+        }
+
+        int right = arr.length - 1;
+        while (right >= 0 && largest <= arr[right]) {
+            right--;
+        }
+
+        return right - left + 1;
+    }
+}
+
+or
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+class Solution {
+    public int maxEvents(int[][] events) {
+        
+        // Helper method to count non-overlapping events
+        int countActivities(int[][] activities) {
+            // Sort the activities based on their finish time
+            Arrays.sort(activities, Comparator.comparingInt(a -> a[1]));
+            
+            int count = 1;
+            int finish = activities[0][1];
+            
+            for (int i = 1; i < activities.length; i++) {
+                if (activities[i][0] >= finish) {
+                    count++;
+                    finish = activities[i][1];
+                }
+            }
+            
+            return count;
+        }
+
+        return countActivities(events);
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[][] events = {{1, 3}, {2, 4}, {3, 5}, {4, 6}};
+        System.out.println(sol.maxEvents(events)); // Output: 4
+    }
+}
+
+
 # python
 
 # Approach I: Greedy

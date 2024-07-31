@@ -10,6 +10,94 @@ Output: 2
 Input: nums = [1,2,3], k = 3
 Output: 2
 
+# java
+
+class Solution {
+        public int subarraySum(int[] arr, int k) {
+        int n = arr.length; // size of the given array
+        HashMap<Integer, Integer> mpp = new HashMap<>(); // store prefix sum
+        int preSum = 0;
+        int cnt = 0;
+
+        // Setting 0 in the map with count 1
+        mpp.put(0, 1);
+
+        for (int i = 0; i < n; i++) {
+            // add current element to prefix Sum
+            preSum += arr[i];
+
+            // Calculate x - k
+            int remove = preSum - k;
+
+            // Add the number of subarrays to be removed
+            cnt += mpp.getOrDefault(remove, 0);
+
+            // Update the count of prefix sum in the map
+            mpp.put(preSum, mpp.getOrDefault(preSum, 0) + 1);
+        }
+        return cnt;
+    }
+}
+
+or
+
+class Solution {
+     public int subarraySum(int[] arr, int k) {
+        int n = arr.length; // size of the given array.
+        int cnt = 0; // Number of subarrays.
+
+        // Iterate over all starting indices of subarrays
+        for (int i = 0; i < n; i++) {
+            int subarray_sum = 0;
+
+            // Iterate over all ending indices of subarrays
+            for (int j = i; j < n; j++) {
+                // calculate the sum of subarray [i...j]
+                // sum of [i..j-1] + arr[j]
+                subarray_sum += arr[j];
+
+                // Increase the count if sum == k
+                if (subarray_sum == k) {
+                    cnt += 1;
+                }
+            }
+        }
+        return cnt;   
+    }
+}
+
+or
+
+class Solution {
+         public int subarraySum(int[] arr, int k) {
+        int n = arr.length; // size of the given array
+        int cnt = 0; // Number of subarrays
+
+        // Iterate over all starting indices of subarrays
+        for (int i = 0; i < n; i++) {
+            // Iterate over all ending indices of subarrays
+            for (int j = i; j < n; j++) {
+                // Calculate the sum of subarray [i...j]
+                int subarray_sum = 0;
+                for (int p = i; p <= j; p++) {
+                    subarray_sum += arr[p];
+                }
+
+                // Increase the count if sum == k
+                if (subarray_sum == k) {
+                    cnt += 1;
+                }
+            }
+        }
+
+        return cnt;
+    }
+}
+
+
+
+# python
+
 # optimal :
 
 from collections import defaultdict

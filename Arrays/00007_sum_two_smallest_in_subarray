@@ -33,8 +33,31 @@ smallest = 5    second smallest = 6
 Maximum sum among all 
 above choices is, 5 + 6 = 11
 
-
 # Solution:
+
+class Solution {
+    public int pairWithMaxSum(List<Integer> arr) {
+        int N = arr.size();
+        int maxi = Integer.MIN_VALUE; // maximum sum
+
+        for (int i = 0; i < N - 1; i++) {
+            int sum = arr.get(i) + arr.get(i + 1);
+            maxi = Math.max(sum, maxi);
+        }
+        return maxi;
+    }
+
+    // Utility method to convert List<Integer> to int[]
+    public static int[] listToArray(List<Integer> list) {
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+}
+
+or
 
 import sys
 class Solution:

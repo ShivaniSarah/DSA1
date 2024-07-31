@@ -19,7 +19,102 @@ Example 3:
 Input: coins = [1], amount = 0
 Output: 0
 
-# DP I :
+# java
+
+# DP II:
+
+class Solution {
+
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount + 1];
+        final int INF = (int)1e9; // Use a large value to represent "infinity"
+
+        // Initialize the first row of the DP table
+        for (int i = 0; i <= amount; i++) {
+            if (i % coins[0] == 0) {
+                dp[0][i] = i / coins[0];
+            } else {
+                dp[0][i] = INF;
+            }
+        }
+
+        // Fill the rest of the DP table
+        for (int ind = 1; ind < n; ind++) {
+            for (int target = 0; target <= amount; target++) {
+                int notTake = dp[ind - 1][target];  // Case where we do not take the current coin
+                int take = INF;  // Initialize with "infinity"
+                if (coins[ind] <= target) {
+                    take = 1 + dp[ind][target - coins[ind]];  // Case where we take the current coin
+                }
+                dp[ind][target] = Math.min(notTake, take);
+            }
+        }
+
+        int ans = dp[n - 1][amount];
+        // If the result is still equal to "infinity", it means it's not possible to achieve the target sum.
+        if (ans >= INF) {
+            return -1;
+        }
+        return ans;
+    }
+
+}
+
+# DP I:
+
+class Solution {
+
+    private static final int INF = (int)1e9;
+
+    // Helper function to compute minimum elements
+    private int minimumElementsUtil(int[] arr, int ind, int T, int[][] dp) {
+        if (ind == 0) {
+            if (T % arr[0] == 0) {
+                return T / arr[0];
+            } else {
+                return INF;
+            }
+        }
+
+        if (dp[ind][T] != -1) {
+            return dp[ind][T];
+        }
+
+        // Calculate not taken case
+        int notTaken = minimumElementsUtil(arr, ind - 1, T, dp);
+
+        // Calculate taken case
+        int taken = INF;
+        if (arr[ind] <= T) {
+            taken = 1 + minimumElementsUtil(arr, ind, T - arr[ind], dp);
+        }
+
+        dp[ind][T] = Math.min(notTaken, taken);
+        return dp[ind][T];
+    }
+
+    // Main function to compute minimum elements
+    private int minimumElements(int[] arr, int T) {
+        int n = arr.length;
+        int[][] dp = new int[n][T + 1];
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+        int ans = minimumElementsUtil(arr, n - 1, T, dp);
+        return ans >= INF ? -1 : ans;
+    }
+
+    // Public function to be called
+    public int coinChange(int[] coins, int amount) {
+        return minimumElements(coins, amount);
+    }
+}
+
+
+# python
+
+# DP II :
 
 class Solution(object):
     def coinChange(self, coins, amount):

@@ -6,6 +6,85 @@ Given an array of integers nums and an integer target, return indices of the two
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 You can return the answer in any order.
 
+
+# java
+
+public class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+        int[] sortedNums = nums.clone();
+        Arrays.sort(sortedNums);
+
+        int left = 0, right = n - 1;
+        while (left < right) {
+            int summation = sortedNums[left] + sortedNums[right];
+            if (summation == target) {
+                int l = findIndex(nums, sortedNums[left]);
+                int r = findIndex(nums, sortedNums[right]);
+                
+                if (l != r) {
+                    return new int[] {l, r};
+                } else {
+                    int r1 = findIndex(nums, sortedNums[right], l + 1, n);
+                    return new int[] {l, r1};
+                }
+            } else if (summation < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[] {}; // No solution found
+    }
+
+    private int findIndex(int[] nums, int value) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == value) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Value not found in array");
+    }
+
+    private int findIndex(int[] nums, int value, int start, int end) {
+        for (int i = start; i < end; i++) {
+            if (nums[i] == value) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Value not found in array in the given range");
+    }
+
+}
+
+or
+
+public class Solution {
+    public int[] twoSum(int[] arr, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        for (int i = 0; i < arr.length; i++) {
+            int num = arr[i];
+            int moreNeeded = target - num;
+            
+            if (map.containsKey(moreNeeded)) {
+                int[] result = {i, map.get(moreNeeded)};
+                Arrays.sort(result);
+                return result;
+            }
+            
+            map.put(num, i);
+        }
+        
+        return new int[]{}; // Return an empty array if no solution is found
+    }
+}
+
+or
+
+
+# python
+
 # Better Approach - using unordered set hashing approach
 
 class Solution:

@@ -24,6 +24,156 @@ Output:
 Explanation: 
 {2, 1, 4, 3}, {5, 1, 4}, {2, 5, 3} are possible subsets.
 
+# java
+
+# DP II Approach I:
+
+class Solution {
+    private static final int MOD = 1000000007;
+    
+    public int perfectSum(int[] arr, int n, int targetSum) {
+        int[][] dp = new int[n + 1][targetSum + 1];
+    
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= targetSum; j++) {
+                dp[i][j] = dp[i - 1][j] % MOD;
+                if (arr[i - 1] <= j) {
+                    dp[i][j] = (dp[i][j] + dp[i - 1][j - arr[i - 1]]) % MOD;
+                }
+            }
+        }
+
+        return dp[n][targetSum];
+    }
+}
+
+# DP II Approach II:
+
+class Solution {
+    private static final int MOD = 1000000007;
+
+    public int perfectSum(int[] num, int n, int k) {
+        int[][] dp = new int[n + 1][k + 1];
+
+        // Base case initialization
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 1;
+        }
+
+        // Fill the dp array
+        for (int ind = 1; ind <= n; ind++) {
+            for (int target = 0; target <= k; target++) {
+                int notTaken = dp[ind - 1][target];
+                int taken = 0;
+                if (num[ind - 1] <= target) {
+                    taken = dp[ind - 1][target - num[ind - 1]];
+                }
+                dp[ind][target] = (notTaken + taken) % MOD;
+            }
+        }
+
+        return dp[n][k];
+    }
+}
+
+# DP II Approach III:
+
+class Solution {
+    private static final int MOD = 1000000007;
+
+    public int perfectSum(int[] num, int n, int k) {
+        int[][] dp = new int[n][k + 1];
+
+        // Initialize base case for sum 0
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = 1;
+        }
+
+        // Handle the case when num[0] is 0
+        if (num[0] == 0) {
+            dp[0][0] = 2; // 2 cases - pick and not pick
+        } else {
+            dp[0][0] = 1; // 1 case - not pick
+        }
+
+        if (num[0] != 0 && num[0] <= k) {
+            dp[0][num[0]] = 1;
+        }
+
+        // Fill the dp table
+        for (int ind = 1; ind < n; ind++) {
+            for (int target = 0; target <= k; target++) {
+                int notTaken = dp[ind - 1][target];
+                int taken = 0;
+                if (num[ind] <= target) {
+                    taken = dp[ind - 1][target - num[ind]];
+                }
+
+                dp[ind][target] = (notTaken + taken) % MOD;
+            }
+        }
+
+        return dp[n - 1][k] % MOD;
+    }
+
+}
+
+or
+
+DP I:
+
+class Solution {
+    private static final int MOD = 1000000007;
+
+    public int perfectSum(int[] num, int n, int k) {
+        int[][] dp = new int[n][k + 1];
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+        return f(num, n - 1, k, dp);
+    }
+
+    private int f(int[] num, int index, int target, int[][] dp) {
+        if (target < 0) {
+            return 0;
+        }
+        if (index == 0) {
+            if (target == 0 && num[0] == 0) {
+                return 2;
+            }
+            if (target == 0 || target == num[0]) {
+                return 1;
+            }
+            return 0;
+        }
+
+        // If the subproblem has already been solved, return the result from the memoization table
+        if (dp[index][target] != -1) {
+            return dp[index][target];
+        }
+
+        // If the current element is not taken
+        int notTaken = f(num, index - 1, target, dp);
+
+        // If the current element is taken
+        int taken = 0;
+        if (num[index] <= target) {
+            taken = f(num, index - 1, target - num[index], dp);
+        }
+
+        // Save the result in dp and return
+        dp[index][target] = (notTaken + taken) % MOD;
+        return dp[index][target];
+    }
+}
+
+
+# python
+
 # DP II Approach I:
 class Solution:
     def perfectSum(self, arr, n, target_sum):

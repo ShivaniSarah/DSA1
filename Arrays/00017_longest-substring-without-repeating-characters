@@ -13,6 +13,98 @@ Input: s = "bbbbb"
 Output: 1
 Explanation: The answer is "b", with the length of 1.
 
+
+# java
+
+
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        HashSet<Character> set = new HashSet<>();
+        int maxLength = 0;
+        int i = 0, j = 0;
+
+        while (i < n && j < n) {
+            if (!set.contains(s.charAt(j))) {
+                set.add(s.charAt(j));
+                j++;
+                maxLength = Math.max(maxLength, set.size());
+            } else {
+                set.remove(s.charAt(i));
+                i++;
+            }
+        }
+
+        return maxLength;
+    }
+}
+
+
+or
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] mpp = new int[256];
+        // Initialize mpp array to -1 to indicate no previous occurrence
+        for (int i = 0; i < 256; i++) {
+            mpp[i] = -1;
+        }
+
+        int left = 0;
+        int right = 0;
+        int n = s.length();
+        int length = 0;
+
+        while (right < n) {
+            char currentChar = s.charAt(right);
+            if (mpp[currentChar] != -1) {
+                left = Math.max(mpp[currentChar] + 1, left);
+            }
+            mpp[currentChar] = right;
+            length = Math.max(length, right - left + 1);
+            right++;
+        }
+
+        return length;
+    }
+
+}
+
+or
+
+
+import java.util.HashSet;
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0) {
+            return 0;
+        }
+
+        int maxAns = 0;
+        HashSet<Character> set = new HashSet<>();
+        int l = 0;
+
+        for (int r = 0; r < s.length(); r++) {  // Outer loop for traversing the string
+            while (set.contains(s.charAt(r))) {  // If duplicate element is found
+                set.remove(s.charAt(l));
+                l++;
+            }
+            set.add(s.charAt(r));
+            maxAns = Math.max(maxAns, r - l + 1);
+        }
+
+        return maxAns;
+    }
+}
+
+
+
+
+
+# python
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         l=list()

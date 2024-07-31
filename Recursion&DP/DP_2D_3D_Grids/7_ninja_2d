@@ -14,6 +14,110 @@ Geek will learn a new move and earn 5 point then on second
 day he will do running and earn 3 point and on third day
 he will do fighting and earn 3 points so, maximum point is 11.
 
+# java
+
+# DP II
+# specific for 3 activities
+
+class Solution {
+    public int maximumPoints(int points[][], int n) {
+        int[][] dp = new int[n][3];
+        
+        // Initialize the first day's activities points
+        for (int i = 0; i < 3; i++) {
+            dp[0][i] = points[0][i];
+        }
+
+        // Fill the dp array based on the choices
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j == 0) {
+                    dp[i][j] = Math.max(dp[i - 1][1], dp[i - 1][2]) + points[i][j];
+                } else if (j == 1) {
+                    dp[i][j] = Math.max(dp[i - 1][0], dp[i - 1][2]) + points[i][j];
+                } else if (j == 2) {
+                    dp[i][j] = Math.max(dp[i - 1][0], dp[i - 1][1]) + points[i][j];
+                }
+            }
+        }
+
+        // Return the maximum points from the last day's activities
+        return Math.max(dp[n - 1][0], Math.max(dp[n - 1][1], dp[n - 1][2]));
+    }
+}
+
+
+# generic solution
+
+
+class Solution {
+    public int maximumPoints(int points[][], int n) {
+        int[][] dp = new int[n][3];
+        int m = 3; // number of activities
+
+        // Initialize the first day's points
+        for (int i = 0; i < m; i++) {
+            dp[0][i] = points[0][i];
+        }
+
+        // Fill the dp array for the rest of the days
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int max_i = Integer.MIN_VALUE;
+                for (int k = 0; k < m; k++) {
+                    if (k != j) {
+                        max_i = Math.max(max_i, dp[i - 1][k]);
+                    }
+                }
+                dp[i][j] = max_i + points[i][j];
+            }
+        }
+
+        // Find the maximum points possible on the last day
+        int max_i = Integer.MIN_VALUE;
+        for (int i = 0; i < m; i++) {
+            max_i = Math.max(max_i, dp[n - 1][i]);
+        }
+
+        return max_i;
+    }
+}
+
+# other's solution:
+
+
+class Solution {
+    public int maximumPoints(int points[][], int n) {
+         int[][] dp = new int[n][4];
+
+        // Initialize the DP table for day 0 with base cases.
+        dp[0][0] = Math.max(points[0][1], points[0][2]);
+        dp[0][1] = Math.max(points[0][0], points[0][2]);
+        dp[0][2] = Math.max(points[0][0], points[0][1]);
+        dp[0][3] = Math.max(points[0][0], Math.max(points[0][1], points[0][2]));
+
+        // Loop through the days starting from the second day.
+        for (int day = 1; day < n; day++) {
+            for (int last = 0; last < 4; last++) {
+                dp[day][last] = 0; // Initialize the maximum points for the current day and last activity.
+                for (int task = 0; task < 3; task++) {
+                    if (task != last) {
+                        // Calculate the total points for the current day's activity and the previous day's maximum points.
+                        int activity = points[day][task] + dp[day - 1][task];
+                        dp[day][last] = Math.max(dp[day][last], activity);
+                    }
+                }
+            }
+        }
+
+        // Return the maximum points achievable after the last day with any activity.
+        return dp[n - 1][3];
+    }
+}
+
+
+# python
+
 # DP II
 
 # specific for 3 activities

@@ -24,6 +24,73 @@ Example 2:
 Input: nums = [1], target = 1
 Output: 1
 
+# java
+
+class Solution {
+    
+    private static final int MOD = 1000000007;
+    private int[][] dp;
+
+    public int findTargetSumWays(int[] nums, int target) {
+        return targetSum(target, nums);
+    }
+
+    private int f(int ind, int target, int[] arr) {
+        if (target < 0) return 0; // Base case for invalid targets
+        if (ind == 0) {
+            if (target == 0 && arr[0] == 0) {
+                return 2; // Special case when arr[0] is 0 and target is 0
+            }
+            if (target == 0 || target == arr[0]) {
+                return 1;
+            }
+            return 0;
+        }
+        
+        // If the subproblem has already been solved, return the result from the memoization table
+        if (dp[ind][target] != -1) {
+            return dp[ind][target];
+        }
+
+        // If the current element is not taken
+        int notTaken = f(ind - 1, target, arr);
+
+        // If the current element is taken
+        int taken = 0;
+        if (arr[ind] <= target) {
+            taken = f(ind - 1, target - arr[ind], arr);
+        }
+
+        // Save the result in dp and return
+        dp[ind][target] = (notTaken + taken) % MOD;
+        return dp[ind][target];
+    }
+
+    private int targetSum(int target, int[] arr) {
+        int n = arr.length;
+        int totSum = 0;
+        for (int num : arr) {
+            totSum += num;
+        }
+
+        if (totSum - target < 0 || (totSum - target) % 2 == 1) {
+            return 0;
+        }
+
+        int s2 = (totSum - target) / 2;
+
+        dp = new int[n][s2 + 1];
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        return f(n - 1, s2, arr);
+    }
+}
+
+
+# python
+
 DP II:
 
 class Solution(object):

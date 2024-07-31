@@ -4,7 +4,55 @@
 # Problem Statement: Given a row X cols binary matrix filled with 0's and 1's, f
 # find the largest rectangle containing only 1's and return its area.
 
+# java
 
+
+public class Solution {
+
+    public int maximalRectangle(char[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        // Initialize heights array
+        int[] heights = new int[n];
+        int maxArea = 0;
+
+        for (int i = 0; i < m; i++) {
+            // Update the heights array for the current row
+            for (int j = 0; j < n; j++) {
+                heights[j] = matrix[i][j] == '1' ? heights[j] + 1 : 0;
+            }
+
+            // Compute the maximum rectangle area with the updated heights
+            maxArea = Math.max(maxArea, largestRectangleArea(heights));
+        }
+
+        return maxArea;
+    }
+
+    private int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        Stack<Integer> st = new Stack<>();
+        int maxArea = 0;
+
+        for (int i = 0; i <= n; i++) {
+            while (!st.isEmpty() && (i == n || heights[i] < heights[st.peek()])) {
+                int h = heights[st.pop()];
+                int width = st.isEmpty() ? i : i - st.peek() - 1;
+                maxArea = Math.max(maxArea, h * width);
+            }
+            st.push(i);
+        }
+
+        return maxArea;
+    }
+}
+
+# python
 
 class Solution(object):
     def maximalRectangle(self, matrix):

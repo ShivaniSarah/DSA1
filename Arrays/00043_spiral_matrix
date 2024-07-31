@@ -10,6 +10,53 @@ Example 2:
 Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 
+
+public class Solution {
+    public List<Integer> spiralOrder(int[][] mat) {
+        List<Integer> ans = new ArrayList<>();
+        
+        if (mat == null || mat.length == 0) return ans;
+
+        int n = mat.length;       // Number of rows
+        int m = mat[0].length;    // Number of columns
+        
+        int top = 0;
+        int left = 0;
+        int bottom = n - 1;
+        int right = m - 1;
+
+        while (top <= bottom && left <= right) {
+            for (int i = left; i <= right; i++) {
+                ans.add(mat[top][i]);
+            }
+            top++;
+            
+            for (int i = top; i <= bottom; i++) {
+                ans.add(mat[i][right]);
+            }
+            right--;
+            
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    ans.add(mat[bottom][i]);
+                }
+                bottom--;
+            }
+            
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    ans.add(mat[i][left]);
+                }
+                left++;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+or
+
 class Solution:
     def spiralOrder(self, mat: List[List[int]]) -> List[int]:
         ans = []

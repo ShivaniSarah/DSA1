@@ -1,3 +1,5 @@
+https://www.geeksforgeeks.org/smallest-difference-pair-values-two-unsorted-arrays/
+
 Implement a function that takes in two non-empty arrays of integers,
 finds the pair of numbers (one from each array) who absolute difference is closest to zero,
 and returns a pair containing these two numbers,
@@ -11,6 +13,56 @@ Output
 
 17,19
 
+# java
+
+static int findSmallestDifference(int A[], int B[],
+                                      int m, int n)
+    {
+        // Sort both arrays 
+        // using sort function
+        Arrays.sort(A);
+        Arrays.sort(B);
+     
+        int a = 0, b = 0;
+     
+        // Initialize result as max value
+        int result = Integer.MAX_VALUE;
+     
+        // Scan Both Arrays upto 
+        // sizeof of the Arrays
+        while (a < m && b < n)
+        {
+            if (Math.abs(A[a] - B[b]) < result)
+                result = Math.abs(A[a] - B[b]);
+     
+            // Move Smaller Value
+            if (A[a] < B[b])
+                a++;
+     
+            else
+                b++;
+        }
+         
+        // return final sma result
+        return result; 
+    }
+
+or
+
+public static int findSmallestDifference(int[] A, int[] B, int m, int n) {
+        int minDiff = Integer.MAX_VALUE; // Initialize with maximum integer value
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int diff = Math.abs(A[i] - B[j]); // Calculate absolute difference
+                if (diff < minDiff) {
+                    minDiff = diff; // Update smallest difference found so far
+                }
+            }
+        }
+        return minDiff;
+    }
+
+# python
 
 # Approach I:
 

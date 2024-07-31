@@ -25,6 +25,96 @@ enention -> exention (replace 'n' with 'x')
 exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
 
+# java
+
+# DP II:
+
+class Solution {
+    public int minDistance(String S1, String S2) {
+        int n = S1.length();
+        int m = S2.length();
+        
+        // Initialize the DP table
+        int[][] dp = new int[n + 1][m + 1];
+        
+        // Base cases
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= m; j++) {
+            dp[0][j] = j;
+        }
+
+        // Fill the DP table
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (S1.charAt(i - 1) == S2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+                }
+            }
+        }
+
+        // Return the minimum distance
+        return dp[n][m];
+    }
+}
+
+# DP I:
+
+class Solution {
+    public int minDistance(String S1, String S2) {
+        int n = S1.length();
+        int m = S2.length();
+
+        // Initialize the DP table with -1 for memoization
+        int[][] dp = new int[n][m];
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+
+        return editDistanceUtil(S1, S2, n - 1, m - 1, dp);
+    }
+
+    private int editDistanceUtil(String S1, String S2, int i, int j, int[][] dp) {
+        // Base cases
+        if (i < 0) {
+            return j + 1; // Need to insert all remaining characters of S2
+        }
+        if (j < 0) {
+            return i + 1; // Need to delete all remaining characters of S1
+        }
+
+        // Return the memoized result if available
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
+        // If the characters at the current positions match, no operation is needed
+        if (S1.charAt(i) == S2.charAt(j)) {
+            dp[i][j] = editDistanceUtil(S1, S2, i - 1, j - 1, dp);
+        } else {
+            // Calculate the minimum of three choices:
+            // 1. Replace the current character (diagonal move)
+            // 2. Insert a character into S1 (move up)
+            // 3. Delete a character from S1 (move left)
+            dp[i][j] = 1 + Math.min(
+                editDistanceUtil(S1, S2, i - 1, j - 1, dp), // Replace
+                Math.min(
+                    editDistanceUtil(S1, S2, i - 1, j, dp), // Delete
+                    editDistanceUtil(S1, S2, i, j - 1, dp)  // Insert
+                )
+            );
+        }
+
+        return dp[i][j];
+    }
+}
+
+
+# python
+
 DP II :
 
 class Solution(object):

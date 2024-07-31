@@ -17,6 +17,74 @@ Output: 0
 Explanation: One optimal partition is: [2,4,-9] and [-1,0,-2].
 The absolute difference between the sums of the arrays is abs((2 + 4 + -9) - (-1 + 0 + -2)) = 0.
 
+# java
+
+class Solution {
+
+    public int minimumDifference(int[] nums) {
+        int n = nums.length / 2;
+        int sum_nums = Arrays.stream(nums).sum();
+        int target = sum_nums / 2;
+
+        List<Set<Integer>> firstHalfSums = getSubsetSums(Arrays.copyOfRange(nums, 0, n));
+        List<Set<Integer>> secondHalfSums = getSubsetSums(Arrays.copyOfRange(nums, n, nums.length));
+
+        int min_diff = Integer.MAX_VALUE;
+
+        for (int i = 0; i <= n; i++) {
+            List<Integer> firstList = new ArrayList<>(firstHalfSums.get(i));
+            List<Integer> secondList = new ArrayList<>(secondHalfSums.get(n - i));
+            Collections.sort(secondList);
+
+            for (int s1 : firstList) {
+                int pos = Collections.binarySearch(secondList, target - s1);
+                if (pos < 0) {
+                    pos = -(pos + 1);
+                }
+
+                if (pos < secondList.size()) {
+                    int s2 = secondList.get(pos);
+                    int total_sum1 = s1 + s2;
+                    int total_sum2 = sum_nums - total_sum1;
+                    min_diff = Math.min(min_diff, Math.abs(total_sum1 - total_sum2));
+                }
+
+                if (pos > 0) {
+                    int s2 = secondList.get(pos - 1);
+                    int total_sum1 = s1 + s2;
+                    int total_sum2 = sum_nums - total_sum1;
+                    min_diff = Math.min(min_diff, Math.abs(total_sum1 - total_sum2));
+                }
+            }
+        }
+
+        return min_diff;
+    }
+
+    private List<Set<Integer>> getSubsetSums(int[] arr) {
+        int n = arr.length;
+        List<Set<Integer>> subsetSums = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            Set<Integer> sums = new HashSet<>();
+            generateCombinations(arr, i, 0, 0, sums);
+            subsetSums.add(sums);
+        }
+        return subsetSums;
+    }
+
+    private void generateCombinations(int[] arr, int k, int start, int sum, Set<Integer> sums) {
+        if (k == 0) {
+            sums.add(sum);
+            return;
+        }
+        for (int i = start; i < arr.length; i++) {
+            generateCombinations(arr, k - 1, i + 1, sum + arr[i], sums);
+        }
+    }
+}
+
+# python
+
 # Using Binary Search
 
 from itertools import combinations

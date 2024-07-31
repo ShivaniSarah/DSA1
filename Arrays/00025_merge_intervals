@@ -15,6 +15,84 @@ Input: intervals = [[1,4],[4,5]]
 Output: [[1,5]]
 Explanation: Intervals [1,4] and [4,5] are considered overlapping.'[/
 
+# java
+
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        
+        // Sort the intervals based on the start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        
+        List<int[]> merged = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            // If merged is empty or current interval does not overlap with the last one
+            if (merged.isEmpty() || intervals[i][0] > merged.get(merged.size() - 1)[1]) {
+                merged.add(intervals[i]);
+            } else {
+                // Merge the current interval with the last one
+                int[] last = merged.get(merged.size() - 1);
+                last[1] = Math.max(last[1], intervals[i][1]);
+            }
+        }
+        
+        // Convert List<int[]> to int[][]
+        int[][] result = new int[merged.size()][2];
+        for (int i = 0; i < merged.size(); i++) {
+            result[i] = merged.get(i);
+        }
+        
+        return result;
+    }
+}
+
+
+or
+
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        
+        // Sort the intervals based on the start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        
+        List<int[]> merged = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            
+            // Skip all the merged intervals
+            if (!merged.isEmpty() && end <= merged.get(merged.size() - 1)[1]) {
+                continue;
+            }
+            
+            // Check the rest of the intervals
+            for (int j = i + 1; j < n; j++) {
+                if (intervals[j][0] <= end) {
+                    end = Math.max(end, intervals[j][1]);
+                } else {
+                    break;
+                }
+            }
+            merged.add(new int[] {start, end});
+        }
+        
+        // Convert List<int[]> to int[][]
+        int[][] result = new int[merged.size()][2];
+        for (int i = 0; i < merged.size(); i++) {
+            result[i] = merged.get(i);
+        }
+        
+        return result;
+    }
+}
+
+
+# python
 
 # Optimal :
 

@@ -16,6 +16,86 @@ Example 3:
 Input: nums = [3,3,3,3,3]
 Output: 3
 
+# java
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+        
+        // Phase 1: Finding the intersection point of the two runners
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        
+        // Phase 2: Find the entrance to the cycle
+        fast = nums[0];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        
+        return slow;
+    }
+}
+
+or
+
+class Solution {
+    public int findDuplicate(int[] a) {
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        
+        for (int num : a) {
+            if (freq.containsKey(num)) {
+                return num;
+            }
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+        
+        return 0; // Should not be reached according to problem constraints
+    }
+}
+
+or
+
+class Solution {
+     public int findDuplicate(int[] arr) {
+        int n = arr.length;
+        int[] freq = new int[n + 1];
+        
+        for (int i = 0; i < n; i++) {
+            if (freq[arr[i]] == 0) {
+                freq[arr[i]]++;
+            } else {
+                return arr[i];
+            }
+        }
+        
+        // Return 0 if no duplicate found, which should not happen according to problem constraints
+        return 0;
+    }
+}
+
+or
+
+class Solution {
+    public int findDuplicate(int[] arr) {
+        Arrays.sort(arr); // Sort the array
+        
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] == arr[i + 1]) {
+                return arr[i];
+            }
+        }
+        
+        // In case there is no duplicate, which shouldn't happen as per problem constraints
+        throw new IllegalArgumentException("No duplicate found");
+    }
+}
+
+# python
+
 # Brute:
 
 class Solution:

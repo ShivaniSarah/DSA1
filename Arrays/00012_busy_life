@@ -3,6 +3,59 @@
 # few test cases will not will need priority queue
 # link: https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/submissions/
 
+You are given an array of events where events[i] = [startDayi, endDayi]. Every event i starts at startDayi and ends at endDayi.
+You can attend an event i at any day d where startTimei <= d <= endTimei. You can only attend one event at any time d.
+Return the maximum number of events you can attend.
+
+Input: events = [[1,2],[2,3],[3,4]]
+Output: 3
+Explanation: You can attend all the three events.
+One way to attend them all is as shown.
+Attend the first event on day 1.
+Attend the second event on day 2.
+Attend the third event on day 3.
+Example 2:
+
+Input: events= [[1,2],[2,3],[3,4],[1,2]]
+Output: 4
+
+# java
+
+class Solution {
+    public int maxEvents(int[][] events) {
+        // Sort events by their start day
+        Arrays.sort(events, (a, b) -> Integer.compare(a[0], b[0]));
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        int maxEvents = 0;
+        int day = 0;
+        int i = 0;
+        int n = events.length;
+
+        while (i < n || !minHeap.isEmpty()) {
+            // Add all events starting today or earlier to the min-heap
+            while (i < n && events[i][0] <= day) {
+                minHeap.add(events[i][1]);
+                i++;
+            }
+            // Remove all events that have already ended before today
+            while (!minHeap.isEmpty() && minHeap.peek() < day) {
+                minHeap.poll();
+            }
+            // If we have events in the heap, attend the one that ends the earliest
+            if (!minHeap.isEmpty()) {
+                minHeap.poll(); // Attend the event
+                maxEvents++;
+            }
+            // Move to the next day
+            day++;
+        }
+        return maxEvents;
+    }
+}
+
+# python
+
 # Approach I: Greedy
 
 from typing import List

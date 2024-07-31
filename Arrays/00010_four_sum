@@ -15,6 +15,95 @@ Output: [[2,2,2,2]]
 
 https://leetcode.com/problems/4sum/description/
 
+# java
+
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Set<List<Integer>> resultSet = new HashSet<>(); 
+        
+        Arrays.sort(nums); 
+        
+        for (int i = 0; i < nums.length - 3; i++) {
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                int left = j + 1;
+                int right = nums.length - 1;
+                
+                while (left < right) {
+                    long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum == target) {
+                        List<Integer> arr = new ArrayList<>();
+                        arr.add(nums[i]);
+                        arr.add(nums[j]);
+                        arr.add(nums[left]);
+                        arr.add(nums[right]);
+                        
+                        if (!resultSet.contains(arr)) {
+                            resultSet.add(arr); 
+                        }
+                        
+                        left++;
+                        right--;
+                    } else if (sum <= target) {
+                        left++;
+                    } else if(sum > target){
+                        right--;
+                    }
+                }
+            }
+        }
+        
+        result.addAll(resultSet); 
+        
+        return result;
+    }
+}
+
+or
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> lm=new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i=0;i<=nums.length-4;i++){
+            if(i>0&&nums[i]==nums[i-1]) continue;
+            for(int j=i+1;j<=nums.length-3;j++){
+                if(j!=i+1&&nums[j]==nums[j-1]) continue;
+                int k=j+1;
+                int l=nums.length-1;
+                while(k<l){
+                    long sum=nums[i]+nums[j];
+                    sum+=nums[k];
+                    sum+=nums[l];
+                    if(sum<target){
+                        k++;
+                    }
+                    else if(sum>target){
+                        l--;
+                    }
+                    else{
+                        List<Integer> il=new ArrayList<>();
+                        il.add(nums[i]);
+                        il.add(nums[j]);
+                        il.add(nums[k]);
+                        il.add(nums[l]);
+                        lm.add(il);
+                        k++;
+                        l--;
+                        while(k<l&&nums[k]==nums[k-1]) k++;
+                        while(k<l&&nums[l]==nums[l+1]) l--;
+                    }
+                }
+            }
+        }
+        return lm;
+    }
+}
+
+# python
+
 # Better Approach:
 
 class Solution:

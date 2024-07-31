@@ -1,3 +1,6 @@
+get_all_subset_sum_of_array
+
+
 class Solution(object):
     def get_all_subset_sum(self, nums):
         def f(ind, arr,a):  

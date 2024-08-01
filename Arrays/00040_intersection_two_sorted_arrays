@@ -54,7 +54,7 @@ class Solution
 
         // Collecting elements that are present in both arrays
         for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if (entry.getValue() == 2) {
+            if (entry.getValue() == 2) {   // entry.getKey(k) or entry.setValue(v)
                 inters.add(entry.getKey());
             }
         }

@@ -60,7 +60,7 @@ class Solution
         }
 
         // Sorting the intersection list
-        Collections.sort(inters);
+        Collections.sort(inters);  // Arrays.sort(inters) if int[] inters = new int[20];
         return inters;
     }
 

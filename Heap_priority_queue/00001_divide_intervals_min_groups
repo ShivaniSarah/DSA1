@@ -29,7 +29,7 @@ class Solution {
     Arrays.sort(intervals,(a,b)->(a[0]==b[0])?a[1]-b[1]:a[0]-b[0]);
     
     for(int[] arr:intervals){
-        if(pq.size()>0 && pq.peek()<arr[0]){
+        if(pq.size()>0 && pq.peek()<arr[0]){ // no intersection
             pq.remove();
         }
         

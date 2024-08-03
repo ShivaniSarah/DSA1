@@ -31,7 +31,9 @@ In the beginning, the distances of the monsters are [3,2,4]. You eliminate the f
 After a minute, the distances of the monsters are [X,0,2], so you lose.
 You can only eliminate 1 monster.
 
-# java
+# java 
+
+# using PQ
 
 class Solution {
         public int eliminateMaximum(int[] dist, int[] speed) {
@@ -48,5 +50,26 @@ class Solution {
             time++;
         }
         return res;
+    }
+}
+
+# using greedy
+
+class Solution {
+        public int eliminateMaximum(int[] dist, int[] speed) {
+        int n = dist.length;
+        double arr[]= new double[n];
+        for(int i=0;i<n;i++){
+            arr[i]=(double)dist[i]/(double)speed[i];
+        }
+        Arrays.sort(arr);
+        int cnt=0;
+        for(int i=0;i<n;i++){
+            if(cnt>=arr[i]){
+                break;
+            }
+            cnt++;
+        }
+        return cnt;
     }
 }

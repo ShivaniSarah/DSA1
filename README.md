@@ -118,6 +118,7 @@ cars.clear();
 
 cars.size();
 
+Arrays.sort(cars);
 Collections.sort(cars);
 
 all add set get method are on LinkedList or ArrayList or any List objects

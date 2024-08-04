@@ -120,6 +120,11 @@ cars.size();
 
 Arrays.sort(cars);
 Collections.sort(cars);
+putAll()
+put()
+putIfAbsent()
+containsKey()
+
 
 all add set get method are on LinkedList or ArrayList or any List objects
 

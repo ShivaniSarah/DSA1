@@ -1,5 +1,7 @@
 https://leetcode.com/problems/lfu-cache/description/
 
+remove from PQ takes O(n) time for linear search
+
 Design and implement a data structure for a Least Frequently Used (LFU) cache.
 
 Implement the LFUCache class:

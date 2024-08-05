@@ -56,7 +56,7 @@ class GFG{
     public int rightChild(int i){
         return ((2*i)+2);
     }
-    public void shiftUp(int i){
+    public void shiftUp(int i){     // to keep max at root
         while(i>0 && H[parent(i)] < H[i]){
             int temp=H[i];
             H[i]=H[parent(i)];
@@ -65,7 +65,7 @@ class GFG{
         }
     }
     
-    public void shiftDown(int i){
+    public void shiftDown(int i){  // to keep min at root
         int maxIndex=i;
         int l=leftChild(i);
         if(l<=s && H[l]>H[maxIndex] ){

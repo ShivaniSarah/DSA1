@@ -30,7 +30,7 @@ class Solution {
         int right=2*i+2;
         boolean lefttree=helper(arr,left);
         boolean righttree=helper(arr,right);
-        if(!lefttree || !righttree||(left<arr.length&&arr[i]<arr[left])||(right<arr.length&&arr[i]<arr[right])){
+        if(!lefttree || !righttree|| (left<arr.length && arr[i]<arr[left] ) || ( right<arr.length && arr[i]<arr[right]) ){
             return false;
         }
         else{

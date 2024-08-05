@@ -15,7 +15,7 @@ public class HeapSort {
         int N = arr.length;
 
         // Build heap (rearrange array)
-        for (int i = N / 2 - 1; i >= 0; i--)  // N/2 is to get last parent
+        for (int i = N / 2 - 1; i >= 0; i--)  // N/2 - 1 is to get last parent
             heapify(arr, N, i);
 
         // One by one extract an element from heap

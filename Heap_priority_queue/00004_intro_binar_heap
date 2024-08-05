@@ -41,7 +41,7 @@ class Solution {
 
 class GFG{
     public static int H[]=new int[10009];
-    public static int s=-1;
+    public static int s=-1;   // size of heap
     
     public int parent(int i){
         return (i-1)/2;

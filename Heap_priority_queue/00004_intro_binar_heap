@@ -30,6 +30,9 @@ Priority Queue after extracting maximum: 48 12 8 5
 
 // You have to make a class of GFG to access the above functionalities like this - GFG obj=new GFG();
 // You can check the driver code for better understanding.
+
+Max Heap:
+
 class Solution {
   public int extractMax() {
         // your code here

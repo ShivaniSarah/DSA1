@@ -1,7 +1,8 @@
 https://www.geeksforgeeks.org/problems/implementation-of-priority-queue-using-binary-heap/1
 
 Implementation of Priority Queue using Binary Heap
-
+A Binary Heap is a Complete Binary Tree.
+A complete binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. 
 Given a binary heap implementation of Priority Queue. Extract the maximum element from the queue i.e. remove it from the Queue and return it's value. 
 
 Examples :

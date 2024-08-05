@@ -138,7 +138,6 @@ public class TestCasesInput {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<ArrayList<String>> testCases = new ArrayList<>();
-        
         while (scanner.hasNextLine()) {
             ArrayList<String> testCase = new ArrayList<>();
             String line;

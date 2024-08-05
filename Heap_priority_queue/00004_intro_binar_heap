@@ -13,9 +13,6 @@ Input: 64 12 8 48 5
 Output: 64
 Priority Queue after extracting maximum: 48 12 8 5
 
-
-
-
 //  public static int H[]=new int[10009];
 //  public static int s=-1;
 // 1. parent(i): Function to return the parent node of node i
@@ -51,7 +48,7 @@ class GFG{
         
     }
     public int leftChild(int i){
-        return ((2*i)+1);
+        return ((2*i)+1);     // acc to level order traversal
     }
     public int rightChild(int i){
         return ((2*i)+2);

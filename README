@@ -132,11 +132,15 @@ all add set get method are on LinkedList or ArrayList or any List objects
 Fetching test cases:
 
 import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class TestCasesInput {
+
     public static void main(String[] args) {
+    
         Scanner scanner = new Scanner(System.in);
+        
         ArrayList<ArrayList<String>> testCases = new ArrayList<>();
         while (scanner.hasNextLine()) {
             ArrayList<String> testCase = new ArrayList<>();
@@ -148,9 +152,8 @@ public class TestCasesInput {
                 testCases.add(testCase);
             }
         }
-
-        // Example output of the test cases
         for (ArrayList<String> testCase : testCases) {
+        
             System.out.println("Test Case:");
             for (String line : testCase) {
                 System.out.println(line);
@@ -165,7 +168,6 @@ import java.util.Scanner;
 public class MultilineInput {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         // Read the number of test cases
         int t = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character

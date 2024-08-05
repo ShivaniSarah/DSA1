@@ -7,7 +7,7 @@ last parent of this tree is : 10                                8
                                                            7
 
 
-// Java program for implementation of Heap Sort
+// Java program for implementation of Heap Sort using max heap
 
 public class HeapSort {
     public void sort(int arr[])
@@ -26,13 +26,13 @@ public class HeapSort {
             arr[i] = temp;
 
             // call max heapify on the reduced heap
-            heapify(arr, i, 0);
+            maxHeapify(arr, i, 0);
         }
     }
 
     // To heapify a subtree rooted with node i which is
     // an index in arr[]. n is size of heap
-    void heapify(int arr[], int N, int i)
+    void maxHeapify(int arr[], int N, int i)
     {
         int largest = i; // Initialize largest as root
         int l = 2 * i + 1; // left = 2*i + 1

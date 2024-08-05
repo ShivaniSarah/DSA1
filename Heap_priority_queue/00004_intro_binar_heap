@@ -1,6 +1,7 @@
 https://www.geeksforgeeks.org/problems/implementation-of-priority-queue-using-binary-heap/1
 
 Implementation of Priority Queue using Binary Heap
+Heap is partial or not  a sorted data strcture
 A Binary Heap is a Complete Binary Tree.
 A complete binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. 
 Min-Heap: In a min-heap, the value of the parent node is less than or equal to the values of its children. The root node has the smallest value.

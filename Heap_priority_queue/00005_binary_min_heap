@@ -57,7 +57,7 @@ class MinHeap {
     int right(int i) { return (2 * i + 2); }
 
     //Function to extract minimum value in heap and then to store 
-    //next minimum value at first index.
+    //next minimum value at first index.  like pq.pop()
     int extractMin()
     {
         if(heap_size==0){

@@ -87,6 +87,7 @@ Set<Entity> entitySet = new HashSet<>();
 for (Entity entity : entitySet) {
             System.out.println("Entity name: " + entity.getName());
         }
+if (set.contains("A")) 
 
 Note : Java Pair class is from javafx if u cant import from import javafx.util.Pair; then use the following:
 Queue<AbstractMap.SimpleEntry<Node, Integer>> queue = new LinkedList<>();

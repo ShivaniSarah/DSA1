@@ -83,9 +83,9 @@ for (Character key : map.keySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
 
-Set<Entity> entitySet = new HashSet<>();
-for (Entity entity : entitySet) {
-            System.out.println("Entity name: " + entity.getName());
+Set<Integer> entitySet = new HashSet<>();
+for (Integer i : entitySet) {
+            System.out.println("Entity name: " + i);
         }
 if (set.contains("A")) 
 

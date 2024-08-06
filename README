@@ -75,6 +75,19 @@ Long.MAX_VALUE;
 Double.MIN_VALUE;
 Double.MAX_VALUE;
 
+Map<Character, Integer> map = new HashMap<>();
+for (Character key : map.keySet()) {
+    System.out.println("Key: " + key + " Value: " + map.get(key));
+}
+ for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+Set<Entity> entitySet = new HashSet<>();
+for (Entity entity : entitySet) {
+            System.out.println("Entity name: " + entity.getName());
+        }
+
 Note : Java Pair class is from javafx if u cant import from import javafx.util.Pair; then use the following:
 Queue<AbstractMap.SimpleEntry<Node, Integer>> queue = new LinkedList<>();
 

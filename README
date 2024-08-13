@@ -104,7 +104,7 @@ list.add("a");
 
 list.add("b");
 
-List<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collector.toList());
+List<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collectors.toList());
 
 List<Pair> l = list.stream().map(s -> new Pair(s)).toList(); //Java11 or 17
 

@@ -41,7 +41,7 @@ class MedianFinder {
     public void addNum(int n) {
         left.add(n);
         if(right.size()>0 &&left.peek()>right.peek())
-        right.add(left.remove());
+        right.add(left.poll());
         if(left.size()-right.size()>=2)
         right.add(left.remove());
        else if(right.size()-left.size()>=2)

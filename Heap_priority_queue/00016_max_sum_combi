@@ -21,6 +21,33 @@ Explanation:
 # java
 
 class Solution {
+    static List<Integer> maxCombinations(int N, int K, int A[], int B[]) {
+        
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        List<Integer> list = new ArrayList<>();
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->b[0]-a[0]);
+        
+        for(int i=N-1;i>=0;i--)
+        {
+            pq.offer(new int[]{A[N-1]+B[i],N-1,i});
+        }
+        while(K-->0)
+        {
+            int[] arr = pq.poll();
+            list.add(arr[0]);
+            if(arr[1]>0)
+                pq.offer(new int[]{A[arr[1]-1]+B[arr[2]],arr[1]-1,arr[2]});
+        }
+        return list;
+    }
+}
+
+or
+
+class Solution {
     static void reverse(int arr[]) {
         int left = 0;
         int right = arr.length - 1;
@@ -72,33 +99,6 @@ class Solution {
         return list;
     }
 
-}
-
-or
-
-class Solution {
-    static List<Integer> maxCombinations(int N, int K, int A[], int B[]) {
-        
-        Arrays.sort(A);
-        Arrays.sort(B);
-        
-        List<Integer> list = new ArrayList<>();
-        
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->b[0]-a[0]);
-        
-        for(int i=N-1;i>=0;i--)
-        {
-            pq.offer(new int[]{A[N-1]+B[i],N-1,i});
-        }
-        while(K-->0)
-        {
-            int[] arr = pq.poll();
-            list.add(arr[0]);
-            if(arr[1]>0)
-                pq.offer(new int[]{A[arr[1]-1]+B[arr[2]],arr[1]-1,arr[2]});
-        }
-        return list;
-    }
 }
 
 or

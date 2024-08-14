@@ -83,8 +83,8 @@ Map<Character, Integer> map = new HashMap<>();
 for (Character key : map.keySet()) {
     System.out.println("Key: " + key + " Value: " + map.get(key));
 }
-
- for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+map.values()
+for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
 

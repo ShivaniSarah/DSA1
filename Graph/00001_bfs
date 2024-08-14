@@ -4,6 +4,36 @@
 
 # Space Complexity: O(3N) ~ O(N), Space for queue data structure visited array and an adjacency list
 
+# java
+
+class Solution {
+    // Function to return Breadth First Traversal of given graph.
+    public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        Queue<Integer> q= new LinkedList<Integer>();
+        q.add(0);
+        int vis[]= new int[adj.size()];
+        vis[0]=1;
+        
+        ArrayList<Integer> bfs = new ArrayList<>();
+        
+        while(q.size()>0){
+            Integer node = q.poll();
+            bfs.add(node);
+            
+            for(Integer j: adj.get(node)){
+                if(vis[j]!=1){
+                    q.add(j);
+                    vis[j]=1;
+               }
+            }
+        }
+        return bfs;
+}
+}
+
+
+
+# python
 
 # Method 1 : using deque
 

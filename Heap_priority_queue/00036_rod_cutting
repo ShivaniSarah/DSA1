@@ -1,0 +1,54 @@
+https://www.geeksforgeeks.org/problems/rod-cutting0840/1
+
+Given a rod of length N inches and an array of prices, price[]. price[i] denotes the value of a piece of length i. Determine the maximum value obtainable by cutting up the rod and selling the pieces.
+
+Note: Consider 1-based indexing.
+
+Example 1:
+
+Input:
+N = 8
+Price[] = {1, 5, 8, 9, 10, 17, 17, 20}
+Output:
+22
+Explanation:
+The maximum obtainable value is 22 by 
+cutting in two pieces of lengths 2 and 
+6, i.e., 5+17=22.
+Example 2:
+
+Input:
+N=8
+Price[] = {3, 5, 8, 9, 10, 17, 17, 20}
+Output: 
+24
+Explanation: 
+The maximum obtainable value is 
+24 by cutting the rod into 8 pieces 
+of length 1, i.e, 8*price[1]= 8*3 = 24. 
+
+
+# java
+
+class Solution{
+    public int cutRod(int price[], int N) {
+      // Max heap to store the maximum profit for each rod length
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        // Initialize the maximum profit array
+        int[] maxProfit = new int[N + 1];
+
+        // Fill the maxProfit array using dynamic programming
+        for (int i = 1; i <= N; i++) {
+            int maxVal = price[i - 1]; // Starting with the value of the whole piece
+            for (int j = 1; j < i; j++) {
+                maxVal = Math.max(maxVal, price[j - 1] + maxProfit[i - j]);
+            }
+            maxProfit[i] = maxVal;
+            maxHeap.add(maxVal);
+        }
+
+        // The maximum obtainable value is the top of the max heap
+        return maxHeap.peek();
+    }
+}

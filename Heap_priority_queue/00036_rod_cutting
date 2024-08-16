@@ -53,3 +53,21 @@ class Solution{
         return maxHeap.peek();
     }
 }
+
+or 
+
+class Solution{
+    public int cutRod(int price[], int N) {
+        int[] maxProfit = new int[N + 1];
+        int maxi=Integer.MIN_VALUE;
+        for (int i = 1; i <= N; i++) {
+            int maxVal = price[i - 1]; // Starting with the value of the whole piece
+            for (int j = 1; j < i; j++) {
+                maxVal = Math.max(maxVal, price[j - 1] + maxProfit[i - j]);
+            }
+            maxProfit[i] = maxVal;
+            maxi=Math.max(maxVal,maxi);
+        }
+        return maxi;
+    }
+}

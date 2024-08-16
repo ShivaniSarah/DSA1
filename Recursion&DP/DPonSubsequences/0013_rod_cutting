@@ -29,6 +29,57 @@ of length 1, i.e, 8*price[1]= 8*3 = 24.
 
 # java
 
+# my approach:
+
+class Solution{
+    
+    public int f(int i,int[] price,int temp,int[][] dp){
+        if(i<=0 || temp<=0) return 0;
+        
+        if(dp[i][temp]!=-1) return dp[i][temp];
+         
+        int take=0;
+        
+        if(temp-i >=0)
+            take = price[i-1]+f(i,price,temp-i,dp);
+        
+        int notTake= f(i-1,price,temp,dp);
+        
+        int maxi= Math.max(take,notTake);
+
+        dp[i][temp]= maxi;
+        return dp[i][temp];
+    }
+    
+    public int cutRod(int price[], int n) {
+      
+      int dp[][] = new int[n+1][n+1];
+      for(int i=0;i<=n;i++){
+          for(int j = 0;j<=n;j++) dp[i][j]= -1;
+      }
+      return f(n,price,n,dp);
+    
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<=n;j++){
+            
+            int take=0;
+        
+            if(j-i >=0)
+                take = price[i-1]+f(i,price,j-i,dp);
+            
+            int notTake= f(i-1,price,j,dp);
+            
+            int maxi= Math.max(take,notTake);
+            dp[i][j]= maxi;
+        }
+    }
+    
+    return dp[n][n];
+  
+    }
+}
+
+
 # DP II:
 
 class Solution {

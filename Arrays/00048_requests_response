@@ -1,0 +1,41 @@
+given an list of string only .... if a string is first time or repeats 2 times
+in last  5  iterations  of list or 5 times in last 30 iterations of list.... return success else return fail in java.. 
+
+
+import java.util.*;
+
+public class StringCheck {
+
+    public static String checkString(List<String> requests) {
+        String successMsg = "{status: 200, message: OK}";
+        String failMsg = "{status: 429, message: Too many messages}";
+        List<String> result = new LinkedList<>();
+        Map<String, List<Integer>> occurrences = new HashMap<>();
+        int size = requests.size();
+        for (int i = 0; i < size; i++) {
+            String s = requests.get(i);
+            occurrences.putIfAbsent(s, new ArrayList<>());
+            List<Integer> indices = occurrences.get(s);
+            indices.add(i);
+            int count5 = 0, count30 = 0;
+            for (int j = indices.size() - 1; j >= 0; j--) {
+                int diff = i - indices.get(j);
+                if (diff < 5) count5++;
+                if (diff < 30) count30++;
+                if (diff >= 30) break;
+            }
+            if (count5 < 3 && count30 < 6) {
+                result.add(successMsg);
+            } else {
+                result.add(failMsg);
+            }
+        }
+        return result; 
+    }
+
+    public static void main(String[] args) {
+        List<String> strings = Arrays.asList("a", "b", "c", "a", "a", "b", "d", "a", "b", "b", "b", "b");
+        System.out.println(checkString(strings)); // Should return "Success"
+    }
+}
+

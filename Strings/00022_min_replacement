@@ -1,0 +1,71 @@
+https://www.geeksforgeeks.org/minimum-replacements-in-a-string-to-make-adjacent-characters-unequal/
+
+// Java program to count the minimal
+// replacements such that adjacent 
+// characters are unequal
+class GFG 
+{
+
+	static final int MAX = 26;
+	
+	// Function to count the number of
+	// minimal replacements
+	static int countMinimalReplacements(char[] s) 
+	{
+		// Find the length of the String
+		int n = s.length;
+
+		int cnt = 0;
+
+		// Iterate in the String
+		for (int i = 1; i < n; i++)
+		{
+
+			// Check if adjacent is similar
+			if (s[i] == s[i - 1]) 
+			{
+				cnt += 1;
+
+				// If not the last pair
+				if (i != (n - 1)) 
+				{
+
+					// Check for character which is
+					// not same in i+1 and i-1
+					for (char it : "012".toCharArray())
+					{
+						if (it != s[i + 1]
+								&& it != s[i - 1]) 
+						{
+							s[i] = it;
+							break;
+						}
+					}
+				} 
+				else // Last pair
+				{
+					// Check for character which is 
+					// not same in i-1 index
+					for (char it : "012".toCharArray())
+					{
+						if (it != s[i - 1])
+						{
+							s[i] = it;
+							break;
+						}
+					}
+				}
+			}
+		}
+		return cnt;
+	}
+
+	// Driver Code
+	public static void main(String[] args) 
+	{
+		String s = "201220211";
+		System.out.println(countMinimalReplacements(s.toCharArray()));
+	}
+}
+
+// This code is contributed by 29AjayKumar

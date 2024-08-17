@@ -63,6 +63,20 @@ Knapsack Problems 3 types:
    
 From 27 June 2024, coding in java, array 38
 
+to replace a character in a string
+String s="Hello";
+System.out.println(s.substring(0,4)+"#"+s.substring(5));
+StringBuilder sb = new StringBuilder();
+sb.append("Hello");
+sb.reverse();
+System.out.println(sb.reverse().toString());
+sb.setCharAt(0,'h');
+System.out.println(sb.toString());
+char[] chars = sb.toString().toCharArray();
+chars[1] = 'a';
+String str = new String(chars);
+System.out.println(str);
+
 Integer.MIN_VALUE;          
 Integer.MAX_VALUE;
 Long.MIN_VALUE;

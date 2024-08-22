@@ -68,3 +68,30 @@ class Solution {
         return tasks.length + idles;
     }
 }
+
+
+
+# to be improved
+
+class Solution {
+	public int leastInterval(char[] tasks, int n) {
+		
+        Map<Character,Integer> mpp = new HashMap<>();
+        for(int i=0;i<tasks.length;i++){
+            mpp.put(tasks[i],mpp.getOrDefault(tasks[i],0) +1);
+        }
+        
+        int maxi = Integer.MIN_VALUE;
+        for(Integer i: mpp.values()){
+            maxi= Math.max(maxi,i);
+        }
+// System.out.println(maxi);
+        int cnt=0;
+        for(Integer i: mpp.values()){
+            if(i==maxi) cnt++;
+        }
+
+        return ((n+1)*(maxi-1)+cnt);
+
+	}
+}

@@ -46,3 +46,31 @@ class Solution {
       return false;
     }
 }
+
+or
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> st = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            st.push(s.charAt(i));
+            if (st.size() >= 3) {
+                char c = st.pop();
+                char b = st.pop();
+                char a = st.pop();
+                
+                // Using StringBuilder for concatenation
+                StringBuilder sb = new StringBuilder();
+                sb.append(a).append(b).append(c);
+                String abc = sb.toString();
+                
+                if (!abc.equals("abc")) {
+                    st.push(a);
+                    st.push(b);
+                    st.push(c);
+                }
+            }
+        }
+        return st.isEmpty();
+    }
+}

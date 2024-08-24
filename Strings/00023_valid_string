@@ -1,0 +1,48 @@
+https://leetcode.com/problems/check-if-word-is-valid-after-substitutions/submissions/1366727878/
+
+class Solution {
+    public boolean isValid(String s) {
+      Stack<Character> st = new Stack<>();
+      for(int i=0;i<s.length();i++){
+        st.push(s.charAt(i));
+        if(st.size()>=3){
+            Character c = st.pop();
+            Character b = st.pop();
+            Character a = st.pop();
+            String abc = String.valueOf(a)+ String.valueOf(b)+ String.valueOf(c);
+            if(!abc.equals("abc")){
+                st.push(a);
+                st.push(b);
+                st.push(c);
+            }
+        }
+      }
+      if(st.isEmpty()) return true;
+      return false;
+
+    }
+}
+
+or
+
+class Solution {
+    public boolean isValid(String s) {
+      Stack<Character> st = new Stack<>();
+      for(int i=0;i<s.length();i++){
+        st.push(s.charAt(i));
+        if(st.size()>=3){
+            char c = st.pop();
+            char b = st.pop();
+            char a = st.pop();
+            String abc = ""+a+b+c;    
+            if(!abc.equals("abc")){
+                st.push(a);
+                st.push(b);
+                st.push(c);
+            }
+        }
+      }
+      if(st.isEmpty()) return true;
+      return false;
+    }
+}

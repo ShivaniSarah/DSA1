@@ -29,6 +29,83 @@ Explanation: The events go as follows:
 
 # java
 
+
+class Solution {
+    class Obj {
+        int ind;
+        int start;
+        int process;
+
+        Obj(int a, int b, int c) {
+            this.ind = a;
+            this.start = b;
+            this.process = c;
+        }
+    }
+
+    public int[] getOrder(int[][] tasks) {
+        int n = tasks.length;
+        
+        ArrayList<Obj> al = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            al.add(new Obj(i,tasks[i][0],tasks[i][1]));
+        }
+        Collections.sort(al,(a,b)->{
+            if(a.start==b.start){
+                return a.ind-b.ind;
+            }
+            return a.start-b.start;
+        });
+        
+        PriorityQueue<Obj> at = new PriorityQueue<>((a, b) -> {
+
+            if (a.process == b.process) {
+                return a.ind - b.ind;
+            }
+            return a.process - b.process;
+        });
+        
+        int time = al.get(0).start;
+        int res[]= new int[n];
+        int c=0;
+        int p=0;
+        while (p<n) {
+            
+            while (p<n) {
+                Obj w = al.get(p);
+                int start = w.start;
+                if (start <= time) {
+                    at.add(w);
+                    p++;
+
+                } else {
+                    
+                    break;
+                }
+
+            }
+            
+            if (!at.isEmpty()) {
+                Obj a1 = at.poll();
+                time += a1.process;
+                res[c++]=a1.ind;
+            }
+            else{
+                if(time<al.get(p).start) time=al.get(p).start;
+            }
+
+        }
+        while (!at.isEmpty()) {
+            Obj a2 = at.poll();
+            res[c++]=a2.ind;
+        }
+        
+        return res;
+    }
+}
+
+or
+
 class Solution {
     public int[] getOrder(int[][] tasks) {
         int n = tasks.length;

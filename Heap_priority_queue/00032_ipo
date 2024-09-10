@@ -20,6 +20,64 @@ Since you can choose at most 2 projects, you need to finish the project indexed 
 Therefore, output the final maximized capital, which is 0 + 1 + 3 = 4.
 
 # java
+import java.util.*;
+
+class Solution {
+public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+    List<Pair> list = new ArrayList<>();
+        for (int i = 0; i < profits.length; i++) {
+            list.add(new Pair(profits[i], capital[i]));
+        }
+        Collections.sort(list, (a, b) -> {
+            if (a.c == b.c) {
+                return b.p - a.p;
+            }
+            return a.c - b.c;
+        });
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+            if (b.p == a.p) {
+                return a.c - b.c;
+            }
+            return b.p - a.p;
+        });
+        int pos = 0;
+        int cap = w;
+        int count = 0;
+        while (count < k) {
+            while (pos < list.size()) {
+                if (list.get(pos).c > cap) {
+                    break;
+                }
+                pq.add(list.get(pos));
+                pos++;
+            }
+            if (pq.isEmpty()) {
+                break;
+            }
+            Pair p = pq.poll();
+            cap += p.p;
+            count++;
+        }
+        return cap;
+    }
+    
+
+    class Pair {
+        public int p;
+        public int c;
+
+        public Pair(int p, int c) {
+            this.p = p;
+            this.c = c;
+        }
+
+        public String toString() {
+            return "p=" + p + " c=" + c;
+        }
+    }
+}
+
+or
 
 import java.util.*;
 

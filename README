@@ -97,7 +97,7 @@ Long.MIN_VALUE;
 Long.MAX_VALUE;
 Double.MIN_VALUE;
 Double.MAX_VALUE;
-Integer.intValue() or doubleValue() .equals() to compare wrapper classes
+Integer.intValue() or doubleValue() .equals() or compareTo()[-1,0,1] to compare wrapper classes
 
 Priority Queue
 

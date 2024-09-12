@@ -126,7 +126,7 @@ if (set.contains("A"))
 Note : Java Pair class is from javafx if u cant import from import javafx.util.Pair; then use the following:
 Queue<AbstractMap.SimpleEntry<Node, Integer>> queue = new LinkedList<>();
 
-Collections.reverse();
+Collections.reverse();//pass list
 list.add(0,n);
 
 ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(-1));

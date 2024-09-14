@@ -51,3 +51,42 @@ class Solution {
         return waterTrapped;
     }
 }
+
+
+or
+
+class Solution {
+    public int trap(int[] height) {
+        Stack<Integer> stack = new Stack<>();
+        int n = height.length;
+        int ans = 0;
+
+        // Loop through each bar
+        for (int i = 0; i < n; i++) {
+            // Remove bars from the stack while the condition holds
+            while (!stack.isEmpty() && height[stack.peek()] < height[i]) {
+                // Store the height of the top and pop it
+                int popHeight = height[stack.pop()];
+
+                // If the stack is empty, break
+                if (stack.isEmpty()) {
+                    break;
+                }
+
+                // Get the distance between the left and right boundary of the popped bar
+                int distance = i - stack.peek() - 1;
+
+                // Calculate the minimum height
+                int minHeight = Math.min(height[stack.peek()], height[i]) - popHeight;
+
+                // Calculate the water trapped
+                ans += distance * minHeight;
+            }
+
+            // If the stack is empty or height of the current bar is less than or equal to the top bar of stack
+            stack.push(i);
+        }
+
+        return ans;
+    }
+}

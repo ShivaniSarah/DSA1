@@ -1,6 +1,7 @@
 https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
 
-Given weights and values of n items, we need to put these items in a knapsack of capacity w to get the maximum total value in the knapsack. 
+Given weights and values of n items, we need to put these items 
+in a knapsack of capacity w to get the maximum total value in the knapsack. 
 Return a double value representing the maximum value in knapsack.
 Note: Unlike 0/1 knapsack, you are allowed to break the item here. 
 The details of structure/class is defined in the comments above the given function.

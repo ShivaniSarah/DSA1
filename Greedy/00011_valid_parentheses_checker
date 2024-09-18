@@ -19,6 +19,63 @@ Example 3:
 Input: s = "(*))"
 Output: true
 
+
+class Solution {
+    public boolean checkValidString(String s) {
+        // int low = 0;
+        // int high = 0;
+        // for(Character c : s.toCharArray()) {
+        //     low += c == '(' ? 1 : -1;
+        //     high += c != ')' ? 1 : -1;
+        //     if(high < 0)
+        //         break;
+        //     low = Math.max(low, 0);
+        // }
+        // return low == 0;
+        char[] arr = s.toCharArray();
+        int countLeft = 0, countStar = 0, n = s.length();
+        for(int i = 0; i < n; i++) {
+            if(arr[i] == '*') {
+                countStar++;
+            } else if(arr[i] == '(') {
+                countLeft++;
+            } else if(arr[i] == ')') {
+                if(countLeft == 0 && countStar == 0) {
+                    return false;
+                } else if(countLeft == 0) {
+                    countStar--;
+                } else {
+                    countLeft--;
+                }
+            }
+        }
+        System.out.println(countLeft);
+        if(countLeft>0 && countLeft==countStar ) return true;
+        
+
+        // countStar = 0;
+        // countLeft = 0; //as countRight
+        // for(int i = n - 1; i >= 0; i--) {
+        //     if(arr[i] == '*') {
+        //         countStar++;
+        //     } else if(arr[i] == ')') {
+        //         countLeft++;
+        //     } else if(arr[i] == '(') {
+        //         if(countLeft == 0 && countStar == 0) {
+        //             return false;
+        //         } else if(countLeft == 0) {
+        //             countStar--;
+        //         } else {
+        //             countLeft--;
+        //         }
+        //     }
+        // }
+        return true;
+    }
+}
+
+or 
+
 class Solution {
     public boolean checkValidString(String s) {
         int minOpen = 0, maxOpen = 0;

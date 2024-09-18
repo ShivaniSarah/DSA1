@@ -29,12 +29,12 @@ class Solution {
         Arrays.sort(cookieSize);
         int l = 0;
         int r = 0;
-        while (l < m && r < n) {
-            if (greed[r] <= cookieSize[l]) {
-                r++;
+        while (l < n && r < m) {
+            if (greed[l] <= cookieSize[r]) {
+                l++;
             }
-            l++;
+            r++;
         }
-        return r;
+        return l;
     }
-}
+}}

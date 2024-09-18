@@ -134,7 +134,7 @@ list.add(0,n);
 ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(-1));
 ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(new Integer[]{1, 2, 3}));
 ArrayList<Integer> ans = new ArrayList<>(set);
-
+ans.toArray(new int[ans.size()][])
 
 list.stream().mapToInt(i -> i).toArray();
 

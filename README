@@ -153,6 +153,7 @@ List<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collectors.toList());
 List<Pair> l = list.stream().map(s -> new Pair(s)).toList(); //Java11 or 17
 
 Set<Pair> l = list.stream().map(s -> new Pair(s)).collect(Collector.toSet());
+commonSet.retainAll(currentSet);
 
 class Pair {
     String s;

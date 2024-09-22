@@ -1,0 +1,60 @@
+there are server_nodes servers hosted by a company that send and receive messages. the network of server connections is represented by a tree of server_nodes servers with server_nodes-1 edges, where the ith edge connects the servers server_from[i] and server_to[i]. each edge has an associated weight, server_weight[i], which represents the distance between the servers connected by theith edge.
+to send a message server x connects to two different servers y and z (x!=y , y!=z, z!=x) . the two servers are connected only if the distance between them is divisible by signal_speed. it then sends the signal across the network.
+for each server i, the company wants to know the number of disjoint pairs of servers (j,k) through which the server can send a message. return an array of server_nodes integers, where ith integer represents the no of disjoint pairs of servers (j,k) through which server i can send a message.
+
+ex: server_nodes=[4]
+server_from = [1,1,2]
+server_to = [2,3,4]
+server_weight = [2,5,3]
+signal_speed =5
+for server 1 , the valid pairs are (3,4) and (4,3) . the distances sum to 5(divisible by signal_speed =5) between 1 and 4 and 5 (divisible by signal_speed =5)between 1 and 3 , each is divisible by signal_speed =5
+for server 2, there are no valid pairs. distances are 3,2 and 7 to servers 4,1 and 3 respectively.
+for server 3, the valid pairs are (1,4) and (4,1).
+for server 4, valid pairs are (1,3) and (3,1).
+return the no of pairs for each server as output arrray
+output : [2,0,2,2]
+
+
+public static int[] findValidPairs(int serverNodes, int[] serverFrom, int[] serverTo, int[] serverWeight, int signalSpeed) {
+        
+        List<List<Edge>> tree = new ArrayList<>();
+        for (int i = 0; i < serverNodes; i++) {
+            tree.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < serverFrom.length; i++) {
+            tree.get(serverFrom.get(i) - 1).add(new Edge(serverTo.get(i) - 1, serverWeight.get(i)));
+            tree.get(serverTo.get(i) - 1).add(new Edge( serverFrom.get(i) - 1, serverWeight.get(i) );
+        }
+        int[] result = new int[serverNodes];
+        for (int i = 0; i < serverNodes; i++) {
+         
+            Map<Integer, Integer> distances = new HashMap<>();
+            dfs(i, -1, 0, distances, tree);
+            List<Integer> distList = new ArrayList<>(distances.values());
+            System.out.println(distList);
+            int count = 0;
+            
+            for(int m =0;m<distList.size();m++){
+                if(distList.get(m)!=0 && distList.get(m)%5==0 )
+                  count++;
+            }
+    
+            result[i] = count;
+
+// my logic is to get the no of nodes % signalSpeed and find permutations of it
+        }
+
+        return result;
+    }
+
+
+ private static void dfs(int current, int parent, int distance, Map<Integer, Integer> distances, List<List<Edge>> tree) {
+        distances.put(current, distance);
+
+        for (Edge edge : tree.get(current)) {
+            if (edge.node != parent) {
+                dfs(edge.node, current, distance + edge.weight, distances, tree);
+            }
+        }
+    }

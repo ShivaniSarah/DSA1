@@ -38,6 +38,26 @@ Output: [1,1000]
 
 # java
 
+class Solution {
+    public int[] deckRevealedIncreasing(int[] deck) {
+        int[] arr = new int[deck.length];
+        Arrays.sort(deck);
+        Deque<Integer> deque = new LinkedList<>();
+        for(int i = 0; i < deck.length; i++) {
+            deque.add(i);
+        }
+        for(int i = 0; i < deck.length; i++) {
+            arr[deque.pollFirst()] = deck[i];
+            if(!deque.isEmpty()) {
+                deque.add(deque.pollFirst());
+            }
+        }
+        return arr;
+    }
+}
+
+or
+
 public class Solution {
     public int[] deckRevealedIncreasing(int[] deck) {
         int N = deck.length;

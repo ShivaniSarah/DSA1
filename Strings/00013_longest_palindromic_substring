@@ -40,3 +40,17 @@ class Solution {
         return s.substring(start, end + 1);
     }
 }
+
+#python
+
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+       if(s=="" or len(s)==1):
+        return s
+       for z in reversed(range(len(s))):
+        i=0
+        while((i+z)<len(s)):
+            if(s[i:i+z+1]==s[i+z-len(s):i-len(s)-1:-1]):
+                return(s[i:i+z+1])
+            i+=1
+            

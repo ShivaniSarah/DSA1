@@ -2,7 +2,8 @@ https://www.geeksforgeeks.org/problems/number-of-nges-to-the-right/1
 
 Number of NGEs to the right
 
-Given an array of N integers and Q queries of indices. Return a list NGEs[] where NGEs[i] stores the count of elements strictly greater than the current element (arr[indices[i]]) to the right of indices[i].
+Given an array of N integers and Q queries of indices. 
+Return a list NGEs[] where NGEs[i] stores the count of elements strictly greater than the current element (arr[indices[i]]) to the right of indices[i].
 
 
 Examples :

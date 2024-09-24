@@ -71,6 +71,8 @@ sliding window do 19 20 21 22 23
 
 greedy 19 20 32, 36, 45, 47, 48, 49
 
+string : 18 onwards
+
 kth permutation sequence
 
 Knapsack Problems 3 types:

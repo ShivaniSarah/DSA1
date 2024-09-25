@@ -2,7 +2,8 @@ https://leetcode.com/problems/sum-of-subarray-ranges/description/
 
 Sum of Subarray Ranges
 
-You are given an integer array nums. The range of a subarray of nums is the difference between the largest and smallest element in the subarray.
+You are given an integer array nums. 
+The range of a subarray of nums is the difference between the largest and smallest element in the subarray.
 
 Return the sum of all subarray ranges of nums.
 

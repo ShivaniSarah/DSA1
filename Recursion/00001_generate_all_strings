@@ -23,7 +23,7 @@ public class BinaryS {
 	
 		// Base Condition when we 
 		// reached at the end of Array**
-		if (n == k) {
+		if (i == k) {
 		
 			// Printing the Generated String**
 			// Return to the previous case*

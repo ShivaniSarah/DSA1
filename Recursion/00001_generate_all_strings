@@ -19,7 +19,7 @@ public class BinaryS {
 		return string;
 	}
 
-	static void generate(int k, char[] ch, int n) {
+	static void generate(int k, char[] ch, int i) {
 	
 		// Base Condition when we 
 		// reached at the end of Array**

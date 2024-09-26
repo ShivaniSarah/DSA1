@@ -1,6 +1,7 @@
 https://www.geeksforgeeks.org/problems/subset-sum-ii/0
 
-You are given an integer array nums that may contain duplicates. Your task is to return all possible subsets. Return only unique subsets and they can be in any order.
+You are given an integer array nums that may contain duplicates. Your task is to return all possible subsets.
+Return only unique subsets and they can be in any order.
 Note: The individual subsets should be sorted.
 
 Example:

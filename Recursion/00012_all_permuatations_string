@@ -1,4 +1,19 @@
 https://takeuforward.org/data-structure/print-all-permutations-of-a-string-array/
+https://leetcode.com/problems/permutations/description/
+
+Example 1: 
+
+Input: arr = [1, 2, 3]
+
+Output: 
+[
+  [1, 2, 3],
+  [1, 3, 2],
+  [2, 1, 3],
+  [2, 3, 1],
+  [3, 1, 2],
+  [3, 2, 1]
+]
 
 import java.io.*;
 import java.util.*;

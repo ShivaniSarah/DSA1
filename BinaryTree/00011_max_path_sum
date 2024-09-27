@@ -29,6 +29,8 @@ Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
  * }
  */
 
+# max out of 3 paths left+root, root+right, root+left+right
+
 class Solution {
     private int maxSum; // global variable to store the maximum path sum
 

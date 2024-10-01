@@ -42,6 +42,53 @@ printed as such 3 1 2.
 # java
 
 class Solution
+{ class Pair {
+    Node node;
+    int v;
+
+    public Pair(Node node,int v) {
+        this.node = node;
+        this.v = v;
+    }
+
+    public String toString() {
+        return "pair " + node.data + " " + v;
+    }
+}
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        if (root == null) {
+            return ans;
+        }
+        q.add(new Pair(root, 0));
+        while(!q.isEmpty()) {
+            // System.out.println(q);
+            Pair p = q.poll();
+            
+            map.put(p.v,p.node.data);
+            
+            if (p.node.left != null) {
+                q.add(new Pair(p.node.left, p.v - 1));
+            }
+            if (p.node.right != null) {
+                q.add(new Pair(p.node.right, p.v + 1));
+            }
+        }
+        for (Map.Entry<Integer,Integer> e : map.entrySet()) {
+            
+            ans.add(e.getValue());
+        }
+        return ans;
+    }
+}
+
+or
+
+class Solution
 {
     public static class obj{
         int data;

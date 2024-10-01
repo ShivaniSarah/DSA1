@@ -1,3 +1,8 @@
-reverse Inorder traversal
-reverse preorder traversal
-reverse postorder traversal
+reverse Inorder traversal  R N L
+reverse preorder traversal  R L N
+reverse postorder traversal  N R L
+
+reverse Inorder traversal  L N R
+reverse preorder traversal  L R N
+reverse postorder traversal  N L R
+

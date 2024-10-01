@@ -14,7 +14,7 @@ Explanation: The LCA of nodes 5 and 1 is 3.
 # java
 
 consider space: get path from root to node covering p , get path from root to node covering q
-get common path of the two
+get the last integer common path of the two
 
 /**
  * Definition for a binary tree node.

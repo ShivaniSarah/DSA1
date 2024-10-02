@@ -37,6 +37,24 @@ Output: 1
  *     }
  * }
  */
+
+class Solution {
+    public int countNodes(TreeNode root) {
+        int count = countnode(root);
+        return count;
+    }
+
+    public int countnode(TreeNode node) {
+        if(node == null)
+           return 0;
+        int l = countnode(node.left);
+        int e = countnode(node.right);
+        return l+e+1;
+    }
+}
+
+or 
+
 class Solution {
     private int findHeightLeft(TreeNode node) {
         int height = 0;

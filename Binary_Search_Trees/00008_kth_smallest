@@ -43,8 +43,8 @@ class Solution {
     }
 
     public int kthSmallest(TreeNode root, int k) {
-        int[] kSmallest = new int[]{Integer.MIN_VALUE};
-        int[] counter = new int[]{0};
+        int[] kSmallest = new int[]{Integer.MIN_VALUE}; // used as reference
+        int[] counter = new int[]{0};  // used as reference
 
         inorder(root, counter, k, kSmallest);
 

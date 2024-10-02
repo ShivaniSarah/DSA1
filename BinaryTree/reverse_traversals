@@ -9,3 +9,26 @@ reverse postorder traversal  N L R
 we need (inorder and preorder) or (inorder and postorder) to construct a unique bibary tree
 we just need a level order traversal to get back the unique tree
 
+level order traversal using recursion:
+public class Codec {
+
+    private static final String spliter = ",";
+    private static final String NN = "X";
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+    
+    private void buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NN).append(spliter);
+        } else {
+            sb.append(node.val).append(spliter);
+            buildString(node.left, sb);
+            buildString(node.right, sb);
+        }
+    }
+

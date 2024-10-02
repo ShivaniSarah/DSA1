@@ -32,7 +32,7 @@ Output: true
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, null, null);
+        return isValidBST(root, null, null); // pass Integer.MIN_VALUE, Integer.MAX_VALUE instead
     }
     
     private boolean isValidBST(TreeNode node, Integer min, Integer max) {

@@ -6,3 +6,5 @@ reverse Inorder traversal  L N R
 reverse preorder traversal  L R N
 reverse postorder traversal  N L R
 
+we need (inorder and preorder) or (inorder and postorder) to construct a unique bibary tree
+

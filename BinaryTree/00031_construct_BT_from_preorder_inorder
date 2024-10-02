@@ -53,7 +53,7 @@ class Solution {
 
         TreeNode node=new TreeNode(curr);
 
-        if(left==right){
+        if(left==right){   // means both are at the same index and it is a leaf node
             return node;
         }
 

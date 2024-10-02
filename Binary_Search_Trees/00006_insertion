@@ -41,7 +41,7 @@ class Solution {
             else
              temp.right= insert(temp.right,val);
         }
-        System.gc();
+        System.gc();// garbage collection
         return temp;
         
     }

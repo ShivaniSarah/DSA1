@@ -1,0 +1,192 @@
+
+Given 4 Jugs namely [11, 12, 13, 14) with capacities (C1, C2, C3, C4) and initial water content as (51, 52, 53, 54).
+
+Goal:
+
+Determine how many steps are needed to achieve the final state of [F1, F2, F3, F4) by transferring water from one jug to another without losing any water.
+
+Constraints:
+
+1.0C 500 for each i: [1,4] 2.0 Si, Fi <= Ci for each i: [1,4]
+
+3. Sum(Si) Sum(Fi)
+
+Input:
+
+Total number of entries = 13
+
+1. First line specifies the number of entries in the array, which is 12 in our case
+
+2. Next 4 lines contain the capacities of the 4 jugs
+
+3. Next 4 lines contain the initial content of the 4 jugs
+
+4. Next 4 lines contain the final content of the 4 jugs
+
+Output:
+
+The minimum number of steps required to reach Final State (F) from Initial State (S). Return -1 if not possible
+
+
+Example 1:
+
+Input:
+
+12
+
+13
+
+12
+
+10
+
+5
+
+6
+
+6
+
+0
+
+0
+
+12
+
+0
+
+0
+
+0
+
+Output:
+
+1
+
+Example 2:
+
+Input:
+
+12
+
+12
+
+13
+
+12
+
+10
+
+5
+
+6
+
+6
+
+0
+
+0
+
+3
+
+3
+
+3
+
+3
+output
+
+-1
+
+Explanation:
+
+Not possible to reach final state
+
+solve in c++
+
+
+
+
+#include <iostream>
+#include <queue>
+#include <set>
+#include <vector>
+
+using namespace std;
+
+struct State {
+    vector<int> contents;
+    int steps;
+};
+
+bool isValid(const vector<int>& capacities, const vector<int>& contents) {
+    for (size_t i = 0; i < capacities.size(); ++i) {
+        if (contents[i] < 0 || contents[i] > capacities[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int minStepsToFinalState(const vector<int>& capacities, const vector<int>& initial, const vector<int>& final) {
+    if (initial == final) {
+        return 0;
+    }
+    
+    queue<State> q;
+    set<vector<int>> visited;
+    
+    q.push({initial, 0});
+    visited.insert(initial);
+    
+    while (!q.empty()) {
+        State current = q.front();
+        q.pop();
+
+        for (size_t i = 0; i < capacities.size(); ++i) {
+            for (size_t j = 0; j < capacities.size(); ++j) {
+                if (i != j) {
+                    vector<int> nextContents = current.contents;
+                    
+                    int transferAmount = min(current.contents[i], capacities[j] - current.contents[j]);
+                    nextContents[i] -= transferAmount;
+                    nextContents[j] += transferAmount;
+
+                    if (nextContents == final) {
+                        return current.steps + 1;
+                    }
+
+                    if (isValid(capacities, nextContents) && visited.find(nextContents) == visited.end()) {
+                        q.push({nextContents, current.steps + 1});
+                        visited.insert(nextContents);
+                    }
+                }
+            }
+        }
+    }
+    
+    return -1;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> capacities(4), initial(4), final(4);
+
+    for (int i = 0; i < 4; ++i) {
+        cin >> capacities[i];
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        cin >> initial[i];
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        cin >> final[i];
+    }
+
+    int result = minStepsToFinalState(capacities, initial, final);
+    cout << result << endl;
+
+    return 0;
+}

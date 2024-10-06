@@ -32,3 +32,68 @@ class Solution {
         return (int)dp[0][0]; 
     }
 }
+
+or
+
+
+
+import java.util.Arrays;
+import java.util.Vector;
+
+class StockProfit {
+    // Recursive function to calculate the maximum profit
+    static long getMaximumProfitUtil(long[] Arr, int ind, int buy, int n, Vector<Vector<Long>> dp) {
+        // Base case
+        if (ind == n)
+            return 0;
+
+        // If the result is already computed, return it
+        if (dp.get(ind).get(buy) != -1)
+            return dp.get(ind).get(buy);
+
+        long profit;
+
+        if (buy == 0) { // We can buy the stock
+            profit = Math.max(0 + getMaximumProfitUtil(Arr, ind + 1, 0, n, dp),
+                    -Arr[ind] + getMaximumProfitUtil(Arr, ind + 1, 1, n, dp));
+        }
+
+        if (buy == 1) { // We can sell the stock
+            profit = Math.max(0 + getMaximumProfitUtil(Arr, ind + 1, 1, n, dp),
+                    Arr[ind] + getMaximumProfitUtil(Arr, ind + 1, 0, n, dp));
+        }
+
+        // Store the result in the dp table and return it
+        dp.get(ind).set(buy, profit);
+        return profit;
+    }
+
+    // Function to calculate the maximum profit
+    static long getMaximumProfit(long[] Arr, int n) {
+        // Create a 2D vector for memoization (dp)
+        Vector<Vector<Long>> dp = new Vector<>(n);
+        for (int i = 0; i < n; i++) {
+            Vector<Long> row = new Vector<>(2);
+            row.addAll(Arrays.asList(-1L, -1L));
+            dp.add(row);
+        }
+
+        // Base case: If n is 0, return 0 profit
+        if (n == 0)
+            return 0;
+
+        // Calculate the maximum profit using the recursive function
+        long ans = getMaximumProfitUtil(Arr, 0, 0, n, dp);
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = 6;
+        long[] Arr = {7, 1, 5, 3, 6, 4};
+
+        // Calculate and print the maximum profit
+        System.out.println("The maximum profit that can be generated is " + getMaximumProfit(Arr, n));
+    }
+}
+
+

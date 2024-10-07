@@ -1,0 +1,47 @@
+find all combinations of elements that sum up to a target solve in c++
+
+
+#include <iostream>
+#include <vector>
+
+void findCombinations(std::vector<int>& candidates, int target, std::vector<std::vector<int>>& result, std::vector<int>& current, int index) {
+    if (target == 0) {
+        result.push_back(current);
+        return;
+    }
+
+    for (int i = index; i < candidates.size(); i++) {
+        // if (candidates[i] <= target) { // for both positive and negative remove this condition
+            current.push_back(candidates[i]);
+            findCombinations(candidates, target - candidates[i], result, current, i); // Not incrementing i allows reuse of elements
+            current.pop_back();
+      //  }
+    }
+}
+
+std::vector<std::vector<int>> combinationSum(std::vector<int>& candidates, int target) {
+    std::vector<std::vector<int>> result;
+    std::vector<int> current;
+    findCombinations(candidates, target, result, current, 0);
+    return result;
+}
+
+int main() {
+    std::vector<int> candidates = {2, 3, 6, 7};
+    int target = 7;
+    
+    std::vector<std::vector<int>> result = combinationSum(candidates, target);
+    int maxCount = 0;
+
+    for (const auto& comb : result) {
+        for (int num : comb) {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
+        maxCount = std::max(maxCount, static_cast<int>(comb.size()));
+    }
+    
+    std::cout << "Maximum count of elements in any combination: " << maxCount << std::endl;
+
+    return 0;
+}

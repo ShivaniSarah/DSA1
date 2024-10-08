@@ -57,6 +57,8 @@ Array: 12 : priority queue
 
 TO DO:
 
+put partition DP and LIS DP code
+
 https://www.spoj.com/problems/classical/
 
 https://www.spoj.com/problems/classical/sort=0,start=3950

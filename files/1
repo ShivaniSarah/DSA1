@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class GifLogProcessor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the log file name: ");
+        String inputFileName = scanner.nextLine();
+        String outputFileName = "gifs_" + inputFileName;
+
+        // Use LinkedHashSet to maintain insertion order
+        Set<String> gifFiles = new LinkedHashSet<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                processLogLine(line, gifFiles);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the log file: " + e.getMessage());
+            return;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName))) {
+            for (String gifFile : gifFiles) {
+                bw.write(gifFile);
+                bw.newLine();
+            }
+            System.out.println("Output written to " + outputFileName);
+        } catch (IOException e) {
+            System.err.println("Error writing to the output file: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+
+    private static void processLogLine(String line, Set<String> gifFiles) {
+        String[] parts = line.split("\"");
+        if (parts.length < 2) return; // Invalid format
+
+        String requestPart = parts[1]; // The request part is enclosed in quotes
+        String[] requestDetails = requestPart.split(" ");
+
+        if (requestDetails.length < 3) return; // Invalid request format
+
+        String method = requestDetails[0];
+        String statusCode = requestDetails[requestDetails.length - 2];
+
+        if ("GET".equalsIgnoreCase(method) && "200".equals(statusCode)) {
+            String requestedFile = requestDetails[1];
+            if (requestedFile.toLowerCase().endsWith(".gif")) {
+                // Extract the filename from the path
+                String fileName = requestedFile.substring(requestedFile.lastIndexOf('/') + 1);
+                gifFiles.add(fileName.toLowerCase()); // Store as lowercase to ensure uniqueness
+            }
+        }
+    }
+}

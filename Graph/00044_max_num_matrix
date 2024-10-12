@@ -1,0 +1,87 @@
+import java.util.*;
+
+class Solution {
+    boolean isValid(int[][] b, int r, int c, boolean[][] vis) {
+        return r >= 0 && r < b.length && c >= 0 && c < b[0].length && !vis[r][c];
+    }
+
+    class Maxi {
+        public String num;
+        public Maxi(String s) {
+            this.num = s;
+        }
+    }
+
+    void dfs(int[][] b, int r, int c, boolean[][] vis, StringBuilder s, Maxi maxi) {
+        int[] dr = {-1, 0, 0, 1}; // Directions for row (up, right, down, left)
+        int[] dc = {0, 1, -1, 0}; // Directions for column
+        
+        vis[r][c] = true;
+        s.append(b[r][c]); // Append the current cell's value to the string
+        
+        if (s.length() == 4) {
+            if (s.toString().compareTo(maxi.num) > 0) {
+                maxi.num = s.toString();
+            }
+             s.deleteCharAt(s.length() - 1);
+            vis[r][c] = false; // Unmark the cell before returning
+            return;
+        }
+        
+        // Explore all 4 possible directions
+        for (int k = 0; k < 4; k++) {
+            int r1 = r + dr[k];
+            int c1 = c + dc[k];
+            if (isValid(b, r1, c1, vis)) {
+                dfs(b, r1, c1, vis, s, maxi);
+            }
+        }
+        
+        vis[r][c] = false; // Backtrack: unmark the current cell
+        s.deleteCharAt(s.length() - 1); // Remove the last digit added for backtracking
+    }
+
+    public int solution(int[][] b) {
+        Maxi maxi = new Maxi("0000"); // Initialize the maximum 4-digit number
+        int n = b.length;
+        int m = b[0].length;
+        boolean vis[][] = new boolean[n][m]; // Visited array
+        
+        // Start DFS from every cell in the grid
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                dfs(b, i, j, vis, new StringBuilder(), maxi);
+            }
+        }
+
+        return Integer.parseInt(maxi.num); // Convert the maximum string to an integer
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        
+        // Example test case
+        int[][] grid = {
+            {0, 1, 5, 0, 0}
+        };
+        System.out.println(sol.solution(grid)); // Output should be 1500
+
+        // Additional test cases
+        int[][] test1 = {{9, 1, 1, 0, 7}, {10, 2, 1, 0, 0}, {1, 9, 1, 1, 0}};
+        System.out.println(sol.solution(test1)); // Expected 9121
+
+        int[][] test2 = {{1, 2, 3, 4}};
+        System.out.println(sol.solution(test2)); // Expected 4321
+
+        int[][] test3 = {{0, 1, 5, 0, 0}};
+        System.out.println(sol.solution(test3)); // Expected 1500
+        
+         int[][] matrix = {
+            {9, 3, 5, 2},
+            {7, 1, 6, 4},
+            {8, 9, 3, 7},
+            {2, 8, 4, 6}
+        };
+         System.out.println(sol.solution(matrix)); 
+    }
+}

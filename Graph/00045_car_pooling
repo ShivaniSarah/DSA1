@@ -1,0 +1,172 @@
+/*
+You and your friends are driving to a Campground to go camping. Only 2 of you have cars, so you will be carpooling.
+
+
+Routes to the campground are linear, so each location will only lead to 1 location and there will be no loops or detours. Both cars will leave from their starting locations at the same time. The first car to pass someone's location will pick them up. If both cars arrive at the same time, the person can go in either car.
+
+
+Roads are provided as a directed list of connected locations with the duration (in minutes) it takes to drive between the locations.
+[Origin, Destination, Duration it takes to drive]
+
+
+Given a list of roads, a list of starting locations and a list of people/where they live, return a collection of who will be in each car upon arrival to the Campground.
+------------------------------------------------------
+Bridgewater--(30)-->Caledonia--(15)-->New Grafton--(5)-->Campground
+                                      ^
+Liverpool---(10)---Milton-----(30)-----^
+
+
+roads1 = [
+   ["Bridgewater", "Caledonia", "30"], <= The road from Bridgewater to Caledonia takes 30 minutes to drive.
+   ["Caledonia", "New Grafton", "15"],
+   ["New Grafton", "Campground", "5"],
+   ["Liverpool", "Milton", "10"],
+   ["Milton", "New Grafton", "30"]
+]
+starts1 = ["Bridgewater", "Liverpool"]
+people1 = [
+   ["Jessie", "Bridgewater"], ["Travis", "Caledonia"],
+   ["Jeremy", "New Grafton"], ["Katie", "Liverpool"]
+]
+
+
+Car1 path: (from Bridgewater): [Bridgewater(0, Jessie)->Caledonia(30, Travis)->New Grafton(45)->Campground(50)]
+Car2 path: (from Liverpool): [Liverpool(0, Katie)->Milton(10)->New Grafton(40, Jeremy)->Campground(45)]
+
+
+Output (In any order/format):
+   [Jessie, Travis], [Katie, Jeremy]
+--------------------------------------
+Riverport->Chester->Campground
+            ^
+Halifax------^
+
+
+roads2 = [["Riverport", "Chester", "40"], ["Chester", "Campground", "60"], ["Halifax", "Chester", "40"]]
+starts2 = ["Riverport", "Halifax"]
+people2 = [["Colin", "Riverport"], ["Sam", "Chester"], ["Alyssa", "Halifax"]]
+
+
+Output (In any order/format):
+   [Colin, Sam], [Alyssa] OR [Colin], [Alyssa, Sam]
+----------------------------------------
+Riverport->Bridgewater->Liverpool->Campground
+
+
+roads3 = [["Riverport", "Bridgewater", "1"], ["Bridgewater", "Liverpool", "1"], ["Liverpool", "Campground", "1"]]
+starts3_1 = ["Riverport", "Bridgewater"]
+starts3_2 = ["Bridgewater", "Riverport"]
+starts3_3 = ["Riverport", "Liverpool"]
+people3 = [["Colin", "Riverport"], ["Jessie", "Bridgewater"], ["Sam", "Liverpool"]]
+
+
+Output (starts3_1/starts3_2):  [Colin], [Jessie, Sam] - (Cars can be in any order)
+Output (starts3_3): [Jessie, Colin], [Sam]
+----------------------------------------
+All Test Cases: (Cars can be in either order)
+carpool(roads1, starts1, people1) => [Jessie, Travis], [Katie, Jeremy]
+carpool(roads2, starts2, people2) => [Colin, Sam], [Alyssa] OR [Colin], [Alyssa, Sam]
+carpool(roads3, starts3_1, people3) => [Colin], [Jessie, Sam]
+carpool(roads3, starts3_2, people3) => [Jessie, Sam], [Colin]
+carpool(roads3, starts3_3, people3) => [Jessie, Colin], [Sam]
+----------------------------------------
+Complexity Variable:
+n = number of roads
+*/
+
+
+# java
+
+import java.util.*;
+
+public class Carpool {
+    
+    // Dijkstra's algorithm to find shortest travel times from start location
+    private static Map<String, Integer> dijkstra(String start, Map<String, List<int[]>> graph) {
+        Map<String, Integer> dist = new HashMap<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        
+        pq.offer(new int[] {start.hashCode(), 0});  // Using hashCode to represent locations
+        dist.put(start, 0);
+        
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            String location = String.valueOf(curr[0]);
+            int time = curr[1];
+            
+            if (time > dist.get(location)) continue;
+            
+            for (int[] edge : graph.getOrDefault(location, new ArrayList<>())) {
+                String neighbor = String.valueOf(edge[0]);
+                int newTime = time + edge[1];
+                if (newTime < dist.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+                    dist.put(neighbor, newTime);
+                    pq.offer(new int[] {edge[0], newTime});
+                }
+            }
+        }
+        
+        return dist;
+    }
+    
+    public static List<List<String>> carpool(List<String[]> roads, String[] starts, List<String[]> people) {
+        // Build the graph
+        Map<String, List<int[]>> graph = new HashMap<>();
+        for (String[] road : roads) {
+            String origin = road[0];
+            String destination = road[1];
+            int duration = Integer.parseInt(road[2]);
+            
+            graph.computeIfAbsent(origin, k -> new ArrayList<>()).add(new int[] {destination.hashCode(), duration});
+        }
+        
+        // Get the travel times from both start locations
+        Map<String, Integer> car1Times = dijkstra(starts[0], graph);
+        Map<String, Integer> car2Times = dijkstra(starts[1], graph);
+        
+        // Allocate people to cars
+        List<String> car1 = new ArrayList<>();
+        List<String> car2 = new ArrayList<>();
+        
+        for (String[] person : people) {
+            String name = person[0];
+            String location = person[1];
+            
+            int time1 = car1Times.getOrDefault(location, Integer.MAX_VALUE);
+            int time2 = car2Times.getOrDefault(location, Integer.MAX_VALUE);
+            
+            if (time1 < time2) {
+                car1.add(name);
+            } else if (time2 < time1) {
+                car2.add(name);
+            } else {
+                // If both times are the same, the person can choose either car
+                car1.add(name);  // Arbitrarily add to car1
+            }
+        }
+        
+        return Arrays.asList(car1, car2);
+    }
+
+    public static void main(String[] args) {
+        List<String[]> roads1 = Arrays.asList(
+            new String[] {"Bridgewater", "Caledonia", "30"},
+            new String[] {"Caledonia", "New Grafton", "15"},
+            new String[] {"New Grafton", "Campground", "5"},
+            new String[] {"Liverpool", "Milton", "10"},
+            new String[] {"Milton", "New Grafton", "30"}
+        );
+        String[] starts1 = {"Bridgewater", "Liverpool"};
+        List<String[]> people1 = Arrays.asList(
+            new String[] {"Jessie", "Bridgewater"}, 
+            new String[] {"Travis", "Caledonia"},
+            new String[] {"Jeremy", "New Grafton"}, 
+            new String[] {"Katie", "Liverpool"}
+        );
+
+        List<List<String>> result1 = carpool(roads1, starts1, people1);
+        System.out.println(result1); // Expected: [Jessie, Travis], [Katie, Jeremy]
+
+        // Add more test cases if needed
+    }
+}

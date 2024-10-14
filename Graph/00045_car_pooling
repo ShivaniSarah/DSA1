@@ -117,7 +117,7 @@ public class Carpool {
             String destination = road[1];
             int duration = Integer.parseInt(road[2]);
             
-            graph.computeIfAbsent(origin, k -> new ArrayList<>()).add(new int[] {destination.hashCode(), duration});
+            graph.computeIfAbsent(origin, k -> new ArrayList<>()).add(new int[] {destination.hashCode(), duration}); // similar to getOrDefault()
         }
         
         // Get the travel times from both start locations

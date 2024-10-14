@@ -1,3 +1,5 @@
+dont use hashCode(), use String[] array instead
+
 /*
 You and your friends are driving to a Campground to go camping. Only 2 of you have cars, so you will be carpooling.
 
@@ -111,12 +113,12 @@ public class Carpool {
     
     public static List<List<String>> carpool(List<String[]> roads, String[] starts, List<String[]> people) {
         // Build the graph
-        Map<String, List<int[]>> graph = new HashMap<>();
+        Map<String, List<int[]>> graph = new HashMap<>(); // dont use hashCode(), use String[] array instead
         for (String[] road : roads) {
             String origin = road[0];
             String destination = road[1];
             int duration = Integer.parseInt(road[2]);
-            
+            // dont use hashCode(), use String[] array instead
             graph.computeIfAbsent(origin, k -> new ArrayList<>()).add(new int[] {destination.hashCode(), duration}); // similar to getOrDefault()
         }
         

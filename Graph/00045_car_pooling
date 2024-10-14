@@ -1,15 +1,15 @@
 /*
 You and your friends are driving to a Campground to go camping. Only 2 of you have cars, so you will be carpooling.
 
-
-Routes to the campground are linear, so each location will only lead to 1 location and there will be no loops or detours. Both cars will leave from their starting locations at the same time. The first car to pass someone's location will pick them up. If both cars arrive at the same time, the person can go in either car.
-
+Routes to the campground are linear, so each location will only lead to 1 location and there will be no loops or detours. 
+Both cars will leave from their starting locations at the same time. The first car to pass someone's location will pick them up. 
+If both cars arrive at the same time, the person can go in either car.
 
 Roads are provided as a directed list of connected locations with the duration (in minutes) it takes to drive between the locations.
 [Origin, Destination, Duration it takes to drive]
 
-
-Given a list of roads, a list of starting locations and a list of people/where they live, return a collection of who will be in each car upon arrival to the Campground.
+Given a list of roads, a list of starting locations and a list of people/where they live, return a collection of who will be in each car
+upon arrival to the Campground.
 ------------------------------------------------------
 Bridgewater--(30)-->Caledonia--(15)-->New Grafton--(5)-->Campground
                                       ^

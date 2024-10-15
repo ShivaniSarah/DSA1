@@ -1,0 +1,19 @@
+Given an array of integers i.e -10^9 <= arr[i] <= 10^9
+Find number of perfect pairs such that
+
+
+Perfect pair x, y  if below both conditions holds
+
+
+min(|x - y|, |x + y|) <= min(|x|, |y|)
+max(|x - y|, |x + y|) => max(|x|, |y|)
+
+# Step 2: Two pointer technique
+for i in range(n):
+    # Move the 'start' pointer to maintain the condition arr[start] >= (arr[i] + 1) / 2
+    while start < i and arr[start] < (arr[i] + 1) // 2:
+        start += 1
+    # Count valid pairs
+    ans += i - start  # Count all valid pairs for arr[i]
+
+return ans

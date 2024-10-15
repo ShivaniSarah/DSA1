@@ -1,0 +1,108 @@
+A start-up owner is looking to meet new investors to get some funds for the company. Each investor has a tight schedule that the owner has to respect. Given the schedules of the days investors are available, determine how many meetings the owner can schedule. Note that the owner can only have one meeting per day.
+
+The schedules consist of two integer arrays: firstDay, and lastDay, aligned by index. Each element in the array firstDay represents the first day an investor is available, and each element in lastDay represents the last day an investor is available, both inclusive.
+
+Example:
+
+firstDay = [1,2,3,3,3]
+
+lastDay= [2,2,3,4,4]
+
+* There are 5 investors [1-0, 1-1, 1-2, 1-3, 1-4]
+
+* The investor 1-0 is available from day 1 to day 2 inclusive [1, 2]
+
+* The investor 1-1 is available in day 2 only [2, 2]. The investor 1-2 is available in day 3 only [3, 3]
+
+The investors 1-3 and 1-4 are available from day 3 to day 4 only [3, 4]
+
+* The owner can only meet 4 investors out of 5: 1-0 in day 1, 1-1 in day 2, 1-2 in day 3 and 1-3 in day 4. The graphic below shows the scheduled meetings in green and blocked days are in gray.
+
+
+import java.util.Arrays;
+
+public class InvestorMeetings {
+    public static int maxMeetings(int[] firstDay, int[] lastDay) {
+        int n = firstDay.length;
+        int[][] investors = new int[n][2];
+
+        // Store first and last day for each investor
+        for (int i = 0; i < n; i++) {
+            investors[i][0] = firstDay[i];
+            investors[i][1] = lastDay[i];
+        }
+
+        // Sort investors by last available day
+        Arrays.sort(investors, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int count = 0;
+        int lastScheduledDay = 0;
+
+        // Schedule meetings
+        for (int[] investor : investors) {
+            if (investor[0] > lastScheduledDay) {
+                count++;
+                lastScheduledDay = investor[1]; // Move to the last day of this investor
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] firstDay = {1, 2, 3, 3, 3};
+        int[] lastDay = {2, 2, 3, 4, 4};
+
+        int maxMeetings = maxMeetings(firstDay, lastDay);
+        System.out.println("Maximum meetings scheduled: " + maxMeetings);
+    }
+}
+
+or
+
+import java.util.PriorityQueue;
+
+public class InvestorMeetings {
+    
+    static class Investor {
+        int firstDay;
+        int lastDay;
+
+        Investor(int firstDay, int lastDay) {
+            this.firstDay = firstDay;
+            this.lastDay = lastDay;
+        }
+    }
+
+    public static int maxMeetings(int[] firstDay, int[] lastDay) {
+        int n = firstDay.length;
+        PriorityQueue<Investor> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.lastDay, b.lastDay));
+
+        // Add investors to the priority queue
+        for (int i = 0; i < n; i++) {
+            pq.offer(new Investor(firstDay[i], lastDay[i]));
+        }
+
+        int count = 0;
+        int lastScheduledDay = 0;
+
+        // Schedule meetings
+        while (!pq.isEmpty()) {
+            Investor investor = pq.poll(); // Get the investor with the earliest last day
+            if (investor.firstDay > lastScheduledDay) {
+                count++;
+                lastScheduledDay = investor.lastDay; // Move to the last day of this investor
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] firstDay = {1, 2, 3, 3, 3};
+        int[] lastDay = {2, 2, 3, 4, 4};
+
+        int maxMeetings = maxMeetings(firstDay, lastDay);
+        System.out.println("Maximum meetings scheduled: " + maxMeetings);
+    }
+}

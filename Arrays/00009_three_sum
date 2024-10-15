@@ -1,5 +1,7 @@
 # Three Sum
 
+https://www.geeksforgeeks.org/unique-triplets-sum-given-value/
+
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
 Notice that the solution set must not contain duplicate triplets.
@@ -126,3 +128,52 @@ class Solution:
                         k -= 1
 
         return ans
+
+
+or
+
+
+// Java program to find all unique triplets having sum
+// equal to target using hashing
+
+import java.util.*;
+
+class GfG {
+    static List<List<Integer>> threeSum(int[] arr, int target) {
+        int n = arr.length;
+        
+        // Set to handle duplicates
+        Set<List<Integer>> resSet = new HashSet<>();
+        
+        // Generating all pairs
+        for (int i = 0; i < n; i++) {
+            Set<Integer> s = new HashSet<>();
+            for (int j = i + 1; j < n; j++) {
+                int complement = target - arr[i] - arr[j];
+                
+                // If the complement exists in the hash set then we 
+                // have found the triplet with sum, target
+                if (s.contains(complement)) {
+                    List<Integer> curr = Arrays.asList(arr[i], arr[j], complement);
+                    Collections.sort(curr);
+                    resSet.add(curr);
+                }
+                
+                s.add(arr[j]);
+            }
+        }
+
+        return new ArrayList<>(resSet);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {12, 3, 6, 1, 6, 9};
+        int target = 24;
+        
+        List<List<Integer>> ans = threeSum(arr, target);
+        for (List<Integer> triplet : ans) {
+            System.out.println(triplet.get(0) + " " + triplet.get(1) + " " + triplet.get(2));
+        }
+    }
+}
+

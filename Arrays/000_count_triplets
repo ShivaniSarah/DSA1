@@ -1,0 +1,35 @@
+Count the number of distinct triplets (i, j, k) such that 0<i<j<ks n and the sum (a[i] + a[j] + a[k]) is divisible by d.
+
+int n = arr.length;
+int ans = 0;
+
+// Store the count of pairs with a pair sum modulo d
+HashMap<Integer, Integer> dupletSums
+    = new HashMap<>();
+
+// Iterate over the array from the second element to
+// the last
+for (int k = 1; k < n; k++) {
+    // Calculate the expected remainder for the
+    // current element to form a divisible triplet
+    int expected = (d - (arr[k] % d) + d) % d;
+
+    // Add the count of pairs with the expected
+    // remainder to the answer
+    ans += dupletSums.getOrDefault(expected, 0);
+
+    // Iterate over the previous elements
+    for (int i = 0; i < k; i++) {
+        // Calculate the sum of the current element
+        // and the previous element modulo d
+        int x = (arr[i] + arr[k]) % d;
+
+        // Increment the count of pairs with the
+        // calculated sum in the map
+        dupletSums.put(
+            x, dupletSums.getOrDefault(x, 0) + 1);
+    }
+}
+
+// Return the total count of divisible triplets
+return ans;

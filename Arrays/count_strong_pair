@@ -1,0 +1,24 @@
+https://github.com/doocs/leetcode/blob/main/solution/2900-2999/2932.Maximum%20Strong%20Pair%20XOR%20I/README_EN.md
+
+You are given a 0-indexed integer array nums. A pair of integers x and y is called a strong pair if it satisfies the condition:
+
+|x - y| <= min(x, y)
+You need to select two integers from nums such that they form a strong pair and their bitwise XOR is the maximum among all strong pairs in the array.
+
+Return the maximum XOR value out of all possible strong pairs in the array nums.
+
+Note that you can pick the same integer twice to form a pair.
+
+class Solution {
+    public int maximumStrongPairXor(int[] nums) {
+        int ans = 0;
+        for (int x : nums) {
+            for (int y : nums) {
+                if (Math.abs(x - y) <= Math.min(x, y)) {
+                    ans = Math.max(ans, x ^ y);
+                }
+            }
+        }
+        return ans;
+    }
+}

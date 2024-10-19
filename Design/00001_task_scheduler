@@ -1,0 +1,433 @@
+# thread Implementation
+
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+// Task Interface
+abstract class Task implements Runnable, Comparable<Task> {
+    private final String taskId;
+    private final long scheduledTime;
+    private final int priority;
+    private final RetryPolicy retryPolicy;
+    
+    public Task(String taskId, long scheduledTime, int priority, RetryPolicy retryPolicy) {
+        this.taskId = taskId;
+        this.scheduledTime = scheduledTime;
+        this.priority = priority;
+        this.retryPolicy = retryPolicy;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public long getScheduledTime() {
+        return scheduledTime;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public RetryPolicy getRetryPolicy() {
+        return retryPolicy;
+    }
+
+    @Override
+    public int compareTo(Task other) {
+        return this.scheduledTime != other.scheduledTime ?
+                Long.compare(this.scheduledTime, other.scheduledTime) :
+                Integer.compare(this.priority, other.priority);
+    }
+
+    @Override
+    public abstract void run();  // Implement task logic in subclasses
+}
+
+// RetryPolicy class for handling retries
+class RetryPolicy {
+    private final int maxRetries;
+    private final long retryInterval;
+
+    public RetryPolicy(int maxRetries, long retryInterval) {
+        this.maxRetries = maxRetries;
+        this.retryInterval = retryInterval;
+    }
+
+    public int getMaxRetries() {
+        return maxRetries;
+    }
+
+    public long getRetryInterval() {
+        return retryInterval;
+    }
+}
+
+// TaskScheduler class
+class TaskScheduler {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
+    private final PriorityBlockingQueue<Task> taskQueue = new PriorityBlockingQueue<>();
+    private final AtomicInteger taskCounter = new AtomicInteger(0);
+    private final Map<String, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
+
+    public void scheduleTask(Task task) {
+        long delay = task.getScheduledTime() - System.currentTimeMillis();
+        if (delay < 0) delay = 0; // If time has passed, execute immediately
+
+        ScheduledFuture<?> future = scheduler.schedule(() -> {
+            taskQueue.add(task);
+        }, delay, TimeUnit.MILLISECONDS);
+        
+        scheduledTasks.put(task.getTaskId(), future);
+    }
+
+    public void cancelTask(String taskId) {
+        ScheduledFuture<?> future = scheduledTasks.get(taskId);
+        if (future != null) {
+            future.cancel(true);
+            scheduledTasks.remove(taskId);
+        }
+    }
+
+    public void start() {
+        while (true) {
+            try {
+                Task task = taskQueue.take();
+                new TaskExecutor(task).execute();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+
+// TaskExecutor class
+class TaskExecutor {
+    private final Task task;
+
+    public TaskExecutor(Task task) {
+        this.task = task;
+    }
+
+    public void execute() {
+        RetryPolicy retryPolicy = task.getRetryPolicy();
+        int attempts = 0;
+        boolean success = false;
+
+        while (attempts <= retryPolicy.getMaxRetries()) {
+            try {
+                task.run();  // Execute the task logic
+                success = true;
+                break;
+            } catch (Exception e) {
+                attempts++;
+                if (attempts <= retryPolicy.getMaxRetries()) {
+                    try {
+                        Thread.sleep(retryPolicy.getRetryInterval());
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!success) {
+            System.out.println("Task " + task.getTaskId() + " failed after " + attempts + " attempts.");
+        }
+    }
+}
+
+// Example Task Implementation
+class EmailTask extends Task {
+    private final String emailMessage;
+
+    public EmailTask(String taskId, long scheduledTime, int priority, RetryPolicy retryPolicy, String emailMessage) {
+        super(taskId, scheduledTime, priority, retryPolicy);
+        this.emailMessage = emailMessage;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Sending email: " + emailMessage);
+        // Simulate task logic, e.g., sending an email
+        // If it fails, throw an exception to trigger retry
+        if (new Random().nextBoolean()) {
+            throw new RuntimeException("Failed to send email");
+        }
+        System.out.println("Email sent successfully.");
+    }
+}
+
+// Main class to demonstrate the system
+public class TaskSchedulingSystem {
+    public static void main(String[] args) {
+        TaskScheduler taskScheduler = new TaskScheduler();
+
+        // Schedule tasks
+        RetryPolicy retryPolicy = new RetryPolicy(3, 2000);  // Retry 3 times, with 2 seconds between retries
+        Task emailTask1 = new EmailTask("task1", System.currentTimeMillis() + 5000, 1, retryPolicy, "Hello User 1");
+        Task emailTask2 = new EmailTask("task2", System.currentTimeMillis() + 10000, 2, retryPolicy, "Hello User 2");
+
+        taskScheduler.scheduleTask(emailTask1);
+        taskScheduler.scheduleTask(emailTask2);
+
+        // Start task scheduler
+        new Thread(taskScheduler::start).start();
+    }
+}
+
+# priority queue
+
+public interface Task {
+    void execute() throws Exception;
+}
+
+public class SimpleTask implements Task {
+    private final String name;
+
+    public SimpleTask(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void execute() {
+        System.out.println("Executing task: " + name);
+        // Task logic here
+    }
+}
+
+
+import java.util.concurrent.*;
+
+public class TaskScheduler {
+    private final ScheduledExecutorService executorService;
+    private final BlockingQueue<Runnable> taskQueue;
+
+    public TaskScheduler(int threadPoolSize) {
+        this.executorService = Executors.newScheduledThreadPool(threadPoolSize);
+        this.taskQueue = new LinkedBlockingQueue<>();
+    }
+
+    public void schedule(Task task, long delay, TimeUnit unit) {
+        executorService.schedule(() -> {
+            try {
+                task.execute();
+            } catch (Exception e) {
+                // Handle exception
+                System.err.println("Task execution failed: " + e.getMessage());
+            }
+        }, delay, unit);
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
+    }
+}
+
+public class TaskQueue {
+    private final PriorityBlockingQueue<ScheduledTask> queue;
+
+    public TaskQueue() {
+        this.queue = new PriorityBlockingQueue<>();
+    }
+
+    public void add(ScheduledTask task) {
+        queue.offer(task);
+    }
+
+    public ScheduledTask poll() {
+        return queue.poll();
+    }
+}
+
+public class ScheduledTask implements Comparable<ScheduledTask> {
+    private final Task task;
+    private final long scheduledTime;
+
+    public ScheduledTask(Task task, long delay) {
+        this.task = task;
+        this.scheduledTime = System.currentTimeMillis() + delay;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public long getScheduledTime() {
+        return scheduledTime;
+    }
+
+    @Override
+    public int compareTo(ScheduledTask other) {
+        return Long.compare(this.scheduledTime, other.scheduledTime);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TaskScheduler scheduler = new TaskScheduler(4);
+
+        for (int i = 0; i < 10; i++) {
+            Task task = new SimpleTask("Task " + i);
+            scheduler.schedule(task, i, TimeUnit.SECONDS);
+        }
+
+        // Shutdown the scheduler after some time
+        try {
+            Thread.sleep(15000); // Wait for all tasks to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            scheduler.shutdown();
+        }
+    }
+}
+
+
+# task dependency
+
+import java.util.Set;
+
+public interface Task {
+    void execute() throws Exception;
+    Set<String> getDependencies(); // Returns a set of task IDs that this task depends on
+    String getId(); // Unique identifier for the task
+}
+
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class SimpleTask implements Task {
+    private final String id;
+    private final Set<String> dependencies;
+
+    public SimpleTask(String id, Set<String> dependencies) {
+        this.id = id;
+        this.dependencies = dependencies != null ? dependencies : new HashSet<>();
+    }
+
+    @Override
+    public void execute() {
+        System.out.println("Executing task: " + id);
+        // Task logic here
+    }
+
+    @Override
+    public Set<String> getDependencies() {
+        return dependencies;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+}
+
+
+import java.util.*;
+import java.util.concurrent.*;
+
+public class TaskScheduler {
+    private final ExecutorService executorService;
+    private final Map<String, Task> taskMap; // Maps task IDs to tasks
+    private final Map<String, Set<String>> dependencyMap; // Maps task IDs to their dependencies
+    private final Map<String, Integer> dependencyCount; // Maps task IDs to number of unmet dependencies
+
+    public TaskScheduler(int threadPoolSize) {
+        this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+        this.taskMap = new ConcurrentHashMap<>();
+        this.dependencyMap = new ConcurrentHashMap<>();
+        this.dependencyCount = new ConcurrentHashMap<>();
+    }
+
+    public void addTask(Task task) {
+        taskMap.put(task.getId(), task);
+        dependencyMap.put(task.getId(), task.getDependencies());
+        dependencyCount.put(task.getId(), task.getDependencies().size());
+    }
+
+    public void schedule() {
+        for (Task task : taskMap.values()) {
+            scheduleTask(task);
+        }
+    }
+
+    private void scheduleTask(Task task) {
+        // Check if dependencies are met
+        if (dependencyCount.get(task.getId()) == 0) {
+            executorService.submit(() -> {
+                try {
+                    task.execute();
+                    notifyDependencies(task.getId());
+                } catch (Exception e) {
+                    System.err.println("Task execution failed: " + e.getMessage());
+                }
+            });
+        }
+    }
+
+    private synchronized void notifyDependencies(String completedTaskId) {
+        for (Map.Entry<String, Set<String>> entry : dependencyMap.entrySet()) {
+            if (entry.getValue().remove(completedTaskId)) {
+                String taskId = entry.getKey();
+                dependencyCount.put(taskId, dependencyCount.get(taskId) - 1);
+                // If all dependencies are met, schedule the task
+                if (dependencyCount.get(taskId) == 0) {
+                    scheduleTask(taskMap.get(taskId));
+                }
+            }
+        }
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
+    }
+}
+
+
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TaskScheduler scheduler = new TaskScheduler(4);
+
+        // Create tasks with dependencies
+        Task taskA = new SimpleTask("TaskA", null);
+        Task taskB = new SimpleTask("TaskB", new HashSet<>(Set.of("TaskA")));
+        Task taskC = new SimpleTask("TaskC", new HashSet<>(Set.of("TaskA", "TaskB")));
+
+        // Add tasks to the scheduler
+        scheduler.addTask(taskA);
+        scheduler.addTask(taskB);
+        scheduler.addTask(taskC);
+
+        // Schedule tasks
+        scheduler.schedule();
+
+        // Wait some time before shutting down
+        try {
+            Thread.sleep(10000); // Wait for tasks to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            scheduler.shutdown();
+        }
+    }
+}

@@ -1,0 +1,68 @@
+design a data structure to
+add element in o(1) time
+remove element in o(1) time
+remove randomElement in o(1) time
+
+import java.util.*;
+
+public class FastSet<T> {
+    private final List<T> list;       // Stores the elements
+    private final Map<T, Integer> map;  // Maps element to index in the list
+    private final Random rand;        // For generating random numbers
+
+    public FastSet() {
+        list = new ArrayList<>();
+        map = new HashMap<>();
+        rand = new Random();
+    }
+
+    // Add element in O(1)
+    public void add(T element) {
+        if (!map.containsKey(element)) {
+            list.add(element);
+            map.put(element, list.size() - 1);
+        }
+    }
+
+    // Remove element in O(1)
+    public void remove(T element) {
+        Integer index = map.get(element);
+        if (index == null) return; // Element not found
+
+        int lastIndex = list.size() - 1;
+        T lastElement = list.get(lastIndex);
+
+        // Swap the element to remove with the last element
+        list.set(index, lastElement);
+        map.put(lastElement, index);  // Update index of last element
+
+        // Remove last element from the list and map
+        list.remove(lastIndex);
+        map.remove(element);
+    }
+
+    // Remove a random element in O(1)
+    public T removeRandomElement() {
+        if (list.isEmpty()) {
+            throw new NoSuchElementException("Set is empty");
+        }
+
+        int randomIndex = rand.nextInt(list.size());
+        T randomElement = list.get(randomIndex);
+
+        // Remove the randomly selected element
+        remove(randomElement);
+
+        return randomElement;
+    }
+
+    // Get size of the set
+    public int size() {
+        return list.size();
+    }
+
+    // Check if the set is empty
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+}

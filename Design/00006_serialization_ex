@@ -1,0 +1,47 @@
+import java.io.Serializable;
+
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L; // Optional but recommended
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+private transient String password; // This field won't be serialized
+
+import java.io.*;
+
+public class SerializationExample {
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 30);
+        
+        // Serialize
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("person.ser"))) {
+            out.writeObject(person);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Deserialize
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("person.ser"))) {
+            Person deserializedPerson = (Person) in.readObject();
+            System.out.println("Name: " + deserializedPerson.getName());
+            System.out.println("Age: " + deserializedPerson.getAge());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,49 @@
+class CircuitBreaker {
+    private int failureThreshold;
+    private int failureCount;
+    private long lastFailureTime;
+    private long retryTimePeriod;
+    private boolean isOpen;
+
+    public CircuitBreaker(int failureThreshold, long retryTimePeriod) {
+        this.failureThreshold = failureThreshold;
+        this.retryTimePeriod = retryTimePeriod;
+        this.failureCount = 0;
+        this.isOpen = false;
+    }
+
+    public boolean allowRequest() {
+        if (isOpen) {
+            if (System.currentTimeMillis() - lastFailureTime > retryTimePeriod) {
+                isOpen = false;
+                failureCount = 0;
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void recordFailure() {
+        failureCount++;
+        lastFailureTime = System.currentTimeMillis();
+        if (failureCount >= failureThreshold) {
+            isOpen = true;
+        }
+    }
+
+    public void recordSuccess() {
+        failureCount = 0;
+        isOpen = false;
+    }
+}
+
+
+Concept:
+
+Circuit breaking is a design pattern used in software development to handle potential system failures gracefully. It's primarily used in distributed systems to prevent cascading failures and maintain system stability when certain components or services fail or become slow. The core idea is to "break" the circuit (i.e., stop sending requests to a failing service) once failure thresholds are exceeded and only retry after a cooldown period.
+
+Key concepts:
+Closed State: Everything works fine, requests flow through as usual.
+Open State: After a set number of failures, the circuit "opens," blocking requests to the failing service for a defined period.
+Half-Open State: After the cooldown, a few requests are allowed to check if the service has recovered. If successful, the circuit closes; otherwise, it stays open.

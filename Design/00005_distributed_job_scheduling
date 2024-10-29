@@ -1,0 +1,87 @@
+public class Job {
+    private final String jobId;
+    private final Runnable task;
+
+    public Job(String jobId, Runnable task) {
+        this.jobId = jobId;
+        this.task = task;
+    }
+
+    public void execute() {
+        task.run();
+    }
+
+    public String getJobId() {
+        return jobId;
+    }
+}
+
+
+import java.util.concurrent.BlockingQueue;
+
+public class Worker implements Runnable {
+    private final String workerId;
+    private final BlockingQueue<Job> jobQueue;
+
+    public Worker(String workerId, BlockingQueue<Job> jobQueue) {
+        this.workerId = workerId;
+        this.jobQueue = jobQueue;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Job job = jobQueue.take(); // Get job from queue
+                System.out.println("Worker " + workerId + " is executing Job " + job.getJobId());
+                job.execute(); // Execute the job
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+}
+
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Master {
+    private final BlockingQueue<Job> jobQueue;
+    private final Worker[] workers;
+
+    public Master(int workerCount) {
+        this.jobQueue = new LinkedBlockingQueue<>();
+        this.workers = new Worker[workerCount];
+
+        for (int i = 0; i < workerCount; i++) {
+            workers[i] = new Worker("Worker-" + i, jobQueue);
+            new Thread(workers[i]).start(); // Start each worker thread
+        }
+    }
+
+    public void submitJob(Job job) {
+        try {
+            jobQueue.put(job);
+            System.out.println("Job " + job.getJobId() + " has been submitted to the queue.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+
+public class DistributedJobScheduler {
+    public static void main(String[] args) {
+        Master master = new Master(4); // Create master with 4 workers
+
+        // Create and submit jobs
+        for (int i = 1; i <= 10; i++) {
+            Job job = new Job("Job-" + i, () -> {
+                System.out.println("Job is being processed.");
+            });
+            master.submitJob(job);
+        }
+    }
+}

@@ -1,0 +1,42 @@
+import java.util.HashSet;
+class HelloWorld {
+    public static void main(String[] args) {
+      long n =13000000;
+      long l= n,r=1;
+      long sum =1,prev=n;
+      int c=2;
+      int m=0;
+      while(l>=r ){
+          m++;
+          long mid = l - ((l+r)/c);
+                        //   System.out.println(mid);
+          if(mid!=prev || n/mid!= n/prev){
+              sum+=n/mid;
+              prev=mid;
+              l=mid;
+            //   System.out.println(mid);
+          }
+          else {
+              l=mid-1;
+          }
+          c++;
+      }
+      System.out.println(sum);//122717033
+      
+      
+        // long n=13000000;
+        //  long sum =0;
+        
+        // HashSet<Long> s = new HashSet<>();
+        // for(long k=1;k<=n;k++){
+        //     s.add( (long)n/k);
+        // }
+        // for(long a: s){
+        //     sum+=a;
+        // }
+        
+        // System.out.println(sum);// 
+        
+      
+    }
+}

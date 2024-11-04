@@ -31,7 +31,7 @@ class Solution {
     }
 
     public int check(int a, int b) {
-        return (b & (1 << (a - 1))) != 0 ? 1 : 0; // Check if the a-th bit is set
+        return (b & (1 << (a - 1))) != 0 ? 1 : 0; // Check if the a-th bit from right in b is set
     }
 
     public int setBit(int c, int d) {

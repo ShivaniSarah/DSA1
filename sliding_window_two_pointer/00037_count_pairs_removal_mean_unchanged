@@ -1,0 +1,43 @@
+https://www.geeksforgeeks.org/count-of-pairs-that-can-be-removed-from-array-without-changing-the-mean/
+
+// Java program to remove a number from the
+// array without changing its arithmetic mean
+import java.io.*;
+
+class GFG 
+{
+
+// Function to remove a number from the
+// array without changing its arithmetic mean
+static int FindElement(int a[], int n)
+{
+	// Find sum of all elements
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+		sum = sum + a[i];
+
+	// If mean is an integer
+	if (sum % n == 0) 
+	{
+		int m = sum / n;
+
+		// Check if mean is present in the array or not
+		for (int i = 0; i < n; i++)
+			if (a[i] == m)
+				return m;
+	}
+
+	return -1;
+}
+
+// Driver code
+public static void main (String[] args)
+{
+	int a[] = { 1, 2, 3, 4, 5 };
+	int n = a.length;
+
+	System.out.print(FindElement(a, n));
+}
+}
+
+// This code is contributed by anuj_67..

@@ -8,6 +8,24 @@ Perfect pair x, y  if below both conditions holds
 min(|x - y|, |x + y|) <= min(|x|, |y|)
 max(|x - y|, |x + y|) => max(|x|, |y|)
 
+
+
+
+def solve(arr):
+	arr = [abs(x) for x in arr]
+	arr.sort()
+	start = 0
+	ans = 0
+	n = len(arr)
+	for i in range(1, n):
+		while arr[start] < (arr[i]+1)//2:
+			start += 1
+		
+		ans += j-start
+	return ans
+
+or
+
 # Step 2: Two pointer technique
 for i in range(n):
     # Move the 'start' pointer to maintain the condition arr[start] >= (arr[i] + 1) / 2

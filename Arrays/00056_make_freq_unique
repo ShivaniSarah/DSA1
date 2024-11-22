@@ -1,0 +1,29 @@
+
+
+# java
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        // Step 1: Count frequencies of each number in the array
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (int num : A) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        // Step 2: Use a TreeSet to ensure unique frequencies
+        Set<Integer> uniqueFrequencies = new HashSet<>();
+        int deletions = 0;
+
+        for (int freq : frequencyMap.values()) {
+            // Reduce frequency until it's unique or zero
+            while (freq > 0 && !uniqueFrequencies.add(freq)) {
+                freq--;
+                deletions++;
+            }
+        }
+
+        return deletions;
+    }
+}

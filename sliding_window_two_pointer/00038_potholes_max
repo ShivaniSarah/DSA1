@@ -1,0 +1,37 @@
+
+
+
+
+# java
+
+class Solution {
+    public int solution(String L1, String L2) {
+        // Implement your solution here
+        int n = L1.length();
+        int[] p1 = new int[n + 1];
+        int[] p2 = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            p1[i + 1] = p1[i] + (L1.charAt(i) == 'x' ? 1 : 0); 
+            p2[i + 1] = p2[i] + (L2.charAt(i) == 'x' ? 1 : 0); 
+        }
+        int maxi = 0;
+        for (int i = 0; i < n; i++) {
+            int r1 = rangeSum(p1, 0, i);
+            int r2 = rangeSum(p2, i + 2, n - 1);
+            maxi = Math.max(maxi, r1 + r2);
+        }
+        for (int i = 0; i < n; i++) {
+            int r1 = rangeSum(p2, 0, i);
+            int r2 = rangeSum(p1, i + 2, n - 1);
+            maxi = Math.max(maxi, r1 + r2);
+        }
+        return maxi;
+    }
+
+    private int rangeSum(int[] p, int s, int e) {
+        if (s > e) {
+            return 0;
+        }
+        return p[e + 1] - p[s];
+    }
+}

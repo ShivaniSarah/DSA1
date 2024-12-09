@@ -95,3 +95,39 @@ static String getElement(int count, PriorityQueue<Integer> heap) {
     heap.addAll(priorityQueue);
     return Integer.toString(element);
 }  
+
+
+or
+
+
+
+import java.util.Stack;
+
+public class LowestNumericValue {
+    public static String findLowestValue(String pattern) {
+        StringBuilder result = new StringBuilder();
+        Stack<Integer> stack = new Stack<>();
+        int num = 1;
+
+        for (char ch : pattern.toCharArray()) {
+            stack.push(num++);
+            if (ch == 'N') {
+                while (!stack.isEmpty()) {
+                    result.append(stack.pop());
+                }
+            }
+        }
+        stack.push(num);
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String pattern = "MNM";
+        System.out.println(findLowestValue(pattern)); // Example Output: 1324
+    }
+}
+

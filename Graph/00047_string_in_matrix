@@ -1,0 +1,98 @@
+You are given an m x n matrix where each cell can contain:
+
+An alphabetical character (denoted by 'a' to 'z')
+An obstacle (denoted by '*')
+A wildcard character (denoted by '?')
+A turn character (denoted by '$')
+You are also given a dictionary, which can be used to replace the dictionary's key characters with their respective value characters in the matrix.
+
+Write a function search_in_matrix to search a string in the matrix that will have the following interface:
+
+Input:
+targetString = String to be searched in the matrix of length minimum 0 to 100.
+matrix = m x n matrix containing characters.
+dictionary = k x 2 matrix where each row's 0th index is the key and the 1st index is the value of the key.
+Output:
+0 if you aren't able to find the given string.
+1 if you can find the given string.
+Constraints:
+You can move right, left, down, or up.
+You can use a cell only once. You can't use the same cell to match different positions from the string.
+You can replace a wildcard character ('?') with any character.
+You cannot move through a cell with an obstacle character ('*').
+When a cell is marked with the turn character ('$'), your next move must be in the direction 90 degrees clockwise from your previous movement.
+
+
+# java
+
+
+import java.util.*;
+
+public class SearchInMatrix {
+    public static int searchInMatrix(String targetString, List<List<Character>> matrix, List<List<Character>> dictionary) {
+        int rows = matrix.size(), cols = matrix.get(0).size();
+        boolean[][] visited = new boolean[rows][cols];
+        int[] dx = {0, 1, 0, -1}; // right, down, left, up
+        int[] dy = {1, 0, -1, 0};
+
+        // Convert dictionary to a map
+        Map<Character, Character> dictMap = new HashMap<>();
+        for (List<Character> entry : dictionary) {
+            dictMap.put(entry.get(0), entry.get(1));
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (dfs(targetString, 0, i, j, matrix, visited, dictMap, dx, dy, -1)) {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private static boolean dfs(String target, int index, int x, int y, List<List<Character>> matrix, boolean[][] visited,
+                               Map<Character, Character> dictionary, int[] dx, int[] dy, int prevDir) {
+        if (index == target.length()) return true;
+
+        if (x < 0 || y < 0 || x >= matrix.size() || y >= matrix.get(0).size() || visited[x][y] || matrix.get(x).get(y) == '*') {
+            return false;
+        }
+
+        char cell = matrix.get(x).get(y);
+        char currentChar = target.charAt(index);
+
+        // Replace wildcard
+        if (cell == '?' || dictionary.getOrDefault(cell, cell) == currentChar) {
+            visited[x][y] = true;
+            for (int d = 0; d < 4; d++) {
+                int nx = x + dx[d], ny = y + dy[d];
+                // Handle turn character
+                if (cell == '$' && prevDir != -1 && d != (prevDir + 1) % 4) continue;
+                if (dfs(target, index + 1, nx, ny, matrix, visited, dictionary, dx, dy, cell == '$' ? d : prevDir)) {
+                    return true;
+                }
+            }
+            visited[x][y] = false;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String targetString = "abfh";
+
+        List<List<Character>> matrix = Arrays.asList(
+                Arrays.asList('a', 'b', 'c'),
+                Arrays.asList('d', '$', 'f'),
+                Arrays.asList('g', 'h', '*')
+        );
+
+        List<List<Character>> dictionary = Arrays.asList(
+                Arrays.asList('a', 'a'),
+                Arrays.asList('b', 'b'),
+                Arrays.asList('c', 'c')
+        );
+
+        System.out.println(searchInMatrix(targetString, matrix, dictionary)); // Output: 1
+    }
+}

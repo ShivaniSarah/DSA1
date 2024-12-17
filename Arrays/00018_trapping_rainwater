@@ -46,6 +46,8 @@ class Solution {
 
 or
 
+# monotonic stack
+
 class Solution {
     public int trap(int[] height) {
         Stack<Integer> stack = new Stack<>();

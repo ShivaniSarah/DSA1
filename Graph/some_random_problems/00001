@@ -1,0 +1,120 @@
+https://www.geeksforgeeks.org/search-a-word-in-a-2d-grid-of-characters/
+
+Given a 2D grid m*n of characters and a word, the task is to find all occurrences of the given word in the grid. A word can be matched in all 8 directions at any point. Word is said to be found in a direction if all characters match in this direction (not in zig-zag form).
+The 8 directions are, Horizontally Left, Horizontally Right, Vertically Up, Vertically Down and 4 Diagonal directions.
+
+Note: The returning list should be lexicographically smallest. If the word can be found in multiple directions starting from the same coordinates, the list should contain the coordinates only once. 
+
+Examples: 
+
+Input:  
+grid = {{G,E,E,K,S,F,O,R,G,E,E,K,S}, {G,E,E,K,S,Q,U,I,Z,G,E,E,K}, {I,D,E,Q,A,P,R,A,C,T,I,C,E}}
+word = “GEEKS”
+Output: {{0,0}, {0,8}, {1,0}}
+
+
+ex-3_1
+Input: 
+grid = {{a,b,a,b},{a,b,e,b},{e,b,e,b}}
+word = “abe”
+Output: 
+{{0,0},{0,2},{1,0}}
+
+// Java program to search word in 2D
+// grid in 8 directions
+import java.util.*;
+
+class GfG {
+
+    // This function searches for the given word
+    // in all 8 directions from the coordinate.
+    static boolean search2D(char[][] grid, int row, int col,String word) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // return false if the given coordinate
+        // does not match with first index char.
+        if (grid[row][col] != word.charAt(0))
+            return false;
+
+        int len = word.length();
+
+        // x and y are used to set the direction in which
+        // word needs to be searched.
+        int[] x = { -1, -1, -1, 0, 0, 1, 1, 1 };
+        int[] y = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+        // This loop will search in all the 8 directions
+        for (int dir = 0; dir < 8; dir++) {
+            int k, currX = row + x[dir],
+                   currY = col + y[dir];
+
+            // First character is already checked, match
+            // remaining
+            for (k = 1; k < len; k++) {
+                if (currX >= m || currX < 0 || currY >= n
+                    || currY < 0)
+                    break;
+
+                if (grid[currX][currY] != word.charAt(k))
+                    break;
+
+                currX += x[dir];
+                currY += y[dir];
+            }
+
+            if (k == len)
+                return true;
+        }
+
+        return false;
+    }
+
+    // This function calls search2D for each coordinate
+    static int[][] searchWord(char[][] grid, String word) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // Max possible occurrences
+        int[][] ans = new int[m * n][2];
+        int count = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (search2D(grid, i, j, word)) {
+                    ans[count][0] = i;
+                    ans[count][1] = j;
+                    count++;
+                }
+            }
+        }
+
+        // Resize the array to fit the actual number of
+        // found coordinates
+        int[][] result = new int[count][2];
+        for (int i = 0; i < count; i++) {
+            result[i] = ans[i];
+        }
+
+        return result;
+    }
+
+    static void printResult(int[][] ans) {
+        for (int[] coords : ans) {
+            System.out.print( "{" + coords[0] + "," + coords[1] + "}" + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+      
+        char[][] grid = { { 'a', 'b', 'a', 'b' },
+                          { 'a', 'b', 'e', 'b' },
+                          { 'e', 'b', 'e', 'b' } };
+        String word = "abe";
+
+        int[][] ans = searchWord(grid, word);
+
+        printResult(ans);
+    }
+}

@@ -1,0 +1,145 @@
+class TreeIteratorFactory {
+    enum TraversalType { PREORDER, INORDER, POSTORDER }
+
+    public static TreeIterator getIterator(TreeNode root, TraversalType type) {
+        switch (type) {
+            case PREORDER: return new PreorderIterator(root);
+            case INORDER: return new InorderIterator(root);
+            case POSTORDER: return new PostorderIterator(root);
+            default: throw new IllegalArgumentException("Invalid traversal type");
+        }
+    }
+}
+
+
+import java.util.Iterator;
+
+interface TreeIterator extends Iterator<Integer> {}
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+import java.util.*;
+
+class PreorderIterator implements TreeIterator {
+    private Stack<TreeNode> stack = new Stack<>();
+
+    public PreorderIterator(TreeNode root) {
+        if (root != null) stack.push(root);
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) throw new NoSuchElementException();
+        TreeNode node = stack.pop();
+        if (node.right != null) stack.push(node.right);
+        if (node.left != null) stack.push(node.left);
+        return node.val;
+    }
+}
+
+import java.util.Stack;
+import java.util.NoSuchElementException;
+
+class InorderIterator implements TreeIterator {
+    private Stack<TreeNode> stack = new Stack<>();
+
+    public InorderIterator(TreeNode root) {
+        pushLeft(root);
+    }
+
+    private void pushLeft(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) throw new NoSuchElementException();
+        TreeNode node = stack.pop();
+        pushLeft(node.right);
+        return node.val;
+    }
+}
+
+import java.util.Stack;
+import java.util.NoSuchElementException;
+
+class PostorderIterator implements TreeIterator {
+    private Stack<TreeNode> stack = new Stack<>();
+    private TreeNode lastVisited = null;
+
+    public PostorderIterator(TreeNode root) {
+        pushLeftRight(root);
+    }
+
+    private void pushLeftRight(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            if (node.right != null) stack.push(node.right);
+            node = node.left;
+        }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) throw new NoSuchElementException();
+        TreeNode node = stack.pop();
+        if (!stack.isEmpty() && node.right == stack.peek() && node.right != lastVisited) {
+            pushLeftRight(stack.pop());
+            stack.push(node);
+            return next();
+        }
+        lastVisited = node;
+        return node.val;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(7);
+        root.left.left = new TreeNode(2);
+        root.left.right = new TreeNode(4);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(8);
+
+        // Get Preorder Iterator
+        TreeIterator preorderIterator = TreeIteratorFactory.getIterator(root, TreeIteratorFactory.TraversalType.PREORDER);
+        System.out.print("Preorder: ");
+        while (preorderIterator.hasNext()) System.out.print(preorderIterator.next() + " ");
+        
+        // Get Inorder Iterator
+        TreeIterator inorderIterator = TreeIteratorFactory.getIterator(root, TreeIteratorFactory.TraversalType.INORDER);
+        System.out.print("\nInorder: ");
+        while (inorderIterator.hasNext()) System.out.print(inorderIterator.next() + " ");
+
+        // Get Postorder Iterator
+        TreeIterator postorderIterator = TreeIteratorFactory.getIterator(root, TreeIteratorFactory.TraversalType.POSTORDER);
+        System.out.print("\nPostorder: ");
+        while (postorderIterator.hasNext()) System.out.print(postorderIterator.next() + " ");
+    }
+}

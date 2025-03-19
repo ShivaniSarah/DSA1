@@ -9,35 +9,36 @@ Tasks can be dependent on each other
 
 Sol:
 
+// package comPackage.lld12;
 import java.util.*;
 import java.util.concurrent.*;
 
-class Task {
-    private final String name;
-    private final Runnable action;
-    private final List<Task> dependencies;
+ class Task {
+        private final String name;
+        private final Runnable action;
+        private final List<Task> dependencies;
 
-    public Task(String name, Runnable action, List<Task> dependencies) {
-        this.name = name;
-        this.action = action;
-        this.dependencies = dependencies != null ? dependencies : new ArrayList<>();
-    }
+        public Task(String name, Runnable action, List<Task> dependencies) {
+            this.name = name;
+            this.action = action;
+            this.dependencies = dependencies != null ? dependencies : new ArrayList<>();
+        }
 
-    public String getName() {
-        return name;
-    }
+        public String getName() {
+            return name;
+        }
 
-    public Runnable getAction() {
-        return action;
-    }
+        public Runnable getAction() {
+            return action;
+        }
 
-    public List<Task> getDependencies() {
-        return dependencies;
+        public List<Task> getDependencies() {
+            return dependencies;
+        }
     }
-}
 
 class TaskScheduler {
-    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
     private final Map<Task, Integer> inDegree = new HashMap<>();
     private final Map<Task, List<Task>> adjList = new HashMap<>();
     private final Queue<Task> readyQueue = new ConcurrentLinkedQueue<>();
@@ -87,24 +88,25 @@ class TaskScheduler {
     }
 }
 
-public class AsyncTaskSchedulerDemo {
-    public static void main(String[] args) {
-        TaskScheduler scheduler = new TaskScheduler();
-        
-        Task task1 = new Task("Task 1", () -> System.out.println("Task 1 executed"), Collections.emptyList());
-        Task task2 = new Task("Task 2", () -> System.out.println("Task 2 executed"), Collections.singletonList(task1));
-        Task task3 = new Task("Task 3", () -> System.out.println("Task 3 executed"), Collections.singletonList(task1));
-        Task task4 = new Task("Task 4", () -> System.out.println("Task 4 executed"), Arrays.asList(task2, task3));
+    public class AsyncTaskSchedulerDemo {
+        public static void main(String[] args) {
+            TaskScheduler scheduler = new TaskScheduler();
 
-        scheduler.submit(task1);
-        scheduler.submit(task2);
-        scheduler.submit(task3);
-        scheduler.submit(task4);
+            Task task1 = new Task("Task 1", () -> System.out.println("Task 1 executed"), Collections.emptyList());
+            Task task2 = new Task("Task 2", () -> System.out.println("Task 2 executed"), Collections.singletonList(task1));
+            Task task3 = new Task("Task 3", () -> System.out.println("Task 3 executed"), Collections.singletonList(task1));
+            Task task4 = new Task("Task 4", () -> System.out.println("Task 4 executed"), Arrays.asList(task1));
 
-        scheduler.start();
-        scheduler.shutdown();
+            scheduler.submit(task1);
+            scheduler.submit(task2);
+            scheduler.submit(task3);
+            scheduler.submit(task4);
+
+            scheduler.start();
+//            scheduler.shutdown();
+        }
     }
-}
+
 
 
 

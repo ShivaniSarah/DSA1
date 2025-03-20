@@ -1,0 +1,128 @@
+Req:
+
+Implement file system APIs based on the following classes. The functions will mimic their respective Linux commands.
+<Copy and paste code snippet>
+Phase 1: Implement mkdir(dirname : string)
+(make directory) create a new directory from the current working directory
+- Input: name of directory
+- Output: print a message if the directory already exists java code
+
+Phase 2: Implement pwd()
+(print working directory) display the path to the current working directory
+- Input: none
+- Output: print the current path to std out. e.g. ⇒ “/example/path/”
+
+Phase 3: Implement cd(path: string)
+(change directory) switch the current working directory. If the path starts with a “/” the absolute path (starting from root) should be searched, otherwise start from the current working directory.
+The path may contain a directory wildcard. The directory wildcard can match any children directories, the current directory ‘.’ or the parent directory ‘..’
+
+- Input: path string
+- Output:
+- If path does not exist, print an error message
+- If multiple paths exist, display all of them.
+- Clarifying examples
+Given the following existing directory structure: dirA/dirB/dirTarget:
+The command cd(“dirA/*/dirTarget” ) would change the working path to “dirA/dirB/dirTarget”
+Given the following existing directory structure:
+dirA/dirB/dirTarget
+dirA/dirC/dirTarget
+The command cd(“dirA/*/dirTarget”) would NOT change the working path, and would print out the multiple paths that match.
+
+
+Sol:
+
+
+import java.util.*;
+
+class FileSystem {
+    private static class Directory {
+        String name;
+        Map<String, Directory> subdirectories;
+        Directory parent;
+
+        Directory(String name, Directory parent) {
+            this.name = name;
+            this.parent = parent;
+            this.subdirectories = new HashMap<>();
+        }
+    }
+
+    private Directory root;
+    private Directory current;
+
+    public FileSystem() {
+        root = new Directory("/", null);
+        current = root;
+    }
+
+    public void mkdir(String dirname) {
+        if (current.subdirectories.containsKey(dirname)) {
+            System.out.println("Directory already exists: " + dirname);
+            return;
+        }
+        current.subdirectories.put(dirname, new Directory(dirname, current));
+    }
+
+    public void pwd() {
+        List<String> path = new ArrayList<>();
+        Directory temp = current;
+        while (temp != null && temp != root) {
+            path.add(temp.name);
+            temp = temp.parent;
+        }
+        Collections.reverse(path);
+        System.out.println("/" + String.join("/", path));
+    }
+
+    public void cd(String path) {
+        List<String> results = new ArrayList<>();
+        Directory target = navigate(path, current, results);
+        
+        if (target != null) {
+            current = target;
+        } else if (!results.isEmpty()) {
+            System.out.println("Multiple matches found: " + results);
+        } else {
+            System.out.println("Path not found: " + path);
+        }
+    }
+
+    private Directory navigate(String path, Directory start, List<String> results) {
+        String[] parts = path.split("/");
+        List<Directory> candidates = new ArrayList<>();
+        candidates.add(path.startsWith("/") ? root : start);
+        
+        for (String part : parts) {
+            if (part.isEmpty() || part.equals(".")) continue;
+            if (part.equals("..")) {
+                candidates.replaceAll(c -> c.parent != null ? c.parent : c);
+                continue;
+            }
+            List<Directory> nextCandidates = new ArrayList<>();
+            for (Directory dir : candidates) {
+                if (part.equals("*")) {
+                    nextCandidates.addAll(dir.subdirectories.values());
+                } else if (dir.subdirectories.containsKey(part)) {
+                    nextCandidates.add(dir.subdirectories.get(part));
+                }
+            }
+            candidates = nextCandidates;
+            if (candidates.isEmpty()) return null;
+        }
+        if (candidates.size() == 1) return candidates.get(0);
+        for (Directory d : candidates) {
+            results.add(getFullPath(d));
+        }
+        return null;
+    }
+
+    private String getFullPath(Directory dir) {
+        List<String> path = new ArrayList<>();
+        while (dir != null && dir != root) {
+            path.add(dir.name);
+            dir = dir.parent;
+        }
+        Collections.reverse(path);
+        return "/" + String.join("/", path);
+    }
+}

@@ -1,0 +1,120 @@
+Req:
+
+The prompt to the candidate is “Design Excel (or Google Sheets)”.
+This is an Object Oriented design question; the focus is building classes for Sheet & Cell, rather than the toolbar functionality such as save, formulas or data validation. THIS QUESTION IS NOT ABOUT PARSING THE INPUT STRING!
+Write pseudocode to define the classes and how they connect to support the following functionality:
+1. A cell has a single value in it: 1
+2. A cell has a simple equation in it: =1+1
+3. A cell references another cell: =B2
+4. A cell references several other cells with some operators: =B2+B3
+Potential Follow-Up Questions (optional)
+● Tabs
+○ Multiple maps, one referencing another
+○ Do you store all the maps in memory? Do you need to?
+● Memory management
+○ Visible part of sheet in memory ● Sorting / table operations
+○ ‘Group by’
+○ Conditional sums
+○ Pivot table
+○ Layered formulas, transforms, chaining (pseudocode on whiteboard)
+■ DFS, visible vs invisible area, 2 processes, dependency graph
+
+
+Sol:
+
+import java.util.*;
+
+class Cell {
+    private String value;
+    private String formula;
+    private Sheet sheet;
+    private Set<Cell> dependencies;
+
+    public Cell(Sheet sheet) {
+        this.sheet = sheet;
+        this.value = "";
+        this.formula = null;
+        this.dependencies = new HashSet<>();
+    }
+
+    public void setValue(String value) {
+        this.formula = null;
+        this.value = value;
+        updateDependents();
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
+        parseFormula();
+        updateDependents();
+    }
+
+    public String getValue() {
+        return formula == null ? value : evaluateFormula();
+    }
+
+    private void parseFormula() {
+        dependencies.clear();
+        if (formula.startsWith("=")) {
+            String[] tokens = formula.substring(1).split("[+\-*/]");
+            for (String token : tokens) {
+                if (token.matches("[A-Z]+[0-9]+")) {
+                    Cell ref = sheet.getCell(token);
+                    dependencies.add(ref);
+                }
+            }
+        }
+    }
+
+    private String evaluateFormula() {
+        if (formula.startsWith("=")) {
+            String expr = formula.substring(1);
+            for (Cell dep : dependencies) {
+                expr = expr.replace(dep.toString(), dep.getValue());
+            }
+            return evaluateExpression(expr);
+        }
+        return value;
+    }
+
+    private String evaluateExpression(String expr) {
+        try {
+            return String.valueOf(new Scanner(expr).nextDouble());
+        } catch (Exception e) {
+            return "ERROR";
+        }
+    }
+
+    private void updateDependents() {
+        for (Cell dep : sheet.getDependents(this)) {
+            dep.evaluateFormula();
+        }
+    }
+}
+
+class Sheet {
+    private Map<String, Cell> cells;
+    private Map<Cell, Set<Cell>> dependencyGraph;
+
+    public Sheet() {
+        cells = new HashMap<>();
+        dependencyGraph = new HashMap<>();
+    }
+
+    public Cell getCell(String cellRef) {
+        return cells.computeIfAbsent(cellRef, k -> new Cell(this));
+    }
+
+    public void setCell(String cellRef, String content) {
+        Cell cell = getCell(cellRef);
+        if (content.startsWith("=")) {
+            cell.setFormula(content);
+        } else {
+            cell.setValue(content);
+        }
+    }
+
+    public Set<Cell> getDependents(Cell cell) {
+        return dependencyGraph.getOrDefault(cell, Collections.emptySet());
+    }
+}

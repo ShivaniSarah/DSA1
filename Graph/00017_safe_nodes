@@ -1,7 +1,9 @@
 https://leetcode.com/problems/find-eventual-safe-states/description/
 
-# Reverse the graph so the when u traverse from terminal nodes u get safe nodes that come out of a cycle or a different acyclic branch.
+# Reverse the graph so the when u traverse from terminal nodes u get safe nodes that dont come out of a cycle or a different acyclic branch.
 # safe nodes are nodes through which all the possible paths end at a terminal node, means no path enters in cycle.
+
+#  those nodes which are part of cycle will never get indegree =0 and hence will not not be added to safe nodes array to output.
 
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] adj) {
